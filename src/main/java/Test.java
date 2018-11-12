@@ -17,11 +17,11 @@ public class Test {
         TransportClient transportClient = HttpTransportClient.getInstance();
         VkApiClient vk = new VkApiClient(transportClient);
 
-        int APP_ID = 6735427;
-        int groupId = 172998024;
-        String CLIENT_SECRET = "P8FZieRhmZyp89IQiHZI";
+        int APP_ID = -;
+        int groupId = -;
+        String CLIENT_SECRET = "-";
         String REDIRECT_URI = "";
-        String access_token = "1692ad8c875747520173b5361f439284c02363c388ceb505f4376a582ee22eed154ceeb4b47933d5c9df8";
+        String access_token = "-";
 
         GroupActor actor = new GroupActor(groupId, access_token);
 
