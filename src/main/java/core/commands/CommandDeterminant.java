@@ -20,8 +20,10 @@ public class CommandDeterminant {
         switch (command){
             case "schedule":
                 return CommandEnum.SCHEDULE;
+            case "link":
+                return CommandEnum.LINK;
             default:
-                    return CommandEnum.UNKNOWN;
+                return CommandEnum.UNKNOWN;
         }
     }
 
@@ -34,6 +36,8 @@ public class CommandDeterminant {
         switch(commandEnum){
             case SCHEDULE:
                 return new Schedule();
+            case LINK:
+                return new Link();
             default:
                 return new Unknown();
         }

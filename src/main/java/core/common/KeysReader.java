@@ -1,10 +1,10 @@
-package core.commands;
+package core.common;
 
 import java.util.HashMap;
 import java.util.Map;
 
-class KeysReader {
-    static Map<String, String> readKeys(String[] words){
+public class KeysReader {
+    public static Map<String, String> readKeys(String[] words){
         Map<String, String> keyMap = new HashMap<>();
 
         // резервируем ключ для его значения

@@ -1,5 +1,6 @@
 package core.commands;
 
+import core.common.KeysReader;
 import core.commands.enums.Mode;
 import core.modules.Date;
 import core.modules.parser.ScheduleParser;
