@@ -18,7 +18,16 @@ public class JSONReader {
         }
         JSONParser jsonParser = new JSONParser();
 
-        return  (JSONObject) jsonParser.parse(stringBuilder.toString());
+        return parseToJSON(stringBuilder.toString());
 
+    }
+    public static JSONObject parseToJSON(String value){
+        JSONParser jsonParser = new JSONParser();
+        try {
+            return (JSONObject) jsonParser.parse(value);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

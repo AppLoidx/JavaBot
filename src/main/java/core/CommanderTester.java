@@ -6,10 +6,26 @@ public class CommanderTester {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Test started!");
+        String res;
         while (true) {
-            System.out.println(Commander.getResponse(sc.nextLine()));
+            res = sc.nextLine();
+            new Thread(new Messanger(res)).start();
+
         }
         }
 
+}
+class Messanger implements Runnable{
+    String message;
+    public Messanger(String msg){
+        message = msg;
+    }
+    public void sendMessage(String msg){
+        System.out.println(msg);
+    }
 
+    @Override
+    public void run() {
+        sendMessage(Commander.getResponse(message));
+    }
 }
