@@ -1,26 +1,26 @@
 package core.commands;
 
-import core.commands.enums.Mode;
-import core.commands.exceptions.CommandHasNoModeException;
+import core.commands.enums.CommandEnum;
+import core.commands.exceptions.CommandHasNoCommandEnumException;
 import core.commands.exceptions.CommandHasNoNameException;
 
 /**
  * Абстрактный класс для всех исполняемых команд
- *
- * Необходимо всегда определять поля <code>{@link #name}</code> и <code>{@link #mode}</code>
+ * Поле {@link #name} идентифицирует команду, т.е команда вызывается по этому имени
  *
  * @author Артур Куприянов
  * @version 1.0
  */
 public abstract class Command {
-    protected String name = null;
-    protected Mode mode = null;
+    String name = null;
+    private CommandEnum commandEnum;
 
     private static int counter = 0;
     private int hashCode;
 
     {
         hashCode = counter++;
+        setName();
     }
 
     /**
@@ -29,24 +29,10 @@ public abstract class Command {
      * @return Строку, возвращаемую пользователю
      */
     public abstract String init(String ... args);
+    abstract void setName();
 
     public String init(String params){
         return init(params.split(" "));
-    }
-
-    /**
-     * Получение мода команды, в которой она выполняется
-     *
-     * @return <code>{@link Mode}</code> объект команды
-     * @see Mode
-     * @throws CommandHasNoModeException Не присвоено значение поля <code>{@link #mode}</code>
-     */
-    public final Mode getMode() throws CommandHasNoModeException {
-        if (mode == null){
-            throw new CommandHasNoModeException(String.format("Команда %s не имеет мода", this.getClass()));
-        }
-
-        return mode;
     }
 
 
@@ -64,6 +50,16 @@ public abstract class Command {
         return name;
     }
 
+    public final CommandEnum getCommandEnum() throws CommandHasNoCommandEnumException {
+        if (commandEnum == null){
+            throw new CommandHasNoCommandEnumException(
+                    String.format("Команда %s не имеет определения Enum", this.getClass())
+            );
+        }
+
+        return commandEnum;
+    }
+
     /**
      * Возвращает строку в формате:<br>
      * name: имяКоманды<br>
@@ -73,7 +69,7 @@ public abstract class Command {
      */
     @Override
     public String toString() {
-        return String.format("name: %s\nmode: %s",this.getName(), this.getMode());
+        return String.format("name: %s",this.getName());
     }
 
 
@@ -90,15 +86,16 @@ public abstract class Command {
 
 
     /**
-     * Объекты эквивалентны только, если поля <code>{@link #name}</code> и <code>{@link #mode}</code>
+     * Объекты эквивалентны только, если поля <code>{@link #name}</code> равны
      * имеют одинаковое значение и объект является классом-наследником {@link Command}
      * @param obj сравниваемый объект
      * @return {@code true} если объекты эквивалентны; {@code false} если объекты различаются
      */
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Command){
-            if (getName().equals(((Command) obj).getName()) && getMode() == ((Command) obj).getMode()){
+            if (getName().equals(((Command) obj).getName())){
                 return true;
             }
         }

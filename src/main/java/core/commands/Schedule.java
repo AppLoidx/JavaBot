@@ -1,7 +1,6 @@
 package core.commands;
 
 import core.common.KeysReader;
-import core.commands.enums.Mode;
 import core.modules.Date;
 import core.modules.parser.ScheduleParser;
 
@@ -13,9 +12,10 @@ import java.util.Map;
  */
 public class Schedule extends Command{
 
-    Schedule(){
+
+    @Override
+    void setName() {
         name = "schedule";
-        mode = Mode.DEFAULT;
     }
 
     private ScheduleParser p = new ScheduleParser();
@@ -98,7 +98,7 @@ public class Schedule extends Command{
         }
 
         if (schedule.equals("")){
-            return "Убедитесь в правильности введнных данных";
+            return "У вас на этот день нет пар!";
         }else {
             return schedule;
         }

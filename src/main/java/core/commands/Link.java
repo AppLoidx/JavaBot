@@ -11,6 +11,12 @@ import java.util.Map;
 
 public class Link extends Command {
     private JSONObject jsonObjectData;
+
+    @Override
+    void setName() {
+        name = "link";
+    }
+
     Link(){
         try {
             jsonObjectData = JSONReader.getJSONObject("src/main/botResources/links.json");
@@ -18,7 +24,6 @@ public class Link extends Command {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public String init(String... args) {
