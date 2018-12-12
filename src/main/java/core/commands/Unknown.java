@@ -3,7 +3,7 @@ package core.commands;
 public class Unknown extends Command {
 
     @Override
-    void setName() {
+    protected void setName() {
         name = "unknown";
     }
     @Override

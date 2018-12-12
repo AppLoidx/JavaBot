@@ -11,12 +11,13 @@ public class Queue extends Command {
 
 
     @Override
-    void setName() {
+    protected void setName() {
         name = "queue";
     }
 
     private String basePathGroups = "src/main/botResources/database/groups";
     private String basePathQueues = "src/main/botResources/database/queues";
+
 
     @Override
     public String init(String... args) {
@@ -30,10 +31,15 @@ public class Queue extends Command {
 
         // TODO: Exceptions with string -> int
         if (keysMap.containsKey("-i") || keysMap.containsKey("--id")){
-            if (keysMap.containsKey("-i")){
-                id = Integer.valueOf(keysMap.get("-i"));
-            } else {
-                id = Integer.valueOf(keysMap.get("--id"));
+            try {
+                if (keysMap.containsKey("-i")) {
+                    id = Integer.valueOf(keysMap.get("-i"));
+                } else {
+                    id = Integer.valueOf(keysMap.get("--id"));
+                }
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+                return "Неверный формат ключа -i";
             }
         }
 

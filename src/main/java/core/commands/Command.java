@@ -12,9 +12,8 @@ import core.commands.exceptions.CommandHasNoNameException;
  * @version 1.0
  */
 public abstract class Command {
-    String name = null;
+    protected String name = null;
     private CommandEnum commandEnum;
-
     private static int counter = 0;
     private int hashCode;
 
@@ -29,7 +28,8 @@ public abstract class Command {
      * @return Строку, возвращаемую пользователю
      */
     public abstract String init(String ... args);
-    abstract void setName();
+
+    protected abstract void setName();
 
     public String init(String params){
         return init(params.split(" "));
@@ -63,7 +63,6 @@ public abstract class Command {
     /**
      * Возвращает строку в формате:<br>
      * name: имяКоманды<br>
-     * mode: модКоманды
      *
      * @return форматированное имя и мод команды
      */
@@ -91,7 +90,6 @@ public abstract class Command {
      * @param obj сравниваемый объект
      * @return {@code true} если объекты эквивалентны; {@code false} если объекты различаются
      */
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Command){

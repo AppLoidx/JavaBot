@@ -2,6 +2,7 @@ package core.commands;
 
 import core.common.KeysReader;
 import core.modules.Date;
+import core.modules.parser.AuditoryParser;
 import core.modules.parser.ScheduleParser;
 
 import java.io.IOException;
@@ -9,20 +10,27 @@ import java.util.Map;
 
 /**
  * @author Артур Куприянов
+ * @version 1.3
  */
 public class Schedule extends Command{
 
 
     @Override
-    void setName() {
+    protected void setName() {
         name = "schedule";
     }
 
     private ScheduleParser p = new ScheduleParser();
 
     /**
-     *
-     * @param args ввод пользователя разделенный на массив через пробел
+     * Ключи: <br>
+     *     -f {value} - минимальная длительность свободного времени <br>
+     *     -p - четность [1 - четная, 2 - нечетная] <br>
+     *     -g {value} - группа <br>
+     *     -d {value} - количество дней на перед <br>
+     *     -r {value} - номер аудитории <br>
+     *     -l - используется с ключом -r, показывает расписание лекций <br>
+     * @param args ввод пользователя разделенный на массив через пробел <br>
      * @return Ответ пользователю
      */
     @Override
@@ -34,8 +42,19 @@ public class Schedule extends Command{
         String group = "P3112";     //TODO: Get from user settings
         int day = dayOfWeek;
         boolean evenWeek = ScheduleParser.getWeekParity();
+        int timeRange = 0; // Длительность свободного времени
 
         Map<String, String> keysMap = KeysReader.readKeys(args);
+
+        // Значение фильтра свободного времени
+        if(keysMap.containsKey("-f")){
+            try {
+                timeRange = Integer.valueOf(keysMap.get("-f"));
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+                return "Неверный формат ключа -f";
+            }
+        }
 
         // Четность недели
         if(keysMap.containsKey("-p")){
@@ -76,6 +95,7 @@ public class Schedule extends Command{
             }
         }
 
+        // через несколько дней
         if(keysMap.containsKey("-d")){
             try{
                 day = Date.increaseDayOfWeek(dayOfWeek, Integer.valueOf(keysMap.get("-d")));
@@ -90,7 +110,60 @@ public class Schedule extends Command{
 
         }
 
+        // Свободные промежутки времени в аудитории
+        if (keysMap.containsKey("-r") && !keysMap.containsKey("-l")){
+
+            AuditoryParser ap = new AuditoryParser();
+            String aud = keysMap.get("-r");
+
+            if (!keysMap.containsKey("-p") && !keysMap.containsKey("-d")){
+                return ap.getFormattedFreeTimes(aud, timeRange);
+            }
+            if (keysMap.containsKey("-p")){
+                if (keysMap.containsKey("-d")){
+                    return ap.getFormattedFreeTimes(aud, day, evenWeek, timeRange);
+                } else{
+                    return ap.getFormattedFreeTimes(aud, evenWeek, timeRange);
+                }
+            }
+            else{
+                if (keysMap.containsKey("-d")){
+                    return ap.getFormattedFreeTimes(aud, day, timeRange);
+                } else{
+                    return ap.getFormattedFreeTimes(aud, timeRange);
+                }
+            }
+        }
+
+        // Список уроков в аудитории
+        if (keysMap.containsKey("-l")){
+
+            AuditoryParser ap = new AuditoryParser();
+            if (!keysMap.containsKey("-r")){
+                return "Не указан параметр -r номер аудитории";
+            }
+            String aud = keysMap.get("-r");
+            if (!keysMap.containsKey("-p") && !keysMap.containsKey("-d")){
+                return ap.getFormattedSchedule(aud);
+            }
+            if (keysMap.containsKey("-p")){
+                if (keysMap.containsKey("-d")){
+                    return ap.getFormattedSchedule(aud, day, evenWeek);
+                } else{
+                    return ap.getFormattedSchedule(aud, evenWeek);
+                }
+            }
+            else{
+                if (keysMap.containsKey("-d")){
+                    return ap.getFormattedSchedule(aud, day);
+                } else{
+                    return ap.getFormattedSchedule(aud);
+                }
+            }
+        }
+
         String schedule;
+
         try {
             schedule =  p.formattedDaySchedule(day, group, evenWeek);
         } catch (IOException e) {
