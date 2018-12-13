@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Arthur Kupriyanov
  */
 public abstract class SQLiteDB {
-    String url;
+    protected String url;
     static {
         try {
             Class.forName("org.sqlite.JDBC");
