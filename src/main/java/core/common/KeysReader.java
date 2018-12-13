@@ -23,16 +23,43 @@ public class KeysReader {
         // резервируем ключ для его значения
         String reservedKey = null;
 
+        StringBuilder value = new StringBuilder();
+
+        boolean firstWord = true;
+        boolean isOneWord = true;
+
         for (String word: words
              ) {
+
             if (word.matches("-[a-z]") || word.matches("--[a-z]*")) {
                 // Если ключ пустой
-                if (reservedKey != null){ keyMap.put(reservedKey, ""); }
+                if (reservedKey != null){
+                    if(isOneWord) keyMap.put(reservedKey, value.toString());
+                    else{
+                        keyMap.put(reservedKey, value.toString().substring(0,value.toString().length() - 1));
+
+                    }
+                    isOneWord = true;
+                    firstWord = true;
+                    value = new StringBuilder();
+                }
 
                 reservedKey = word;
-            } else if (reservedKey != null){
-                keyMap.put(reservedKey, word);
-                reservedKey = null;
+
+            } else if (reservedKey != null) {
+                if (!firstWord){
+                    value.append(" ");
+                    isOneWord = false;
+                }
+                else firstWord = false;
+
+                value.append(word);
+
+                //value.append(word);
+
+                //keyMap.put(reservedKey, value.toString());//word);
+                //value = new StringBuilder();
+                //reservedKey = null;
             }
 
             if (word.matches("-[a-z]*")){
