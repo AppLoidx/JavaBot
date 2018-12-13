@@ -32,17 +32,7 @@ public class CommandManager {
         commands.add(new Queue());
         commands.add(new Reg());
         commands.add(new Day());
-        commands.add(new Command() {
-            @Override
-            public String init(String... args) {
-                return "Привет";
-            }
-
-            @Override
-            protected void setName() {
-                name = "привет";
-            }
-        });
+        commands.add(new Note());
 
         commands.add(new Test(vkCore));
     }
