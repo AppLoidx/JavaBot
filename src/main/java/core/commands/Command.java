@@ -13,7 +13,6 @@ import core.commands.exceptions.CommandHasNoNameException;
  */
 public abstract class Command {
     protected String name = null;
-    private CommandEnum commandEnum;
     private static int counter = 0;
     private int hashCode;
 
@@ -50,15 +49,6 @@ public abstract class Command {
         return name;
     }
 
-    public final CommandEnum getCommandEnum() throws CommandHasNoCommandEnumException {
-        if (commandEnum == null){
-            throw new CommandHasNoCommandEnumException(
-                    String.format("Команда %s не имеет определения Enum", this.getClass())
-            );
-        }
-
-        return commandEnum;
-    }
 
     /**
      * Возвращает строку в формате:<br>
