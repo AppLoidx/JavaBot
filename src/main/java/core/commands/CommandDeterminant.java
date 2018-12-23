@@ -9,23 +9,6 @@ import core.commands.enums.CommandEnum;
  * @version 1.0.0
  */
 public class CommandDeterminant {
-    /**
-     * По команде определяем его принадлежность к перечислению команд
-     * @param command обрабатываемая команда
-     * @return перечисление к которому принадлежит команда
-     */
-    public static CommandEnum readCommand(String command){
-        command = command.split(" ")[0];
-
-        for (Command cmd: CommandManager.getCommands()
-             ) {
-            if (cmd.getName().equals(command)){
-                return cmd.getCommandEnum();
-            }
-        }
-
-        return CommandEnum.UNKNOWN;
-    }
 
     /**
      * По значению перечисления возвращаем команду

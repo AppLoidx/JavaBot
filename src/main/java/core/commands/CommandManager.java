@@ -15,15 +15,6 @@ import java.util.ArrayList;
  */
 public class CommandManager {
     private static ArrayList<Command> commands = new ArrayList<>();
-    static VKCore vkCore;
-
-    {
-        try {
-            vkCore = new VKCore();
-        } catch (IOException | ClientException | ApiException e) {
-            e.printStackTrace();
-        }
-    }
 
     static {
         commands.add(new Schedule());
@@ -34,7 +25,6 @@ public class CommandManager {
         commands.add(new Day());
         commands.add(new Note());
 
-        commands.add(new Test(vkCore));
     }
 
     public static ArrayList<Command> getCommands(){
