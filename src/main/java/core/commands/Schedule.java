@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * @author Артур Куприянов
- * @version 1.3
+ * @version 1.4
  */
 public class Schedule extends Command{
 
