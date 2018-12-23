@@ -205,22 +205,31 @@ public class AuditoryParser {
     /**
      * @see #getFormattedFreeTimes(String, int, boolean)
      */
-    public String getFormattedFreeTimes(String auditory, int day, int timeRange){
-        AuditoryParser ap = new AuditoryParser();
-        Time time = new Time();
-        try {
+    public String getFormattedFreeTimes(String auditories, int day, int timeRange){
+        StringBuilder response = new StringBuilder();
+        for (String auditory: auditories.split("-")
+             ) {
+            response.append("\n-----\nАудитория: ");
+            response.append(auditory);
+            response.append("\n-----\n");
+            AuditoryParser ap = new AuditoryParser();
+            Time time = new Time();
+            try {
 
-            for (String key:ap.parseScheduleDoc(ap.getDoc(auditory), day).keySet()
-            ) {
-                time.addTime(key);
+                for (String key : ap.parseScheduleDoc(ap.getDoc(auditory), day).keySet()
+                ) {
+                    time.addTime(key);
+                }
+
+                response.append(formatTime(time.getFreeTimes(timeRange)));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                response.append("Ошибка ").append(e.toString());
             }
-
-            return formatTime(time.getFreeTimes(timeRange));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Ошибка " + e.toString();
         }
+
+        return response.toString();
     }
 
     /**
