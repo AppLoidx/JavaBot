@@ -7,9 +7,16 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
+ * Команда для записок
+ *
+ * ключи: [-t] [-kgdna]
+ *
+ * @version 1.0.0
  * @author Arthur Kupriyanov
  */
 public class Note extends Command {
+
+    // src/main/botResources/database/teachers_notes.db
     private TeachersNotesDB teachersNotesDB = new TeachersNotesDB();
 
     @Override
