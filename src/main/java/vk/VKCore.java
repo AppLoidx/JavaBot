@@ -31,7 +31,7 @@ public class VKCore {
 
         actor = new GroupActor(groupId, access_token);
 
-        System.out.println("Server Started!");
+        System.out.println("ServerBad Started!");
 
         ts = vk.messages().getLongPollServer(actor).execute().getTs();
     }
@@ -47,11 +47,13 @@ public class VKCore {
     public String[] getMessage(){
         MessagesGetLongPollHistoryQuery eventsQuery = vk.messages().getLongPollHistory(actor);
         eventsQuery.ts(ts);
+
         try {
             ts =  vk.messages().getLongPollServer(actor).execute().getTs();
 
         List<Message> messages = eventsQuery.execute().getMessages().getMessages();
         if (!messages.isEmpty() && !messages.get(0).isOut()) {
+            System.out.println("ts: " + ts + "\nmessage: " +  messages.get(0).getBody()+"\n===");
             return new String[]{messages.get(0).getBody(),String.valueOf(messages.get(0).getUserId())};
         }
 

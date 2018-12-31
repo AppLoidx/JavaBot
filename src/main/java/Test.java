@@ -10,10 +10,12 @@ import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.queries.groups.GroupsGetLongPollServerQuery;
 import com.vk.api.sdk.queries.messages.MessagesGetLongPollHistoryQuery;
 import core.Commander;
+import core.modules.TeachersNotesDB;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 
 
@@ -23,19 +25,25 @@ class Tests {
         System.out.println(h);
         System.out.println(b);
     }
-    public static void main(String[] args) throws NullPointerException, ClientException, ApiException, InterruptedException, IOException {
+    public static void main(String[] args) throws NullPointerException, ClientException, ApiException, InterruptedException, IOException, SQLException, ClassNotFoundException {
 
-        someFunc("sadsd", null, 123);
-
+        System.out.println("ggggt".split("b").length);
     }
 }
 
 public class Test {
+
     public int a = 4;
     protected int b = 5;
     private int g = 3;
 
-    protected static void func1(){
+    protected static void func1() throws Exception {
+
+    throw new Exception(){
+        public String Exception(){
+            return "Ошибка";
+        }
+    };
 
     }
     public static void funcpub(){

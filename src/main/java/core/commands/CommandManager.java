@@ -20,11 +20,9 @@ public class CommandManager {
         commands.add(new Schedule());
         commands.add(new Link());
         commands.add(new Unknown());
-        commands.add(new Queue());
         commands.add(new Reg());
         commands.add(new Day());
         commands.add(new Note());
-
     }
 
     public static ArrayList<Command> getCommands(){

@@ -1,6 +1,7 @@
 package core.modules;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.TreeMap;
 
 /**
@@ -183,8 +184,8 @@ public class Time {
     }
 
     private String formattedTime(int time) {
-        String hour = String.valueOf((int) time / 60);
-        String minute = String.valueOf((int) time % 60);
+        String hour = String.valueOf(time / 60);
+        String minute = String.valueOf(time % 60);
 
         if (hour.length() < 2) {
             hour = "0" + hour;
@@ -201,6 +202,11 @@ public class Time {
                 Integer.valueOf(formattedTime.split(hmRegex)[1]);
     }
 
+    public static int parseTime(String strTime){
+        return Integer.valueOf(strTime.split(":")[0]) * 60 +
+                Integer.valueOf(strTime.split(":")[1]);
+    }
+
     /**
      * Возвращает длительность промежутка времени
      * @param rangeTime форматированное время типа XX:XX-XX:XX
@@ -212,5 +218,16 @@ public class Time {
         return parseFormattedTime(time2) - parseFormattedTime(time1);
     }
 
+    /**
+     * Возвращает время текущее от начала (00:00)
+     * @return время в минутах от начала отсчета
+     */
+    public static int getNowTime(){
+        Date date = new Date();
+        System.out.println(date.toString());
+         String[] time = date.toString().split(" ")[3].split(":");
+
+        return Integer.valueOf(time[0]) * 60 + Integer.valueOf(time[1]);
+    }
 
 }

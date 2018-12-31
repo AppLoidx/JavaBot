@@ -36,9 +36,10 @@ public class KeysReader {
                 if (reservedKey != null){
                     if(isOneWord) keyMap.put(reservedKey, value.toString());
                     else{
-                        keyMap.put(reservedKey, value.toString().substring(0,value.toString().length() - 1));
+                        keyMap.put(reservedKey, value.toString());
 
                     }
+
                     isOneWord = true;
                     firstWord = true;
                     value = new StringBuilder();
@@ -73,7 +74,7 @@ public class KeysReader {
             }
         }
 
-        if (reservedKey != null){ keyMap.put(reservedKey, ""); }
+        if (reservedKey != null){ keyMap.put(reservedKey, value.toString()); }
 
         if (keyMap.isEmpty()){
             keyMap.put("error","empty");

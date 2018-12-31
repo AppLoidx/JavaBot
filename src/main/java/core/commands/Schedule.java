@@ -47,6 +47,10 @@ public class Schedule extends Command{
 
         Map<String, String> keysMap = KeysReader.readKeys(args);
 
+        if (keysMap.containsKey("-r")){
+            return new ScheduleRoom().init(args);
+        }
+
         // Значение фильтра свободного времени
         if(keysMap.containsKey("-f")){
             try {
@@ -109,58 +113,6 @@ public class Schedule extends Command{
                 }
             }
 
-        }
-
-        // Свободные промежутки времени в аудитории
-        if (keysMap.containsKey("-r") && !keysMap.containsKey("-l")){
-
-            AuditoryParser ap = new AuditoryParser();
-            String aud = keysMap.get("-r");
-
-            if (!keysMap.containsKey("-p") && !keysMap.containsKey("-d")){
-                return ap.getFormattedFreeTimes(aud, timeRange);
-            }
-            if (keysMap.containsKey("-p")){
-                if (keysMap.containsKey("-d")){
-                    return ap.getFormattedFreeTimes(aud, day, evenWeek, timeRange);
-                } else{
-                    return ap.getFormattedFreeTimes(aud, evenWeek, timeRange);
-                }
-            }
-            else{
-                if (keysMap.containsKey("-d")){
-                    return ap.getFormattedFreeTimes(aud, day, timeRange);
-                } else{
-                    return ap.getFormattedFreeTimes(aud, timeRange);
-                }
-            }
-        }
-
-        // Список уроков в аудитории
-        if (keysMap.containsKey("-l")){
-
-            AuditoryParser ap = new AuditoryParser();
-            if (!keysMap.containsKey("-r")){
-                return "Не указан параметр -r номер аудитории";
-            }
-            String aud = keysMap.get("-r");
-            if (!keysMap.containsKey("-p") && !keysMap.containsKey("-d")){
-                return ap.getFormattedSchedule(aud);
-            }
-            if (keysMap.containsKey("-p")){
-                if (keysMap.containsKey("-d")){
-                    return ap.getFormattedSchedule(aud, day, evenWeek);
-                } else{
-                    return ap.getFormattedSchedule(aud, evenWeek);
-                }
-            }
-            else{
-                if (keysMap.containsKey("-d")){
-                    return ap.getFormattedSchedule(aud, day);
-                } else{
-                    return ap.getFormattedSchedule(aud);
-                }
-            }
         }
 
         String schedule;
