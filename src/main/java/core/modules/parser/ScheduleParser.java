@@ -175,6 +175,6 @@ public class ScheduleParser {
             e.printStackTrace();
         }
 
-        return Boolean.parseBoolean(null);
+        throw new NullPointerException(" Неверно задано поле parity.");
     }
 }
