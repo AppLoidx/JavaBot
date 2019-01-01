@@ -2,6 +2,7 @@ package core.modules.queue;
 
 import core.modules.queue.exceptions.PersonNotFoundException;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -30,6 +31,13 @@ public class SimpleQueue extends Queue implements Swapable, QueueReturnable<Tree
 
     SimpleQueue(String name){
         this.name = name;
+    }
+
+    @Override
+    public void saveQueue() throws IOException {
+        String path = "src/main/botResources/queue/";
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path + this.name));
+        oos.writeObject(this);
     }
 
     @Override

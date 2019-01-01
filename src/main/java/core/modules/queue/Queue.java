@@ -1,9 +1,17 @@
 package core.modules.queue;
 
+import java.io.IOException;
+import java.io.Serializable;
+
 /**
  * @author Arthur Kupriyanov
  */
-public abstract class Queue{
+public abstract class Queue implements Serializable {
+
+    /**
+     * Сохранение очереди в файл (сериализация)
+     */
+    public abstract void saveQueue() throws IOException;
 
     /**
      * @return имя очереди

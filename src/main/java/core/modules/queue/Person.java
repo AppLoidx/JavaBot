@@ -1,9 +1,11 @@
 package core.modules.queue;
 
+import java.io.Serializable;
+
 /**
  * @author Arthur Kupriyanov
  */
-public class Person {
+public class Person implements Serializable {
     /** Имя персонажа*/
     private String name;
     /** Номер персонажа, однозначно идентифицирующий его*/

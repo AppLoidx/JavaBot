@@ -1,5 +1,6 @@
 package core.modules.queue;
 
+import java.io.IOException;
 import java.util.TreeMap;
 
 /**
@@ -7,16 +8,30 @@ import java.util.TreeMap;
  */
 public class Main {
     public static void main(String ... args){
-        ShuffleQueue sq = new ShuffleQueue("queue");
 
-        sq.addPerson(new Person("Jojo", sq.getFreeId()),
-                new Person("Sally", sq.getFreeId()),
-                new Person("Arch", sq.getFreeId()),
-                new Person("Lucas", sq.getFreeId()));
+//        QueueLoader<ShuffleQueue> ql = new QueueLoader<>();
+//
+//        ShuffleQueue sq = new ShuffleQueue("queue");
+//
+//        sq.addPerson(new Person("Jojo", sq.getFreeId()),
+//                new Person("Sally", sq.getFreeId()),
+//                new Person("Arch", sq.getFreeId()),
+//                new Person("Lucas", sq.getFreeId()));
+//
+//        printQueue(sq.getQueue());
+//        sq.shuffle();
+//        printQueue(sq.getQueue());
+//        sq.saveQueue();
+//        try {
+//            ShuffleQueue sq = new QueueLoader<ShuffleQueue>().loadQueue("qeue");
+//
+//            printQueue(sq.getQueue());
+//        } catch (ClassNotFoundException e) {
+//            System.out.println("Класс не найден");
+//        } catch (IOException e) {
+//            System.out.println("file not found");
+//        }
 
-        printQueue(sq.getQueue());
-        sq.shuffle();
-        printQueue(sq.getQueue());
 
     }
     private static void printQueue(TreeMap<Integer, Person> queue){
