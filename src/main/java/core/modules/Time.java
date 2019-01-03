@@ -183,7 +183,12 @@ public class Time {
         timeMap.put(Type.OCCUPIED, occupiedTimeMap);
     }
 
-    private String formattedTime(int time) {
+    public String formattedTime(int time) {
+        return formattedTime(time, this.hmRegex);
+
+    }
+
+    public static String formattedTime(int time, String hmRegex) {
         String hour = String.valueOf(time / 60);
         String minute = String.valueOf(time % 60);
 
@@ -224,7 +229,6 @@ public class Time {
      */
     public static int getNowTime(){
         Date date = new Date();
-        System.out.println(date.toString());
          String[] time = date.toString().split(" ")[3].split(":");
 
         return Integer.valueOf(time[0]) * 60 + Integer.valueOf(time[1]);
