@@ -1,5 +1,8 @@
 package core.modules.queue;
 
+import core.modules.Time;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.TreeMap;
 
@@ -9,29 +12,17 @@ import java.util.TreeMap;
 public class Main {
     public static void main(String ... args){
 
-//        QueueLoader<ShuffleQueue> ql = new QueueLoader<>();
-//
-//        ShuffleQueue sq = new ShuffleQueue("queue");
-//
-//        sq.addPerson(new Person("Jojo", sq.getFreeId()),
-//                new Person("Sally", sq.getFreeId()),
-//                new Person("Arch", sq.getFreeId()),
-//                new Person("Lucas", sq.getFreeId()));
-//
-//        printQueue(sq.getQueue());
-//        sq.shuffle();
-//        printQueue(sq.getQueue());
-//        sq.saveQueue();
-//        try {
-//            ShuffleQueue sq = new QueueLoader<ShuffleQueue>().loadQueue("qeue");
-//
-//            printQueue(sq.getQueue());
-//        } catch (ClassNotFoundException e) {
-//            System.out.println("Класс не найден");
-//        } catch (IOException e) {
-//            System.out.println("file not found");
-//        }
+        ConsistentQueue cq = new ConsistentQueue("queue", Time.parseTime("23:50"), Time.parseTime("23:40"));
 
+        cq.addPerson(new Person("Sally"),
+                new Person("Jobby"),
+                new Person("Sallivan"),
+                new Person("Hobkins"));
+        cq.addPersonToSecondQueue(new Person("Job"), new Person("Ellie"));
+        System.out.println(cq.getFormattedQueue());
+        //cq.personPassedToSecondQueue(0);
+
+        System.out.println(cq.getFormattedQueue());
 
     }
     private static void printQueue(TreeMap<Integer, Person> queue){
@@ -42,4 +33,5 @@ public class Main {
             System.out.println(k + " " + queue.get(k).getName() + " id: " + queue.get(k).getId());
         }
     }
+
 }

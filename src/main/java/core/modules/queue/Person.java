@@ -3,6 +3,8 @@ package core.modules.queue;
 import java.io.Serializable;
 
 /**
+ * Класс персонажа для объектов в очереди
+ *
  * @author Arthur Kupriyanov
  */
 public class Person implements Serializable {
@@ -22,6 +24,7 @@ public class Person implements Serializable {
     }
     Person(String name){
         this.name = name;
+        this.id = 0;
     }
 
     public int getId() {
