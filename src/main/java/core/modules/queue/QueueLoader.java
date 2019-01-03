@@ -1,9 +1,6 @@
 package core.modules.queue;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 /**
  * @author Arthur Kupriyanov
@@ -20,5 +17,12 @@ public class QueueLoader<T> {
     public static boolean checkExist(String name){
         File file = new File(path + name);
         return file.exists();
+    }
+
+    public static void deleteQueue(String name) throws FileNotFoundException {
+        File file = new File(path + name);
+        if (!file.delete()){
+            throw new FileNotFoundException("Файл не найден");
+        }
     }
 }
