@@ -19,7 +19,7 @@ public class SimpleQueue extends Queue
     protected TreeMap<Integer, Person> queue = new TreeMap<>();
 
     /** Для статистики */
-    private Stat stat = new Stat();
+    protected Stat stat = new Stat();
 
     /** Последний ключ ключа очереди*/
     private int lastKey = 0;
@@ -258,6 +258,7 @@ public class SimpleQueue extends Queue
     public String getFormattedQueue(){
         StringBuilder response = new StringBuilder();
 
+        response.append("------------\n").append(getQueueName()).append("\n------------\n");
         for (Person person: queue.values()
         ) {
             response.append(person.getName()).append(" id: ").append(person.getId()).append("\n");
