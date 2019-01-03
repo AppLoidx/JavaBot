@@ -8,7 +8,7 @@ import java.util.TreeMap;
  * @author Arthur Kupriyanov
  */
 public class DatedQueue extends SimpleQueue {
-    private int endTime;
+    protected int endTime;
 
     DatedQueue(String name, int time) {
         super(name);
@@ -23,19 +23,19 @@ public class DatedQueue extends SimpleQueue {
         return endTime < Time.getNowTime();
     }
 
-    public void notFullPersonPassed(int id){
-
-    }
-
-    public void addToRepeatQueue(Person person){
-
-    }
-
     @Override
     public TreeMap<Integer, Person> getQueue() {
         if (endTime < Time.getNowTime()){
-            return new TreeMap<>();
+            TreeMap<Integer, Person> res =  new TreeMap<>();
+            res.put(0, new Person("Очередь закончилась",666));
+            return res;
         }
         return super.getQueue();
+    }
+
+    @Override
+    public String getFormattedQueue() {
+        String endMessage = "Очередь закончится в " + Time.formattedTime(endTime,":");
+        return super.getFormattedQueue() + "\n" + endMessage;
     }
 }
