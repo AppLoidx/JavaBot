@@ -9,7 +9,11 @@ import java.util.TreeMap;
 /**
  * @author Arthur Kupriyanov
  */
-public class SimpleQueue extends Queue implements Swapable, QueueReturnable<TreeMap<Integer, Person>>, StatReturnable {
+public class SimpleQueue extends Queue
+                            implements  Swapable,
+                                        QueueReturnable<TreeMap<Integer, Person>>,
+                                        StatReturnable,
+                                        FormattedQueueReturnable{
 
     /**<место в очереди, класс персонажа>*/
     protected TreeMap<Integer, Person> queue = new TreeMap<>();
@@ -64,9 +68,8 @@ public class SimpleQueue extends Queue implements Swapable, QueueReturnable<Tree
             }
             if (queue.isEmpty()){
                 queue.put(freeId, person);
-                lastKey = 0;
             }else {
-                queue.put(++this.lastKey, person);
+                queue.put(queue.lastKey() + 1, person);
             }
             this.freeId++;
             this.stat.peopleCount++;
@@ -144,10 +147,23 @@ public class SimpleQueue extends Queue implements Swapable, QueueReturnable<Tree
 
     @Override
     public void personPassed(int id) {
-        queue.remove(currentPlace);
-        this.incrementCurrentPlace();
-        this.stat.passCount++;
+        ArrayList<Integer> removeableKeys = new ArrayList<>();
 
+        if (!queue.isEmpty()) {
+            for (int key : queue.keySet()
+            ) {
+                if (queue.get(key).getId() == id) {
+                    removeableKeys.add(key);
+                    this.incrementCurrentPlace();
+                    this.stat.passCount++;
+                }
+            }
+        }
+
+        for (int key: removeableKeys
+             ) {
+            queue.remove(key);
+        }
     }
 
     @Override
@@ -214,6 +230,11 @@ public class SimpleQueue extends Queue implements Swapable, QueueReturnable<Tree
         return this.freeId;
     }
 
+    public void setFreeId(int id) {
+        if (id > this.freeId){
+            this.freeId = id;
+        }
+    }
     private void incrementCurrentPlace(){
         for (int key: queue.keySet()
              ) {
@@ -232,6 +253,21 @@ public class SimpleQueue extends Queue implements Swapable, QueueReturnable<Tree
     @Override
     public Stat getStat() {
         return stat;
+    }
+
+    public String getFormattedQueue(){
+        StringBuilder response = new StringBuilder();
+
+        for (Person person: queue.values()
+        ) {
+            response.append(person.getName()).append(" id: ").append(person.getId()).append("\n");
+        }
+
+        return response.toString();
+    }
+
+    public void setCurrentPlace(int newValue){
+        this.currentPlace = newValue;
     }
 
 }
