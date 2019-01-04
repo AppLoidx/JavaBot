@@ -33,7 +33,7 @@ public class SimpleQueue extends Queue
     /** Имя очереди */
     private String name;
 
-    SimpleQueue(String name){
+    public SimpleQueue(String name){
         this.name = name;
     }
 

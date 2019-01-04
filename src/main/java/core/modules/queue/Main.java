@@ -1,6 +1,7 @@
 package core.modules.queue;
 
 import core.modules.Time;
+import core.modules.queue.exceptions.PersonNotFoundException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,18 +13,25 @@ import java.util.TreeMap;
 public class Main {
     public static void main(String ... args){
 
-        ConsistentQueue cq = new ConsistentQueue("queue", Time.parseTime("23:50"), Time.parseTime("23:40"));
-
-        cq.addPerson(new Person("Sally"),
-                new Person("Jobby"),
-                new Person("Sallivan"),
-                new Person("Hobkins"));
-        cq.addPersonToSecondQueue(new Person("Job"), new Person("Ellie"));
-        System.out.println(cq.getFormattedQueue());
-        //cq.personPassedToSecondQueue(0);
-
-        System.out.println(cq.getFormattedQueue());
-
+        FixedQueue fq = new FixedQueue("Fixed Queue");
+        System.out.println(fq.getFormattedQueue());
+        fq.setLength(10);
+        fq.addPerson(new Person("Luwis"),new Person("Charlie"),new Person("Brodie"));
+        System.out.println(fq.getFormattedQueue());
+        fq.setLength(2);
+        System.out.println(fq.getFormattedQueue());
+        fq.setLength(3);
+        System.out.println(fq.getFormattedQueue());
+        fq.swap(10,13);
+        fq.setLength(5);
+        try {
+            System.out.println(fq.isFree(5));
+        } catch (PersonNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+        fq.addPerson(new Person("Luigi"));
+        System.out.println(fq.isFree(14));
+        System.out.println(fq.getFormattedQueue());
     }
     private static void printQueue(TreeMap<Integer, Person> queue){
         System.out.println(" ---------------");

@@ -10,7 +10,7 @@ import java.util.TreeMap;
 public class DatedQueue extends SimpleQueue {
     protected int endTime;
 
-    DatedQueue(String name, int time) {
+    public DatedQueue(String name, int time) {
         super(name);
         this.endTime = time;
     }
