@@ -19,7 +19,7 @@ public class DatedQueue extends SimpleQueue {
         this.endTime = time;
     }
 
-    private boolean isEnded(){
+    public boolean isEnded(){
         return endTime < Time.getNowTime();
     }
 
