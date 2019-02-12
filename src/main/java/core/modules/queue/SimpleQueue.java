@@ -15,14 +15,17 @@ public class SimpleQueue extends Queue
                                         StatReturnable,
                                         FormattedQueueReturnable{
 
+    // Списки для прав доступа
+    protected ArrayList<String> readAccessList = new ArrayList<>();
+    protected ArrayList<String> writeAccessList = new ArrayList<>();
+    protected ArrayList<String> executeAccessList = new ArrayList<>();
+    protected ArrayList<String> users = new ArrayList<>();
+
     /**<место в очереди, класс персонажа>*/
     protected TreeMap<Integer, Person> queue = new TreeMap<>();
 
     /** Для статистики */
     protected Stat stat = new Stat();
-
-    /** Последний ключ ключа очереди*/
-    private int lastKey = 0;
 
     /** Текущее место в очереди*/
     private int currentPlace = 0;
@@ -32,6 +35,12 @@ public class SimpleQueue extends Queue
 
     /** Имя очереди */
     private String name;
+
+    /** Описание очереди*/
+    private String description;
+
+    /** Для заявок*/
+    public Request request = new Request();
 
     public SimpleQueue(String name){
         this.name = name;
@@ -51,7 +60,11 @@ public class SimpleQueue extends Queue
 
     @Override
     public String getDescription() {
-        return null;
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -271,4 +284,45 @@ public class SimpleQueue extends Queue
         this.currentPlace = newValue;
     }
 
+    // операции с пользовательскими ID
+    public void addUserID(String userID){
+        users.add(userID);
+    }
+    public ArrayList<String> getUsers(){
+        return users;
+    }
+
+    // Операции со списками прав доступа
+
+    public void addToReadAccessList(String user){
+        readAccessList.add(user);
+    }
+    public void addToWriteAccessList(String user){
+        writeAccessList.add(user);
+    }
+    public void addToExecuteAccessList(String user){
+        executeAccessList.add(user);
+    }
+
+    public ArrayList<String> getReadAccessList() {
+        return readAccessList;
+    }
+
+    public ArrayList<String> getWriteAccessList() {
+        return writeAccessList;
+    }
+
+    public ArrayList<String> getExecuteAccessList() {
+        return executeAccessList;
+    }
+
+    public int getIDByVKID(String vkid){
+        for (Person person: queue.values()
+             ) {
+            if (person.getVkid().equals(vkid)){
+                return person.getId();
+            }
+        }
+        throw new PersonNotFoundException("Персонаж не найден по VKID");
+    }
 }

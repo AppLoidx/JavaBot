@@ -13,6 +13,7 @@ public class Person implements Serializable {
     /** Номер персонажа, однозначно идентифицирующий его*/
     private int id;
 
+    private String vkid;
     /**
      *
      * @param name имя персонажа
@@ -22,7 +23,7 @@ public class Person implements Serializable {
         this.name = name;
         this.id = id;
     }
-    Person(String name){
+    public Person(String name){
         this.name = name;
         this.id = 0;
     }
@@ -33,6 +34,15 @@ public class Person implements Serializable {
     void setId(int id){ this.id = id;}
     public String getName() {
         return name;
+    }
+
+    public Person setVKID(String vkid){
+        this.vkid = vkid;
+        return this;
+    }
+
+    public String getVkid(){
+        return this.vkid;
     }
 
     /**

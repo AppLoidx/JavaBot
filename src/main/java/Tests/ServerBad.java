@@ -50,6 +50,7 @@ public class ServerBad {
             System.out.println("Wait for messages");
             while ((input = in.readLine()) != null) {
                 if (input.equalsIgnoreCase("exit")) break;
+                System.out.println("User input is " + input);
                 out.println("S ::: \nsdfsdfsdsdf\nsfsdfdsf\n#");
                 System.out.println(input);
             }

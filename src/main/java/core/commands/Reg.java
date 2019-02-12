@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
+ * @version 1.0
  * @author Arthur Kupriyanov
  */
 public class Reg extends Command {
@@ -85,6 +86,6 @@ public class Reg extends Command {
 
     @Override
     protected void setName() {
-        this.name = "reg";
+        this.name = "regExtra";
     }
 }

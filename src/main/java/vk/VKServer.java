@@ -7,6 +7,8 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.messages.Message;
+import com.vk.api.sdk.objects.users.UserCounters;
+import com.vk.api.sdk.objects.users.UserXtrCounters;
 import com.vk.api.sdk.queries.messages.MessagesGetLongPollHistoryQuery;
 
 import java.io.FileInputStream;
@@ -33,8 +35,9 @@ public class VKServer {
             Thread.sleep(300);
             String[] message = vkCore.getMessage();
             if (!message[0].equals("Error")) {
+                UserXtrCounters userInfo = vkCore.getUserInfo(message[1]);
                 ExecutorService exec = Executors.newCachedThreadPool();
-                exec.execute(new Messenger(vkCore.getActor(), vkCore.getVk(), message[0], Integer.valueOf(message[1])));
+                exec.execute(new Messenger(vkCore.getActor(), vkCore.getVk(), message[0], Integer.valueOf(message[1]), userInfo));
             }
 
         }

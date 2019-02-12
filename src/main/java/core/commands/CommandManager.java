@@ -1,11 +1,6 @@
 package core.commands;
 
-import com.vk.api.sdk.exceptions.ApiException;
-import com.vk.api.sdk.exceptions.ClientException;
-import core.commands.special.vk.Test;
-import vk.VKCore;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -20,9 +15,11 @@ public class CommandManager {
         commands.add(new Schedule());
         commands.add(new Link());
         commands.add(new Unknown());
-        commands.add(new Reg());
+        commands.add(new RegSimple());
         commands.add(new Day());
         commands.add(new Note());
+        commands.add(new Queue());
+        commands.add(new Test());
     }
 
     public static ArrayList<Command> getCommands(){

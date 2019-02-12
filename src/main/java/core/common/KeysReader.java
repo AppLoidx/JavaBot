@@ -31,7 +31,7 @@ public class KeysReader {
         for (String word: words
              ) {
 
-            if (word.matches("-[a-z]") || word.matches("--[a-z]*")) {
+            if (word.matches("-[a-z]") || word.matches("--[a-z#_]*")) {
                 // Если ключ пустой
                 if (reservedKey != null){
                     if(isOneWord) keyMap.put(reservedKey, value.toString());

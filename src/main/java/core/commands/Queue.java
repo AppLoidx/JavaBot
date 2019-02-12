@@ -1,6 +1,7 @@
 package core.commands;
 
 import core.common.KeysReader;
+import core.common.UserInfoReader;
 import core.modules.queue.*;
 
 import java.io.IOException;
@@ -89,6 +90,7 @@ public class Queue extends Command {
                         optionallyMsg = "Создана очередь " + name + "[simple]";
                 }
                 try {
+                    ((SimpleQueue) queue).addToExecuteAccessList(UserInfoReader.readUserID(args));
                     queue.saveQueue();
                     return optionallyMsg;
                 } catch (IOException e) {

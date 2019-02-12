@@ -12,7 +12,13 @@ public class ShuffleQueue extends SimpleQueue implements Shuffleable {
         super(name);
     }
 
+
+    /**
+     * Тасовка персонажей внутри очереди
+     * Используется алгоритм тасовки Фишера-Йетса
+     */
     public void shuffle(){
+
         Collection<Person> personsList = queue.values();
         Person[] persons = personsList.toArray(new Person[personsList.size()]);
 

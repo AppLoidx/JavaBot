@@ -6,8 +6,8 @@ import java.io.Serializable;
  * @author Arthur Kupriyanov
  */
 public class Stat implements Serializable {
-    int lastPass;
-    int beginTime;
-    int peopleCount;
-    int passCount;
+    public int lastPass;
+    public int beginTime;
+    public int peopleCount;
+    public int passCount;
 }

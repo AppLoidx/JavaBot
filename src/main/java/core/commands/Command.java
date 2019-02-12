@@ -1,7 +1,5 @@
 package core.commands;
 
-import core.commands.enums.CommandEnum;
-import core.commands.exceptions.CommandHasNoCommandEnumException;
 import core.commands.exceptions.CommandHasNoNameException;
 
 /**

@@ -8,9 +8,11 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
+ * @version 1.0
  * @author Arthur Kupriyanov
  */
 public class Day extends Command {
+
     @Override
     public String init(String... args) {
         Map<Integer, Map<String, String>> keysMap = KeysReader.readOrderedKeys(args);

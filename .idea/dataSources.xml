@@ -10,7 +10,7 @@
         <property name="enable_load_extension" value="true" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="users" uuid="7b1623f1-03d6-4ef5-8c69-c9b8fc2054f5">
+    <data-source source="LOCAL" name="users.db" uuid="7b1623f1-03d6-4ef5-8c69-c9b8fc2054f5">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>

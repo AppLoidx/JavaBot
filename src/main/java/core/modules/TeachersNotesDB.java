@@ -44,7 +44,8 @@ public class TeachersNotesDB extends SQLiteDB{
     }
     public void appendNote(String key, String note) throws SQLException {
         String sql = "UPDATE main.students SET note = ? WHERE name = ?";
-
+        System.out.println("Note: " + note);
+        System.out.println("Key: " + key);
         //Connection conn = this.getConnection(url);
         PreparedStatement pstmt = connection.prepareStatement(sql);
         pstmt.setString(1, getNote(key) + " " + note);
