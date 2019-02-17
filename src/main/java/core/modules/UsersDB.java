@@ -74,11 +74,24 @@ public class UsersDB extends SQLiteDB {
         }
         return null;
     }
+    public String getGroupByVKID(int vkid) throws SQLException, ClassNotFoundException {
+        Statement stmt = this.conn.createStatement();
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM users");
+        while(resultSet.next()){
+            if (vkid == resultSet.getInt("vkid")){
+                return resultSet.getString("groupName");
+            }
+        }
+        return null;
+    }
 
 
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
+        this.conn.close();
+    }
+    public void closeConnection() throws SQLException {
         this.conn.close();
     }
 
