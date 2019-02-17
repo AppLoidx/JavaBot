@@ -1,11 +1,14 @@
 package core.commands;
 
 import core.common.KeysReader;
+import core.common.UserInfoReader;
 import core.modules.Date;
+import core.modules.UsersDB;
 import core.modules.parser.AuditoryParser;
 import core.modules.parser.ScheduleParser;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -40,7 +43,12 @@ public class Schedule extends Command{
         int dayOfWeek = Date.getDayOfWeek();
 
         // DEFAULT VALUES
-        String group = "P3112";     //TODO: Get from user settings
+        String group;
+        System.out.println(getGroup(args));
+        if ((group=getGroup(args))==null){
+            group = "P3112";
+        }
+
         int day = dayOfWeek;
         boolean evenWeek = ScheduleParser.getWeekParity();
         int timeRange = 0; // Длительность свободного времени
@@ -126,8 +134,35 @@ public class Schedule extends Command{
         if (schedule.equals("")){
             return "У вас на этот день нет пар!";
         }else {
-            return schedule;
+            String scheduleAdditionalData;
+            String parity = evenWeek ? "четная" : "нечетная";
+            scheduleAdditionalData = "Группа: " + group + "\n" +
+                    "Четность: " + parity + "\n";
+            return scheduleAdditionalData + schedule;
         }
 
+    }
+
+    String getGroup(String ... args){
+        String vkid = UserInfoReader.readUserID(args);
+        UsersDB usersDB = new UsersDB();
+        if (vkid != null){
+            try {
+                if (usersDB.checkExistByVKID(Integer.parseInt(vkid))){
+                    String group = usersDB.getGroupByVKID(Integer.parseInt(vkid));
+                    usersDB.closeConnection();
+
+                    return group;
+                }
+            } catch (SQLException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            usersDB.closeConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
