@@ -6,12 +6,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Парсит расписание групп ИТМО из www.ifmo.ru
+ * Парсит расписание групп ИТМО из <a href=www.ifmo.ru>ifmo</a>
  *
  * @author Артур Куприянов
  * @version 1.0.0
@@ -162,19 +163,8 @@ public class ScheduleParser {
      * @return <code>true</code> - четная неделя;<br> <code>false</code> - нечетная неделя
      */
     public static boolean getWeekParity(){
-        try {
-            Document doc = Jsoup.connect(String.format(BASE_URL,"P3112","P3112")).get();
-            String parity = doc.select("h2.schedule-week").select("strong").text();
-            switch (parity){
-                case "Нечетная":
-                    return false;
-                case "Четная":
-                    return true;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        throw new NullPointerException(" Неверно задано поле parity.");
+        // TODO: Write a correct parity parser!
+        return true;
     }
 }

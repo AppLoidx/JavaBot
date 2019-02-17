@@ -3,6 +3,7 @@ package core.common;
 import java.util.Map;
 
 /**
+ * @version 1.0
  * @author Arthur Kupriyanov
  */
 public class UserInfoReader {
