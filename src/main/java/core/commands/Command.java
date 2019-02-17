@@ -3,26 +3,21 @@ package core.commands;
 import core.commands.exceptions.CommandHasNoNameException;
 
 /**
- * Абстрактный класс для всех исполняемых команд
- * Поле {@link #name} идентифицирует команду, т.е команда вызывается по этому имени
+ * Abstract class for all executable classes-commands
+ * Field {@link #name} identification command,he is called by this name
  *
- * @author Артур Куприянов
- * @version 1.0
+ * @author Arthur Kupriyanov
+ * @version 1.1
  */
 public abstract class Command {
     protected String name = null;
-    private static int counter = 0;
-    private int hashCode;
-
     {
-        hashCode = counter++;
         setName();
     }
-
     /**
-     * Метод реализации команды
+     * Command initialization
      *
-     * @return Строку, возвращаемую пользователю
+     * @return response
      */
     public abstract String init(String ... args);
 
@@ -34,10 +29,10 @@ public abstract class Command {
 
 
     /**
-     * Получение имени команды, по которой она будет вызываться
+     * Get the name of the command by which it will be called
      *
-     * @return Имя команды
-     * @throws CommandHasNoNameException -- Не присвоено значение поля <code>{@link #name}</code>
+     * @return command name
+     * @throws CommandHasNoNameException Not assigned a field <code>{@link #name}</code>
      */
     public final String getName() throws CommandHasNoNameException {
         if (name == null){
@@ -61,14 +56,17 @@ public abstract class Command {
 
 
     /**
-     * <code>{@link #hashCode}</code> определяется в блоке инициализации и принимает значение <code>{@link #counter}</code>
-     * Таким образом хэш-код всегда будет разным для команд
+     * Берет хэш-код значащего поля {@link #name}
      *
      * @return хэш-код команды
      */
     @Override
     public int hashCode() {
-        return hashCode;
+        if (this.name == null){
+            throw new CommandHasNoNameException("Команда не имеет имени!");
+        }
+
+        return this.name.hashCode();
     }
 
 
