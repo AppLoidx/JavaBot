@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * @author Arthur Kupriyanov
+ * @deprecated use {@link Reg}
  */
 public class RegSimple extends Command{
     @Override
@@ -36,7 +37,7 @@ public class RegSimple extends Command{
         UsersDB usersDB = new UsersDB();
         try {
             if (usersDB.checkExistByVKID(userID)){
-                return "Вы уже есть в базе данных"; // TODO: добавить функцию для обновления
+                return "Вы уже есть в базе данных";
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

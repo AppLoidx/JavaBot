@@ -15,31 +15,31 @@ public class SimpleQueue extends Queue
                                         StatReturnable,
                                         FormattedQueueReturnable{
 
-    // Списки для прав доступа
+    // lists for access rigths
     protected ArrayList<String> readAccessList = new ArrayList<>();
     protected ArrayList<String> writeAccessList = new ArrayList<>();
     protected ArrayList<String> executeAccessList = new ArrayList<>();
     protected ArrayList<String> users = new ArrayList<>();
 
-    /**<место в очереди, класс персонажа>*/
+    /**<seat on queue, person class>*/
     protected TreeMap<Integer, Person> queue = new TreeMap<>();
 
-    /** Для статистики */
+    /** For statistic */
     protected Stat stat = new Stat();
 
-    /** Текущее место в очереди*/
+    /** Current place in queue*/
     private int currentPlace = 0;
 
-    /** Поле для сохранения свободного Id*/
+    /** Field for saving free ID*/
     private int freeId = 0;
 
-    /** Имя очереди */
+    /** Queue name */
     private String name;
 
-    /** Описание очереди*/
+    /** Queue description*/
     private String description;
 
-    /** Для заявок*/
+    /** for requests*/
     public Request request = new Request();
 
     public SimpleQueue(String name){
@@ -204,10 +204,10 @@ public class SimpleQueue extends Queue
     }
 
     /**
-     * Меняет местами в очереди по идентификаторам
-     * @param firstId идентификатор первого персонажа
-     * @param secondId идентификатор второго персонажа
-     * @throws PersonNotFoundException бросается если персонаж не найден по <code>id</code>
+     * Swaps the queue by ID
+     * @param firstId first person ID
+     * @param secondId second person ID
+     * @throws PersonNotFoundException throws if person not found by <code>id</code>
      */
     @Override
     public void swap(int firstId, int secondId) throws PersonNotFoundException {

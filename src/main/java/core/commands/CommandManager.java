@@ -20,6 +20,7 @@ public class CommandManager {
         commands.add(new Note());
         commands.add(new Queue());
         commands.add(new Test());
+
     }
 
     public static ArrayList<Command> getCommands(){
