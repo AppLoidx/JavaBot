@@ -13,10 +13,7 @@ public class CommandManager {
 
     static {
         commands.add(new Schedule());
-        commands.add(new Link());
         commands.add(new Unknown());
-        commands.add(new RegSimple());
-        commands.add(new Note());
         commands.add(new Queue());
         commands.add(new Test());
 
