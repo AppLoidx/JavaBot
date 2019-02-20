@@ -79,4 +79,8 @@ public class UsersDB {
 
         return null;
     }
+
+    public void closeConnection() throws SQLException {
+        connection.close();
+    }
 }
