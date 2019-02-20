@@ -1,101 +1,82 @@
 package core.modules;
 
+import org.apache.logging.log4j.core.appender.db.jdbc.ConnectionSource;
+
 import java.sql.*;
 
 /**
  * @author Arthur Kupriyanov
  */
-public class UsersDB extends SQLiteDB {
+public class UsersDB {
+    final String FIRST_NAME = "first_name";
+    final String LAST_NAME = "last_name";
+    final String VKID = "vkid";
+    final String GROUP_NAME = "group_name";
+    private Connection connection;
 
-    @Override
-    public void setURL() {
-        this.url = "jdbc:sqlite:C:/java/Bot/src/main/botResources/database/users.db";
-    }
-    private Connection conn;
-
-    {
-        try {
-            conn = this.getConnection(url);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
+    public UsersDB() throws SQLException {
+        String dbUrl = "jdbc:postgresql://ec2-176-34-113-195.eu-west-1.compute.amazonaws.com:5432/d4t7ailnb47b9s";
+        String log = "?user=oqxaigahmtousk&password=b17bc25f436815d846e34717c7f23e412513eb92ee7344d5ceaf4d1469b1873d";
+        String additionalConfig = "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+        this.connection = DriverManager.getConnection(dbUrl + log + additionalConfig);
     }
 
-    public void addUser(String name, String lastname, int isuID, int vkid, String group) throws SQLException {
-        String sql = "INSERT INTO users(name, lastname, isu_id, vkid, groupName) VALUES(?,?,?,?,?)";
+    public void addUser(String firstName, String lastname, int vkid, String groupName) throws SQLException {
+        Statement statement;
+        statement = connection.createStatement();
+        String sqlStatement = "INSERT INTO users (first_name, last_name, vkid, group_name)" +
+                "VALUES ('" + firstName + "' , '" + lastname + "' , '" + vkid + "' , '" + groupName + "' );";
 
-        PreparedStatement pstmt = this.conn.prepareStatement(sql);
-            pstmt.setString(1, name);
-            pstmt.setString(2, lastname);
-            pstmt.setInt(3, isuID);
-            pstmt.setInt(4,vkid);
-            pstmt.setString(5, group);
-        pstmt.executeUpdate();
-
-
+        statement.executeUpdate(sqlStatement);
     }
 
-    public void deleteByVKID(int vkid) {
-        String sql = "DELETE FROM main.users WHERE vkid = ?";
-
-        try (Connection conn = this.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // set the corresponding param
-            pstmt.setInt(1, vkid);
-            // execute the delete statement
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean checkExistByVKID(int vkid) throws SQLException, ClassNotFoundException {
-        Statement stmt = conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM users");
+    public boolean checkUserExsist(int vkid) throws SQLException {
+        Statement statement;
+        statement = connection.createStatement();
+        String sql = "SELECT vkid" +
+                " FROM users";
+        ResultSet resultSet = statement.executeQuery(sql);
         while(resultSet.next()){
-            if (vkid == resultSet.getInt("vkid")){
+            int dbVKID = resultSet.getInt(VKID);
+            if (dbVKID == vkid){
                 return true;
             }
         }
         return false;
-
     }
-    public String getFullNameByVKID(int vkid) throws SQLException, ClassNotFoundException {
-        Statement stmt = this.conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM users");
+    public String getFullNameByVKID(int vkid) throws SQLException {
+
+        Statement statement;
+        statement = connection.createStatement();
+        String sql = "SELECT vkid, first_name, last_name" +
+                " FROM users";
+        ResultSet resultSet = statement.executeQuery(sql);
         while(resultSet.next()){
-            if (vkid == resultSet.getInt("vkid")){
-                return resultSet.getString("lastname") + " " + resultSet.getString("name");
+            int dbVKID = resultSet.getInt(VKID);
+            if (dbVKID == vkid){
+                String firstName = resultSet.getString(FIRST_NAME).replace(" ","");
+                String lastName = resultSet.getString(LAST_NAME).replace(" ","");
+                return lastName + " " + firstName;
             }
         }
+
         return null;
     }
-    public String getGroupByVKID(int vkid) throws SQLException, ClassNotFoundException {
-        Statement stmt = this.conn.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM users");
+    public String getGroupByVKID(int vkid) throws SQLException {
+        Statement statement;
+        statement = connection.createStatement();
+        String sql = "SELECT vkid, group_name" +
+                " FROM users";
+        ResultSet resultSet = statement.executeQuery(sql);
         while(resultSet.next()){
-            if (vkid == resultSet.getInt("vkid")){
-                return resultSet.getString("groupName");
+            int dbVKID = resultSet.getInt(VKID);
+            String groupName = resultSet.getString(GROUP_NAME).replace(" ", "");
+
+            if (dbVKID == vkid){
+                return groupName;
             }
         }
+
         return null;
-    }
-
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        this.conn.close();
-    }
-    public void closeConnection() throws SQLException {
-        this.conn.close();
-    }
-
-    public static void main(String ... args){
-
     }
 }
