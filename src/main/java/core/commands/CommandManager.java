@@ -16,7 +16,6 @@ public class CommandManager {
         commands.add(new Link());
         commands.add(new Unknown());
         commands.add(new RegSimple());
-        commands.add(new Day());
         commands.add(new Note());
         commands.add(new Queue());
         commands.add(new Test());
