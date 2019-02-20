@@ -3,6 +3,9 @@ package core.modules.queue;
 import core.modules.queue.exceptions.PersonNotFoundException;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -48,9 +51,15 @@ public class SimpleQueue extends Queue
 
     @Override
     public void saveQueue() throws IOException {
-        String path = "src/main/botResources/queue/";
+        final String FOLDER_NAME = "queue";
+        Path pathToCatalog = Paths.get(FOLDER_NAME);
+        if (Files.notExists(pathToCatalog)){
+            new File("queue").mkdir();
+        }
+        String path = FOLDER_NAME + "/";
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path + this.name));
         oos.writeObject(this);
+        oos.close();
     }
 
     @Override

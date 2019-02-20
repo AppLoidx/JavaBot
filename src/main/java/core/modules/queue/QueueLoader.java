@@ -6,11 +6,13 @@ import java.io.*;
  * @author Arthur Kupriyanov
  */
 public class QueueLoader<T> {
-    private static String path = "src/main/botResources/queue/";
+    private static String path = "queue/";
 
     public T loadQueue(String name) throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path + name));
-        return  (T) ois.readObject();
+        Object queue = ois.readObject();
+        ois.close();
+        return  (T) queue;
 
     }
 
