@@ -1,5 +1,6 @@
 package core.commands;
 
+import com.vk.api.sdk.objects.users.User;
 import core.common.KeysReader;
 import core.common.UserInfoReader;
 import core.modules.UsersDB;
@@ -44,24 +45,28 @@ public class QueueSimpleHandler implements QueueHandler<SimpleQueue>{
                 return "Вы уже в очереди";
             }
             System.out.println(userID);
+            String userFullname = null;
             try {
-                String userFullname = new UsersDB().getFullNameByVKID(Integer.valueOf(userID));
-                if (userFullname == null){
-                    return "Вас нет в базе данных, пожалуйста зарегестрируйтесь";
+                UsersDB usersDB = new UsersDB();
+                if (!usersDB.checkUserExsist(Integer.valueOf(userID))){
+                    return "Вас нет в базе данных, пожалуйста зарегестрируйтесь командой reg";
                 }
-                queue.addPerson(new Person(userFullname).setVKID(userID));
-                queue.addUserID(userID);
-
-                try {
-                    queue.saveQueue();
-                    return "Вы успешно добавлены в очередь";
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return "Ошибка при сохранении очереди";
-                }
-            } catch (SQLException | ClassNotFoundException e) {
+                userFullname = usersDB.getFullNameByVKID(Integer.valueOf(userID)) ;
+            } catch (SQLException e) {
                 e.printStackTrace();
-                return "Произошла ошибка с базами данных + " + e.getMessage();
+            }
+            if (userFullname == null){
+                return "Ошибка при работе с базой данных";
+            }
+            queue.addPerson(new Person(userFullname).setVKID(userID));
+            queue.addUserID(userID);
+
+            try {
+                queue.saveQueue();
+                return "Вы успешно добавлены в очередь";
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Ошибка при сохранении очереди";
             }
         }
 

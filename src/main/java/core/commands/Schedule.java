@@ -4,7 +4,6 @@ import core.common.KeysReader;
 import core.common.UserInfoReader;
 import core.modules.Date;
 import core.modules.UsersDB;
-import core.modules.parser.AuditoryParser;
 import core.modules.parser.ScheduleParser;
 
 import java.io.IOException;
@@ -145,22 +144,13 @@ public class Schedule extends Command{
 
     String getGroup(String ... args){
         String vkid = UserInfoReader.readUserID(args);
-        UsersDB usersDB = new UsersDB();
-        if (vkid != null){
-            try {
-                if (usersDB.checkExistByVKID(Integer.parseInt(vkid))){
-                    String group = usersDB.getGroupByVKID(Integer.parseInt(vkid));
-                    usersDB.closeConnection();
-
-                    return group;
-                }
-            } catch (SQLException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
         try {
-            usersDB.closeConnection();
-        } catch (SQLException e) {
+            UsersDB usersDB = new UsersDB();
+
+            String group = usersDB.getGroupByVKID(Integer.valueOf(vkid));
+
+            return group;
+        } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
         }
         return null;
