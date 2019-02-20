@@ -45,28 +45,22 @@ public class ScheduleParser {
 
     private Map<String,Map<String,String>> parseScheduleDoc(Document doc, boolean evenWeek, int day){
         TreeMap<String,Map<String,String>> dayMap = new TreeMap<>();
-
-        Elements schedule = doc.select(String.format("table.rasp_tabl[id$=\"%dday\"]",day));
-
+        Elements schedule = doc.select("table.rasp_tabl[id="+ day + "day]");
         String weekParity = "нечетная неделя";
         if (evenWeek){
             weekParity = "четная неделя";
         }
-
         for (Element element: schedule.select("tr")) {
             Map<String, String> pair = new HashMap<>();
 
             String scheduleWeekParity = element.select("td.time").select("dt[style]").text();
 
+
             if((scheduleWeekParity.equals(weekParity) || scheduleWeekParity.equals("")) && !element.text().equals("")) {
-                pair.put("place", element.select("td.room").select("span").text());
-                pair.put("room", element.select("td.room").select("dd").text());
-                pair.put("lesson", element.select("td.lesson").select("yobject").text() +
-                        element.select("td.lesson").select("dd").text());
+                parsePairs(element, pair);
                 dayMap.put(element.select("td.time").select("span").text().split(" ")[0], pair);
             }
         }
-
         return dayMap;
     }
 
@@ -81,17 +75,20 @@ public class ScheduleParser {
             String scheduleWeekParity = element.select("td.time").select("dt[style]").text();
             String time = element.select("td.time").select("span").text().split(" ")[0];
             if (!(time.equals(""))){
-                pair.put("place", element.select("td.room").select("span").text());
-                pair.put("room", element.select("td.room").select("dd").text());
-                pair.put("lesson", element.select("td.lesson").select("yobject").text() +
-                        element.select("td.lesson").select("dd").text());
+                parsePairs(element, pair);
                 dayMap.put(String.format("%s %s",
                         time ,scheduleWeekParity),
                         pair);
         }
         }
-
         return dayMap;
+    }
+
+    private void parsePairs(Element element, Map<String, String> pair) {
+        pair.put("place", element.select("td.room").select("span").text());
+        pair.put("room", element.select("td.room").select("dd").text());
+        pair.put("lesson", element.select("td.lesson").select("yobject").text() +
+                element.select("td.lesson").select("dd").text());
     }
 
     /**
