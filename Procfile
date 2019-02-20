@@ -1,1 +1,1 @@
-web:    java $JAVA_OPTS -jar out/artifacts/Bot_jar/Bot.jar
+web:    java $JAVA_OPTS -jar src/jars/Bot.jar
