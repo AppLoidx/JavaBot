@@ -1,12 +1,12 @@
 package core.commands;
 
-import core.commands.enums.CommandEnum;
+import java.util.ArrayList;
 
 /**
- * Определяет перечисление команды
+ * Определяет команду
  *
  * @author Артур Куприянов
- * @version 1.0.0
+ * @version 1.1.0
  */
 public class CommandDeterminant {
 
@@ -14,9 +14,9 @@ public class CommandDeterminant {
      * По значению перечисления возвращаем команду
      * @return возвращает объект команды
      */
-    public static Command getCommand(String userInput){
+    public static Command getCommand(ArrayList<Command> commands, String userInput){
         userInput = userInput.split(" ")[0];
-        for (Command command: CommandManager.getCommands()
+        for (Command command: commands
              ) {
             if (command.getName().equals(userInput)){
                 return command;
