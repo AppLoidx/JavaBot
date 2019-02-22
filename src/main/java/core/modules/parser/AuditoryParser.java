@@ -27,13 +27,6 @@ public class AuditoryParser {
         return Jsoup.connect(String.format(BASE_URL, auditory, "")).get();
     }
     private Document getDoc(String auditory, boolean parity) throws IOException {
-        if (parity){
-            // Четная
-            String strParity = "1";
-        }else{
-            // Нечетная
-            String strParity = "2";
-        }
         return Jsoup.connect(String.format(BASE_URL, auditory,parity)).get();
     }
 
@@ -41,7 +34,7 @@ public class AuditoryParser {
     private Map<String, Map<String,String>> parseScheduleDoc(Document doc, int day){
         TreeMap<String,Map<String,String>> dayMap = new TreeMap<>();
 
-        Elements schedule = doc.select(String.format("table.rasp_tabl[id$=\"%dday\"]",day));
+        Elements schedule = doc.select("table.rasp_tabl[id=\" + day + \"day]");
 
         for (Element element: schedule.select("tr")) {
             Map<String, String> pair = new HashMap<>();
@@ -251,7 +244,7 @@ public class AuditoryParser {
      * @see #getFormattedFreeTimes(String, int, boolean)
      */
     public String getFormattedFreeTimes(String auditory, int timeRange){
-        AuditoryParser ap = new AuditoryParser();
+
         StringBuilder sb = new StringBuilder();
 
         for(int i = 1; i < 7; i++){
@@ -267,7 +260,6 @@ public class AuditoryParser {
 
     public static void main(String ... args){
         AuditoryParser ap = new AuditoryParser();
-        Time time = new Time();
 
         String res = ap.getFormattedSchedule("3207");
         System.out.println(res);

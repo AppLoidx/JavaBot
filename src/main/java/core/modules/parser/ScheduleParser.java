@@ -67,7 +67,7 @@ public class ScheduleParser {
     private Map<String,Map<String,String>> parseScheduleDoc(Document doc, int day){
         TreeMap<String,Map<String,String>> dayMap = new TreeMap<>();
 
-        Elements schedule = doc.select(String.format("table.rasp_tabl[id$=\"%dday\"]",day));
+        Elements schedule = doc.select("table.rasp_tabl[id=" + day + "day]");
 
         for (Element element: schedule.select("tr")) {
             Map<String, String> pair = new HashMap<>();
@@ -162,6 +162,6 @@ public class ScheduleParser {
     public static boolean getWeekParity(){
 
         // TODO: Write a correct parity parser!
-        return true;
+        return false;
     }
 }
