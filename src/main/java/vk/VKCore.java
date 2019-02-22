@@ -8,9 +8,7 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
-import com.vk.api.sdk.queries.EnumParam;
 import com.vk.api.sdk.queries.messages.MessagesGetLongPollHistoryQuery;
-import com.vk.api.sdk.queries.users.UserField;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -48,7 +46,7 @@ public class VKCore {
         return vk;
     }
 
-    public String[] getMessage(){
+    public String[] getMessage() throws ClientException {
 
         MessagesGetLongPollHistoryQuery eventsQuery = vk.messages().getLongPollHistory(actor).ts(ts);
 
@@ -72,7 +70,7 @@ public class VKCore {
             return new String[]{messages.get(0).getBody(),String.valueOf(messages.get(0).getUserId())};
         }
 
-        } catch (ApiException | ClientException e) {
+        } catch (ApiException e) {
             e.printStackTrace();
         }
         return new String[]{"Error"};
