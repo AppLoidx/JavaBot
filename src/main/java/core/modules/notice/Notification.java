@@ -1,4 +1,4 @@
-package core.modules;
+package core.modules.notice;
 
 /**
  * @author Arthur Kupriyanov

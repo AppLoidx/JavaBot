@@ -1,9 +1,9 @@
-package core.modules;
+package core.modules.notice;
+
+import core.modules.UsersDB;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author Arthur Kupriyanov
@@ -26,6 +26,7 @@ public class Notifications {
         try {
             NotificationsDB notificationsDB = new NotificationsDB();
             ArrayList<Notification> notifications = notificationsDB.getNotification();
+            notificationsDB.closeConnection();
 
             StringBuilder sb = new StringBuilder();
             for (Notification notification : notifications
@@ -34,7 +35,7 @@ public class Notifications {
                 sb.append(notification.message);
                 sb.append("\n_____________");
                 sb.append("\nAuthor: ").append(getNameByVKID(notification.authorID));
-                sb.append("\nDate: ").append(notification.date);
+                sb.append("\nDate: ").append(notification.date).append(" ID: ").append(notification.ID);
                 sb.append("\n===============================\n");
             }
 
@@ -64,10 +65,26 @@ public class Notifications {
         }
     }
 
+    public int getAuthorID(int id) throws SQLException, NotificationNotFoundException {
+        try{
+            NotificationsDB notificationsDB = new NotificationsDB();
+            Notification notice;
+            if ((notice = notificationsDB.getNotification(id)) != null){
+                return notice.authorID;
+            } else {
+                throw new NotificationNotFoundException();
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new SQLException();
+        }
+    }
+
     public void deleteNotification(int id){
         try {
             NotificationsDB notificationsDB = new NotificationsDB();
             notificationsDB.deleteNotification(id);
+            notificationsDB.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }

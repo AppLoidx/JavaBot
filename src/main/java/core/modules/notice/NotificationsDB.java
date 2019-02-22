@@ -1,7 +1,8 @@
-package core.modules;
+package core.modules.notice;
+
+import core.modules.Date;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -43,6 +44,20 @@ public class NotificationsDB {
             notifications.add(notification);
         }
         return notifications;
+    }
+    public Notification getNotification(int id) throws SQLException {
+        Statement stmt;
+
+        stmt = connection.createStatement();
+        ResultSet resultSet = stmt.executeQuery("SELECT notification, author_id, primary_key, date FROM notifications");
+        while(resultSet.next()) {
+            if (resultSet.getInt(PRIMARY_KEY) == id) {
+
+                return new Notification(resultSet.getString(NOTIFICATION),
+                        resultSet.getInt(AUTHOR_ID), resultSet.getInt(PRIMARY_KEY), resultSet.getString(DATE));
+            }
+        }
+        return null;
     }
 
     public void deleteNotification(int id) throws SQLException {
