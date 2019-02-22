@@ -1,5 +1,6 @@
 package core.modules;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -54,4 +55,8 @@ public class Date {
         return increaseDayOfWeek(day, 1);
     }
 
+    public static String getDate(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        return simpleDateFormat.format(new java.util.Date());
+    }
 }
