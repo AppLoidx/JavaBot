@@ -4,7 +4,7 @@ public class Unknown extends Command {
 
     @Override
     protected void setName() {
-        name = "unknown";
+        commandName = "unknown";
     }
     @Override
     public String init(String... args) {

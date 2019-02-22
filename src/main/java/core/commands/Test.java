@@ -23,6 +23,6 @@ public class Test  extends Command{
 
     @Override
     protected void setName() {
-        this.name = "test";
+        this.commandName = "test";
     }
 }

@@ -19,7 +19,7 @@ public class Schedule extends Command{
 
     @Override
     protected void setName() {
-        name = "schedule";
+        commandName = "schedule";
     }
 
     private ScheduleParser p = new ScheduleParser();

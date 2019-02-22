@@ -50,6 +50,6 @@ public class Reg extends Command {
 
     @Override
     protected void setName() {
-        this.name = "reg";
+        this.commandName = "reg";
     }
 }

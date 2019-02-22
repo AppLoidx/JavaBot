@@ -142,7 +142,7 @@ public class Queue extends Command {
 
     @Override
     protected void setName() {
-        this.name = "queue";
+        this.commandName = "queue";
     }
 
     private QueueType getType(core.modules.queue.Queue queue){
