@@ -12,7 +12,13 @@ import java.util.TreeMap;
 /**
  * @author Arthur Kupriyanov
  */
-public class Queue extends Command {
+public class Queue extends Command{
+
+    @Override
+    protected void setName() {
+        this.commandName = "queue";
+    }
+
     private enum QueueType{
         SIMPLE,
         SHUFFLE,
@@ -20,11 +26,13 @@ public class Queue extends Command {
         DATED,
         FIXED,
         UNKNOWN
-    }
+        }
+
     @Override
     public String init(String... args) {
         Map<String, String> keysMap = KeysReader.readKeys(args);
         String name;
+        boolean isProgram = UserInfoReader.checkIsProgramm(args);
 
         // a - add, d - delete, s - swap , l - length , p - person,
         // t - time, e - secondtime, r - reveal, с - create, k - kill,
@@ -32,12 +40,18 @@ public class Queue extends Command {
         if(keysMap.containsKey("-n") || keysMap.containsKey("--name")){
             name = keysMap.get("-n");
         } else {
+            if (isProgram){
+                return "400";
+            }
             return "Не указан обязательный ключ -n [имя_очереди]";
         }
 
         // работа с ключом создания очереди
         if (keysMap.containsKey("-c") || keysMap.containsKey("--create")){
             if (QueueLoader.checkExist(name)){
+                if (isProgram){
+                    return "409";
+                }
                 return "Очередь с таким именем уже существует";
             } else {
                 core.modules.queue.Queue queue;
@@ -53,9 +67,15 @@ public class Queue extends Command {
                                 queue = new DatedQueue(name, Integer.getInteger(keysMap.get("-t")));
                                 optionallyMsg = "Создана очередь " + name + " [dated]";
                             } catch (NumberFormatException e){
+                                if (isProgram){
+                                    return "400";
+                                }
                                 return "Неверный формат параметра -t [время ]";
                             }
                         } else {
+                            if (isProgram){
+                                return "400";
+                            }
                             return "Введите параметр -t [время окончания очереди]";
                         }
                         break;
@@ -67,9 +87,15 @@ public class Queue extends Command {
                                 ((FixedQueue) queue).setLength(Integer.valueOf(keysMap.get("-l")));
                                 optionallyMsg = "Создана очередь " + name + " [fixed]";
                             } catch (NumberFormatException e){
+                                if (isProgram){
+                                    return "400";
+                                }
                                 return "Неверный формат ключа -l [длина очереди]";
                             }
                         } else {
+                            if (isProgram){
+                                return "400";
+                            }
                             return "Задайте параметр -l [длина очереди]";
                         }
                         break;
@@ -79,9 +105,15 @@ public class Queue extends Command {
                                 queue = new ConsistentQueue(name, Integer.valueOf(keysMap.get("-t")));
                                 optionallyMsg = "Создана очередь " + name + " [consistent]";
                             } catch (NumberFormatException e){
+                                if (isProgram){
+                                    return "400";
+                                }
                                 return "Неверный формат параметра -t [время ]";
                             }
                         } else {
+                            if (isProgram){
+                                return "400";
+                            }
                             return "Введите параметр -t [время окончания очереди]";
                         }
                         break;
@@ -92,9 +124,16 @@ public class Queue extends Command {
                 try {
                     ((SimpleQueue) queue).addToExecuteAccessList(UserInfoReader.readUserID(args));
                     queue.saveQueue();
+
+                    if (isProgram){
+                        return "200";
+                    }
                     return optionallyMsg;
                 } catch (IOException e) {
                     e.printStackTrace();
+                    if (isProgram){
+                        return "500";
+                    }
                     return "Ошибка при сохранении очереди " + e.getMessage();
                 }
             }
@@ -103,6 +142,9 @@ public class Queue extends Command {
         // дальнейшая работа подразумевает уже созданную очередь и редактирование или изменение, удаление
 
         if (!QueueLoader.checkExist(name)){
+            if (isProgram){
+                return "404";
+            }
             return "Очередь с именем " + name + " не существует";
         } else {
             try {
@@ -125,6 +167,9 @@ public class Queue extends Command {
                         ShuffleQueue shuffleQueue = ((ShuffleQueue) q);
                         return new QueueShuffleHandler().handle(shuffleQueue, args);
                     case UNKNOWN:
+                        if (isProgram){
+                            return "400";
+                        }
                         return "Ошибка при определении типа очереди";
                 }
 
@@ -134,15 +179,13 @@ public class Queue extends Command {
                 return e.getMessage();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+                if (isProgram){
+                    return "500";
+                }
                 return "Ошибка при сериализации " + e.getMessage();
             }
         }
         return null;
-    }
-
-    @Override
-    protected void setName() {
-        this.commandName = "queue";
     }
 
     private QueueType getType(core.modules.queue.Queue queue){
