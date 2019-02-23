@@ -1,9 +1,12 @@
 package core.modules.notice;
 
 import core.modules.UsersDB;
+import org.json.simple.JSONObject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Arthur Kupriyanov
@@ -50,6 +53,29 @@ public class Notifications {
         }
     }
 
+    /**
+     * @return Объявления в формате JSON
+     */
+    public String getJSONNotifications(){
+        try {
+            NotificationsDB notificationsDB = new NotificationsDB();
+            ArrayList<Notification> notifications = notificationsDB.getNotification();
+            notificationsDB.closeConnection();
+
+            JSONObject jsonObject = new JSONObject();
+
+            int index = 0;
+            for (Notification notification : notifications
+            ) {
+                jsonObject.put(String.valueOf(index++), convertToMap(notification));
+            }
+
+            return jsonObject.toString();
+
+        } catch (SQLException e){
+            return "Error";
+        }
+    }
     private String getNameByVKID(int vkid) throws SQLException {
         UsersDB usersDB = new UsersDB();
         return usersDB.getFullNameByVKID(vkid);
@@ -88,5 +114,15 @@ public class Notifications {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Map<String, String> convertToMap(Notification notification){
+        Map<String, String> noteMap = new HashMap<>();
+        noteMap.put("message", notification.message);
+        noteMap.put("date", notification.date);
+        noteMap.put("authorID", String.valueOf(notification.authorID));
+        noteMap.put("id", String.valueOf(notification.ID));
+
+        return noteMap;
     }
 }

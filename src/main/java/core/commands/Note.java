@@ -1,5 +1,6 @@
 package core.commands;
 
+import com.vk.api.sdk.objects.users.User;
 import core.common.KeysReader;
 import core.common.UserInfoReader;
 import core.modules.notice.NotificationNotFoundException;
@@ -11,9 +12,12 @@ import java.util.Map;
 /**
  * @author Arthur Kupriyanov
  */
-public class Note extends Command {
+public class Note extends Command implements ProgramSpecification{
     @Override
     public String init(String... args) {
+        if (UserInfoReader.checkIsProgramm(args)){
+            return programInit(args);
+        }
         Map<String, String> keyMap = KeysReader.readKeys(args);
         Notifications notifications = new Notifications();
 
@@ -49,9 +53,53 @@ public class Note extends Command {
             }
         }
 
-        return "Не использовано ни одного ключа";
+
+
+        return "Не использовано ни одной дествующей функции";
     }
 
+    public String programInit(String ... args){
+
+        Map<String, String> keyMap = KeysReader.readKeys(args);
+        Notifications notifications = new Notifications();
+
+        if (keyMap.containsKey("-s")){
+            return notifications.getJSONNotifications();
+        }
+
+        if (keyMap.containsKey("-a")){
+            if (UserInfoReader.readUserID(args) == null){
+                return "400";
+            }
+            notifications.addNotification(keyMap.get("-a"), Integer.valueOf(UserInfoReader.readUserID(args)));
+            return "200";
+        }
+
+        if (keyMap.containsKey("-d")){
+            try {
+                int ID = Integer.valueOf(keyMap.get("-d"));
+                try {
+                    String userID = UserInfoReader.readUserID(args);
+                    if (userID == null){
+                        return "400";
+                    }
+                    if (notifications.getAuthorID(ID) == Integer.valueOf(userID)){
+                        notifications.deleteNotification(ID);
+                        return "200";
+                    } else {
+                        return "403";
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (NotificationNotFoundException e) {
+                    return "404";
+                }
+            } catch (NumberFormatException e) {
+                return "400";
+            }
+        }
+        return "400";
+    }
     @Override
     protected void setName() {
         commandName = "note";
