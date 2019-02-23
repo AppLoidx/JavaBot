@@ -10,9 +10,9 @@ public class Notification {
     final String date;
 
     public Notification(String message, int authorID, int ID, String date){
-        this.message = message;
+        this.message = message.trim();
         this.authorID = authorID;
         this.ID = ID;
-        this.date = date;
+        this.date = date.trim();
     }
 }
