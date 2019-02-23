@@ -77,9 +77,10 @@ public class Note extends Command implements ProgramSpecification{
 
         if (keyMap.containsKey("-d")){
             try {
-                int ID = Integer.valueOf(keyMap.get("-d"));
+                int ID = Integer.valueOf(keyMap.get("-d").trim());
                 try {
                     String userID = UserInfoReader.readUserID(args);
+
                     if (userID == null){
                         return "400";
                     }
