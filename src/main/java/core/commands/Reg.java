@@ -24,20 +24,36 @@ public class Reg extends Command {
     public String init(String... args) {
         Map<String, String> keysMap = KeysReader.readKeys(args);
 
-        int vkid = Integer.valueOf(UserInfoReader.readUserID(args));
+        int vkid = Integer.parseInt(UserInfoReader.readUserID(args));
         String name = UserInfoReader.readUserFirstName(args);
         String lastname = UserInfoReader.readUserLastName(args);
+        String login = null;
+        String password = null;
         String group;
+
         if (keysMap.containsKey("-g")){
             group = keysMap.get("-g");
         } else return "Укажите вашу группу с ключом -g";
+        if (keysMap.containsKey("-l") && keysMap.containsKey("-p")) {
+            login = keysMap.get("-l");
+            password = keysMap.get("-p");
+        } else if(keysMap.containsKey("-l") || keysMap.containsKey("-p")){
+            return "Укажите оба ключа -l (login) и -p (password)";
+        }
 
         try {
             UsersDB usersDB = new UsersDB();
             if (usersDB.checkUserExsist(vkid)){
+                    if (login != null && password !=null){
+                        usersDB.updateUserLoginPassword(login, password, vkid);
+                        return "Ваши данные были обновлены";
+                    }
                 return "Вы уже зарегестрированы под именем " + usersDB.getFullNameByVKID(vkid);
             }
             usersDB.addUser(name, lastname,vkid,group);
+            if (login != null && password !=null){
+                usersDB.updateUserLoginPassword(login, password, vkid);
+            }
             usersDB.closeConnection();
         } catch (SQLException e) {
             e.printStackTrace();
