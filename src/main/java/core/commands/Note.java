@@ -1,8 +1,8 @@
 package core.commands;
 
-import com.vk.api.sdk.objects.users.User;
 import core.common.KeysReader;
 import core.common.UserInfoReader;
+import core.modules.UsersDB;
 import core.modules.notice.NotificationNotFoundException;
 import core.modules.notice.Notifications;
 
@@ -23,7 +23,7 @@ public class Note extends Command implements ProgramSpecification{
 
         // Добавление записи
         if (keyMap.containsKey("-a")){
-            notifications.addNotification(keyMap.get("-a"), Integer.valueOf(UserInfoReader.readUserID(args)));
+            notifications.addNotification(keyMap.get("-a"), Integer.parseInt(UserInfoReader.readUserID(args)));
             return "Ваша запись успешно добавлена";
         }
 
@@ -35,9 +35,9 @@ public class Note extends Command implements ProgramSpecification{
         // Удаление объявления
         if (keyMap.containsKey("-d")){
             try {
-                int ID = Integer.valueOf(keyMap.get("-d"));
+                int ID = Integer.parseInt(keyMap.get("-d"));
                 try {
-                    if (notifications.getAuthorID(ID) == Integer.valueOf(UserInfoReader.readUserID(args))){
+                    if (notifications.getAuthorID(ID) == Integer.parseInt(UserInfoReader.readUserID(args))){
                         notifications.deleteNotification(ID);
                         return "Запись с ID " + ID + " удалена";
                     } else {
@@ -71,8 +71,16 @@ public class Note extends Command implements ProgramSpecification{
             if (UserInfoReader.readUserID(args) == null){
                 return "400";
             }
-            notifications.addNotification(keyMap.get("-a"), Integer.valueOf(UserInfoReader.readUserID(args)));
-            return "200";
+            try {
+                UsersDB usersDB = new UsersDB();
+                if (!usersDB.checkUserExsist(Integer.parseInt(UserInfoReader.readUserID(args)))){
+                    return "404";
+                }
+                notifications.addNotification(keyMap.get("-a"), Integer.parseInt(UserInfoReader.readUserID(args)));
+                return "200";
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         if (keyMap.containsKey("-d")){
@@ -84,7 +92,7 @@ public class Note extends Command implements ProgramSpecification{
                     if (userID == null){
                         return "400";
                     }
-                    if (notifications.getAuthorID(ID) == Integer.valueOf(userID)){
+                    if (notifications.getAuthorID(ID) == Integer.parseInt(userID)){
                         notifications.deleteNotification(ID);
                         return "200";
                     } else {

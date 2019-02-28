@@ -1,6 +1,13 @@
 package core.modules;
 
+import com.sun.javaws.exceptions.ExitException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * @author Arthur Kupriyanov
@@ -8,7 +15,7 @@ import java.sql.*;
 @SuppressWarnings("Duplicates")
 public class UsersDB {
 
-    //ИМЕНА КОЛОНОК
+    // ИМЕНА КОЛОНОК
 
     private final String FIRST_NAME = "first_name";
     private final String LAST_NAME = "last_name";
@@ -19,48 +26,27 @@ public class UsersDB {
 
     private Connection connection;
 
-    public UsersDB() throws SQLException {
-        String dbUrl = "jdbc:postgresql://ec2-176-34-113-195.eu-west-1.compute.amazonaws.com:5432/d4t7ailnb47b9s";
-        String log = "?user=oqxaigahmtousk&password=b17bc25f436815d846e34717c7f23e412513eb92ee7344d5ceaf4d1469b1873d";
-        String additionalConfig = "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+    public UsersDB() throws SQLException{
+        Properties dbConfig = new Properties();
+        try {
+            dbConfig.load(new FileReader(new File("src/main/java/core/modules/herokuDatabaseConfig.properties")));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Файл с конфигурацией базы данных не найден!");
+            System.exit(ExitException.LAUNCH_ABORT_SILENT);
+        }
+        String dbUrl = dbConfig.getProperty("dbURL");
+        String log = dbConfig.getProperty("log");
+        String additionalConfig = dbConfig.getProperty("config");
         this.connection = DriverManager.getConnection(dbUrl + log + additionalConfig);
     }
 
-    /**
-     * Добавление пользователя в базу данных
-     * @param firstName Имя
-     * @param lastname Фамилия
-     * @param vkid номер от VK ID
-     * @param groupName номер группы (необязательный параметр)
-     */
-    public void addUser(String firstName, String lastname, int vkid, String groupName) throws SQLException {
-        Statement statement;
-        statement = connection.createStatement();
-        String sqlStatement = "INSERT INTO users (first_name, last_name, vkid, group_name)" +
-                "VALUES ('" + firstName + "' , '" + lastname + "' , '" + vkid + "' , '" + groupName + "' );";
-
-        statement.executeUpdate(sqlStatement);
+    public void closeConnection() throws SQLException {
+        connection.close();
     }
 
-    /**
-     * Проверяет существование пользователя через номер от VK ID
-     * @param vkid номер VK ID
-     * @return <code>true</code> если есть, иначе <code>false</code>
-     */
-    public boolean checkUserExsist(int vkid) throws SQLException {
-        Statement statement;
-        statement = connection.createStatement();
-        String sql = "SELECT vkid" +
-                " FROM users";
-        ResultSet resultSet = statement.executeQuery(sql);
-        while(resultSet.next()){
-            int dbVKID = resultSet.getInt(VKID);
-            if (dbVKID == vkid){
-                return true;
-            }
-        }
-        return false;
-    }
+
+    // ******************** GETTERS *****************************
 
     /**
      * Получает полное имя, используя номер ID от VK
@@ -109,8 +95,42 @@ public class UsersDB {
         return null;
     }
 
-    public void closeConnection() throws SQLException {
-        connection.close();
+    public String getLoginByVKID(int vkid) throws SQLException {
+        Statement statement;
+        statement = connection.createStatement();
+        String sql = "SELECT vkid, login" +
+                " FROM users";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while(resultSet.next()){
+            int dbVKID = resultSet.getInt(VKID);
+            String login = resultSet.getString(LOGIN).replace(" ", "");
+
+            if (dbVKID == vkid){
+                return login;
+            }
+        }
+
+        return null;
+    }
+
+
+    // ******************** DATABASE UPDATERS ***************************
+
+
+    /**
+     * Добавление пользователя в базу данных
+     * @param firstName Имя
+     * @param lastname Фамилия
+     * @param vkid номер от VK ID
+     * @param groupName номер группы (необязательный параметр)
+     */
+    public void addUser(String firstName, String lastname, int vkid, String groupName) throws SQLException {
+        Statement statement;
+        statement = connection.createStatement();
+        String sqlStatement = "INSERT INTO users (first_name, last_name, vkid, group_name)" +
+                "VALUES ('" + firstName + "' , '" + lastname + "' , '" + vkid + "' , '" + groupName + "' );";
+
+        statement.executeUpdate(sqlStatement);
     }
 
     /**
@@ -121,7 +141,8 @@ public class UsersDB {
      */
     public void updateUserLoginPassword(String login, String password, int VKID) throws SQLException {
         Statement statement = connection.createStatement();
-        String sql = "UPDATE users SET login='"+login+"', password='"+password+"' WHERE vkid="+VKID;
+        String generatedPassword = generatePassword(password, login);
+        String sql = "UPDATE users SET login='"+login+"', password='"+generatedPassword+"' WHERE vkid="+VKID;
         statement.execute(sql);
     }
 
@@ -136,6 +157,13 @@ public class UsersDB {
         statement.setInt(2,vkid);
         statement.execute();
     }
+
+
+
+    // ******************* CHECKERS *******************************
+
+
+
     public boolean isAuthorized(int vkid) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT login, password, vkid FROM users");
@@ -156,6 +184,30 @@ public class UsersDB {
     }
 
     /**
+     * Проверяет существование пользователя через номер от VK ID
+     * @param vkid номер VK ID
+     * @return <code>true</code> если есть, иначе <code>false</code>
+     */
+    public boolean checkUserExsist(int vkid) throws SQLException {
+        Statement statement;
+        statement = connection.createStatement();
+        String sql = "SELECT vkid" +
+                " FROM users";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while(resultSet.next()){
+            int dbVKID = resultSet.getInt(VKID);
+            if (dbVKID == vkid){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    // ************** AUTHENTICATION **********************
+
+
+    /**
      * -2 - пользователь не авторизован
      * -1 - пользователь не найден
      * @param login логин
@@ -173,14 +225,20 @@ public class UsersDB {
             String loginDB = resultSet.getString(LOGIN).replace(" ", "");
             String passwordDB = resultSet.getString(PASSWORD).replace(" ", "");
 
-            System.out.println(loginDB + " " + passwordDB);
-            if (loginDB.equals(login) && passwordDB.equals(password)){
+            if (loginDB.equals(login) && passwordDB.equals(generatePassword(password, login))){
                 return dbVKID;
             }
         }
         return -1;
     }
 
+    /**
+     * Аутенфикация с дополнительной проверкой соответствия vkid
+     * @param login логин
+     * @param password пароль
+     * @param vkid ИД от аккаунта ВК пользователя
+     * @return <code>true</code> - если авторизация удачная, иначе <code>false</code>
+     */
     public boolean auth(String login, String password, int vkid) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT login, password, vkid FROM users");
@@ -193,7 +251,7 @@ public class UsersDB {
                 String loginDB = resultSet.getString(LOGIN).replace(" ", "");
                 String passwordDB = resultSet.getString(PASSWORD).replace(" ", "");
 
-                if (loginDB.equals(login) && passwordDB.equals(password) && dbVKID == vkid) {
+                if (loginDB.equals(login) && passwordDB.equals(generatePassword(password, login))) {
                     return true;
                 }
             }
@@ -201,12 +259,18 @@ public class UsersDB {
         return false;
     }
 
+    private String generatePassword(String password, String salt){
+        return String.valueOf((password + salt).hashCode());
+    }
+
     public static void main(String[] args) throws SQLException {
         UsersDB usersDB = new UsersDB();
         //usersDB.addUser("Arthur","Kupriyanov",1200, "P3112");
         //usersDB.addUser("Daniel","Marshall",1222, "P3113");
         System.out.println(usersDB.isAuthorized(1200));
-        System.out.println(usersDB.auth("apploid","12345",1200));
+        System.out.println(usersDB.auth("marshall","myLongPass"));
+        usersDB.updateUserLoginPassword("marshall","myLongPass",1222);
+        System.out.println(usersDB.auth("marshall","myLongPass"));
         usersDB.closeConnection();
 
     }
