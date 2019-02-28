@@ -162,6 +162,6 @@ public class ScheduleParser {
     public static boolean getWeekParity(){
 
         // TODO: Write a correct parity parser!
-        return false;
+        return true;
     }
 }

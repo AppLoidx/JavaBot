@@ -34,7 +34,7 @@ public class AuditoryParser {
     private Map<String, Map<String,String>> parseScheduleDoc(Document doc, int day){
         TreeMap<String,Map<String,String>> dayMap = new TreeMap<>();
 
-        Elements schedule = doc.select("table.rasp_tabl[id=\" + day + \"day]");
+        Elements schedule = doc.select("table.rasp_tabl[id=" + day + "day]");
 
         for (Element element: schedule.select("tr")) {
             Map<String, String> pair = new HashMap<>();
