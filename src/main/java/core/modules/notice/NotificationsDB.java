@@ -17,8 +17,8 @@ public class NotificationsDB {
     private Connection connection;
 
     public NotificationsDB() throws SQLException {
-        String dbUrl = "jdbc:postgresql://ec2-176-34-113-195.eu-west-1.compute.amazonaws.com:5432/d4t7ailnb47b9s";
-        String log = "?user=oqxaigahmtousk&password=b17bc25f436815d846e34717c7f23e412513eb92ee7344d5ceaf4d1469b1873d";
+        String dbUrl = "";
+        String log = "";
         String additionalConfig = "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
         this.connection = DriverManager.getConnection(dbUrl + log + additionalConfig);
     }
