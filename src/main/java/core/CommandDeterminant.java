@@ -1,4 +1,9 @@
-package core.commands;
+package core;
+
+import com.vk.api.sdk.objects.messages.Message;
+import core.commands.Command;
+import core.commands.Unknown;
+import core.commands.VKCommands.VKCommand;
 
 import java.util.ArrayList;
 
@@ -25,4 +30,20 @@ public class CommandDeterminant {
 
         return new Unknown();
     }
+
+    public static VKCommand getVKCommand(ArrayList<Command> commands, Message message) {
+        String body = message.getBody();
+
+        for (Command command : commands
+        ) {
+            if (command instanceof VKCommand) {
+                if (command.getName().equals(body)) {
+                    return (VKCommand) command;
+                }
+            }
+        }
+
+        return new Unknown();
+    };
+
 }
