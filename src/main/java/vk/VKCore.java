@@ -19,11 +19,14 @@ public class VKCore {
     private VkApiClient vk;
     private static int ts;
     private GroupActor actor;
+    private static int maxMsgId = -1;
 
     public VKCore() throws IOException, ClientException, ApiException {
 
         TransportClient transportClient = HttpTransportClient.getInstance();
         vk = new VkApiClient(transportClient);
+
+        // Загрузка конфигураций
 
         Properties prop = new Properties();
         prop.load(new FileInputStream("src/main/resources/vkconfig.properties"));
@@ -33,56 +36,54 @@ public class VKCore {
 
         actor = new GroupActor(groupId, access_token);
 
-        System.out.println("ServerBad Started!");
-
         ts = vk.messages().getLongPollServer(actor).execute().getTs();
     }
 
     public GroupActor getActor() {
         return actor;
     }
-
     public VkApiClient getVk() {
         return vk;
     }
+    public Message getMessage() throws ClientException, ApiException {
 
-    public String[] getMessage() throws ClientException {
+        MessagesGetLongPollHistoryQuery eventsQuery = vk.messages()
+                .getLongPollHistory(actor)
+                .ts(ts);
+        if (maxMsgId > 0){
+            eventsQuery.maxMsgId(maxMsgId);
+        }
+        List<Message> messages = eventsQuery
+                .execute()
+                .getMessages()
+                .getMessages();
 
-        MessagesGetLongPollHistoryQuery eventsQuery = vk.messages().getLongPollHistory(actor).ts(ts);
-
-
-        try {
-
-
-        List<Message> messages = eventsQuery.execute().getMessages().getMessages();
         if (!messages.isEmpty()){
             try {
-                ts =  vk.messages().getLongPollServer(actor).execute().getTs();
-            } catch (ApiException | ClientException e) {
+                ts =  vk.messages()
+                        .getLongPollServer(actor)
+                        .execute()
+                        .getTs();
+            } catch (ClientException e) {
                 e.printStackTrace();
             }
         }
         if (!messages.isEmpty() && !messages.get(0).isOut()) {
-            System.out.println("ts: " + ts + "\nmessage: " +  messages.get(0).getBody()+"\n===");
 
-
-
-            return new String[]{messages.get(0).getBody(),String.valueOf(messages.get(0).getUserId())};
-        }
-
-        } catch (ApiException e) {
-            e.printStackTrace();
-        }
-        return new String[]{"Error"};
-    }
-
-    public UserXtrCounters getUserInfo(String id){
-        try {
-            return vk.users().get(actor).userIds(id).execute().get(0);
-        } catch (ApiException | ClientException e) {
-            e.printStackTrace();
+                /*
+                messageId - максимально полученный ID, нужен, чтобы не было ошибки 10 internal server error,
+                который является ограничением в API VK. В случае, если ts слишком старый (больше суток),
+                а max_msg_id не передан, метод может вернуть ошибку 10 (Internal server error).
+                 */
+            int messageId = messages.get(0).getId();
+            if (messageId > maxMsgId){
+                maxMsgId = messageId;
+            }
+            System.out.println(messages);
+            return messages.get(0);
         }
         return null;
     }
 
 }
+

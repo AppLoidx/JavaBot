@@ -3,7 +3,7 @@ package vk;
 
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
-import com.vk.api.sdk.objects.users.UserXtrCounters;
+import com.vk.api.sdk.objects.messages.Message;
 
 import java.io.*;
 
@@ -22,15 +22,14 @@ public class VKServer {
     }
 
     public static void main(String[] args) throws NullPointerException, ApiException, InterruptedException, IOException {
-
+        System.out.println("Running server...");
         while (true) {
             Thread.sleep(300);
             try {
-                String[] message = vkCore.getMessage();
-                if (!message[0].equals("Error")) {
-                    UserXtrCounters userInfo = vkCore.getUserInfo(message[1]);
+                Message message = vkCore.getMessage();
+            if (message != null) {
                     ExecutorService exec = Executors.newCachedThreadPool();
-                    exec.execute(new Messenger(vkCore.getActor(), vkCore.getVk(), message[0], Integer.valueOf(message[1]), userInfo));
+                    exec.execute(new Messenger(vkCore.getActor(), vkCore.getVk(), message));
                 }
             } catch (ClientException e) {
                 System.out.println("Нет интернет соединения");

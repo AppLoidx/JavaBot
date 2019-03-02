@@ -4,32 +4,36 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
-import com.vk.api.sdk.objects.users.User;
+import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import core.Commander;
 
 public class Messenger implements Runnable{
     private GroupActor actor;
     private VkApiClient vk;
-    private String message;
+    private Message message;
     private int peerId;
-    private UserXtrCounters userXtrCounters;
 
-    public Messenger(GroupActor actor, VkApiClient vk, String message, int peerId, UserXtrCounters userXtrCounters){
+    public Messenger(GroupActor actor, VkApiClient vk, Message message){
         this.actor = actor;
         this.vk = vk;
         this.message = message;
-        this.peerId = peerId;
-        this.userXtrCounters = userXtrCounters;
+        this.peerId = message.getUserId();
     }
 
     private String getResponse(){
-        String extra = "";
-        extra += " --#user_id " + peerId;
-        extra += " --#first_name " + userXtrCounters.getFirstName();
-        extra += " --#last_name " + userXtrCounters.getLastName();
 
-        return Commander.getResponse(this.message + extra);
+        String vkResponse =  Commander.getResponse(message);
+        if (vkResponse != null){
+            return vkResponse;
+        } else {
+            String extra = "";
+            extra += " --#user_id " + message.getUserId();
+            UserXtrCounters info = getUserInfo(message.getId());
+            extra += " --#first_name " + info.getFirstName();
+            extra += " --#last_name " + info.getLastName();
+            return Commander.getResponse(message.getBody() + extra);
+        }
     }
 
     private void sendMessage(String msg){
