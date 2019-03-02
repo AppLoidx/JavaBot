@@ -22,7 +22,7 @@ public class Test  extends Command{
     }
 
     @Override
-    protected void setName() {
+    protected void setConfig() {
         this.commandName = "test";
     }
 }

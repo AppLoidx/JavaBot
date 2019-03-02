@@ -75,7 +75,7 @@ public class ScheduleRoom extends Command{
     }
 
     @Override
-    protected void setName() {
+    protected void setConfig() {
         commandName = "scheduleRoom";
     }
 }

@@ -1,12 +1,10 @@
 package core.commands;
 
 import core.common.KeysReader;
-import core.common.UserInfoReader;
 import core.modules.UsersDB;
 import org.json.simple.JSONObject;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -26,7 +24,7 @@ public class User extends ServiceCommand{
                 jsonObject.put("status", "200");
                 jsonObject.put("response_status", String.valueOf(authStatus));
                 if (authStatus > 0) {
-                    jsonObject.put("name", usersDB.getLoginByVKID(authStatus));
+                    jsonObject.put("fullname", usersDB.getFullNameByVKID(authStatus));
                 }
                 usersDB.closeConnection();
                 return jsonObject.toString();
@@ -44,7 +42,7 @@ public class User extends ServiceCommand{
     }
 
     @Override
-    protected void setName() {
+    protected void setConfig() {
         commandName = "user";
     }
 }

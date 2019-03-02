@@ -15,7 +15,7 @@ import java.util.TreeMap;
 public class Queue extends Command{
 
     @Override
-    protected void setName() {
+    protected void setConfig() {
         this.commandName = "queue";
     }
 

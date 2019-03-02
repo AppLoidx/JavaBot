@@ -18,7 +18,7 @@ public class Schedule extends Command{
 
 
     @Override
-    protected void setName() {
+    protected void setConfig() {
         commandName = "schedule";
     }
 

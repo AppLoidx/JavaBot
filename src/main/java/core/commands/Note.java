@@ -110,7 +110,7 @@ public class Note extends Command implements ProgramSpecification{
         return "400";
     }
     @Override
-    protected void setName() {
+    protected void setConfig() {
         commandName = "note";
     }
 }
