@@ -1,9 +1,9 @@
 package core.modules;
 
 import com.sun.javaws.exceptions.ExitException;
+import core.common.LocaleMath;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
@@ -13,7 +13,7 @@ import java.util.Properties;
  * @author Arthur Kupriyanov
  */
 @SuppressWarnings("Duplicates")
-public class UsersDB {
+public class UsersDB implements AutoCloseable{
 
     // ИМЕНА КОЛОНОК
 
@@ -114,6 +114,43 @@ public class UsersDB {
     }
 
 
+    public String getUserPassword(String login) throws SQLException {
+        Statement statement;
+        statement = connection.createStatement();
+        String sql = "SELECT login, password" +
+                " FROM users";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while(resultSet.next()){
+            String loginDB = resultSet.getString(LOGIN).replace(" ","");
+            String password = resultSet.getString(PASSWORD).replace(" ", "");
+
+            if (loginDB.equals(login)){
+                return password;
+            }
+        }
+
+        return null;
+    }
+
+    public int getVKIDByLogin(String login) throws SQLException {
+        Statement statement;
+        statement = connection.createStatement();
+        String sql = "SELECT vkid, login" +
+                " FROM users";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while(resultSet.next()){
+            int dbVKID = resultSet.getInt(VKID);
+            String loginDB = resultSet.getString(LOGIN).replace(" ", "");
+
+            if (loginDB.equals(login)){
+                return dbVKID;
+            }
+        }
+
+        return -1;
+    }
+
+
     // ******************** DATABASE UPDATERS ***************************
 
 
@@ -133,18 +170,24 @@ public class UsersDB {
         statement.executeUpdate(sqlStatement);
     }
 
-    /**
-     * Обновление\Добавление Логина и Пароля у пользователя
-     * @param login логин
-     * @param password пароль
-     * @param VKID номер ID от VK
-     */
-    public void updateUserLoginPassword(String login, String password, int VKID) throws SQLException {
+    public void updateUserLogin(String login, int VKID) throws SQLException {
         Statement statement = connection.createStatement();
-        String generatedPassword = generatePassword(password, login);
-        String sql = "UPDATE users SET login='"+login+"', password='"+generatedPassword+"' WHERE vkid="+VKID;
+        String sql = "UPDATE users SET login='"+login+"',  WHERE vkid="+VKID;
         statement.execute(sql);
     }
+    public String generateUserPassword(String login) throws SQLException {
+        Statement statement = connection.createStatement();
+        String newPassword = generatePassword();
+        String sql = "UPDATE users SET password='"+newPassword+"'  WHERE login='"+login + "'";
+        statement.execute(sql);
+        return newPassword;
+    }
+    public void deleteUserPassword(int vkid) throws SQLException {
+        Statement statement = connection.createStatement();
+        String sql = "UPDATE users SET password=null  WHERE vkid="+vkid;
+        statement.execute(sql);
+    }
+
 
     /**
      * Обновление колонки группа в базе данных
@@ -162,17 +205,22 @@ public class UsersDB {
 
     // ******************* CHECKERS *******************************
 
-
-
+    /**
+     * Проверяет есть ли у пользователя логин
+     * <code>true</code> если он есть, иначе, в том числе, если пользователя с таким
+     * vkid нет - <code>false</code>
+     * @param vkid идентификатор пользователя в ВК
+     * @return <code>true</code> если логин есть, иначе <code>false</code>
+     * @throws SQLException
+     */
     public boolean isAuthorized(int vkid) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT login, password, vkid FROM users");
+        ResultSet resultSet = statement.executeQuery("SELECT login, vkid FROM users");
         while(resultSet.next()){
             int dbVKID = resultSet.getInt(VKID);
             if (dbVKID == vkid) {
                 try {
                     String loginDB = resultSet.getString(LOGIN).replace(" ", "");
-                    String passwordDB = resultSet.getString(PASSWORD).replace(" ", "");
                 } catch (NullPointerException e) {
                     return false;
                 }
@@ -180,6 +228,30 @@ public class UsersDB {
             }
         }
 
+        return false;
+    }
+
+    /**
+     * Проверка на наличие у пользователя пароля с использованием логина
+     * <br> <code>true</code> - если пароль есть, во всех остальных,
+     * в том числе, если пользователь с таким логином не найден - <code>false</code>
+     * @param login логин пользователя
+     * @return <code>true</code> - пароль есть, иначе <code>false</code>
+     */
+    public boolean checkPassword(String login) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT login, password FROM users");
+        while(resultSet.next()){
+            String loginDB = resultSet.getString(LOGIN).replace(" ","");
+            if (loginDB.equals(login)) {
+                try {
+                    resultSet.getString(PASSWORD);
+                } catch (NullPointerException e) {
+                    return false;
+                }
+                return true;
+            }
+        }
         return false;
     }
 
@@ -203,13 +275,38 @@ public class UsersDB {
         return false;
     }
 
+    /**
+     * Проверяет существует ли такой логин
+     * @param login логин пользователя
+     * @return <code>true</code> если такой логин есть, иначе <code>false</code>
+     */
+    public boolean checkUserExsist(String login) throws SQLException {
+        Statement statement;
+        statement = connection.createStatement();
+        String sql = "SELECT login" +
+                " FROM users";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while(resultSet.next()){
+            try {
+                String loginDB = resultSet.getString(LOGIN).replace(" ","");
+                if ( loginDB.equals(login)){
+                    return true;
+                }
+            } catch (NullPointerException e){
+                return false;
+            }
+
+        }
+        return false;
+    }
+
 
     // ************** AUTHENTICATION **********************
 
 
     /**
-     * -2 - пользователь не авторизован
-     * -1 - пользователь не найден
+     * -2 - пользователь не авторизован (отсутствует логин)
+     * -1 - пользователь не найден (нет в базе данных)
      * @param login логин
      * @param password пароль
      * @return код ошибки или ID пользователя
@@ -225,53 +322,39 @@ public class UsersDB {
             String loginDB = resultSet.getString(LOGIN).replace(" ", "");
             String passwordDB = resultSet.getString(PASSWORD).replace(" ", "");
 
-            if (loginDB.equals(login) && passwordDB.equals(generatePassword(password, login))){
+            if (loginDB.equals(login) && passwordDB.equals(password)){
                 return dbVKID;
             }
         }
         return -1;
     }
 
-    /**
-     * Аутенфикация с дополнительной проверкой соответствия vkid
-     * @param login логин
-     * @param password пароль
-     * @param vkid ИД от аккаунта ВК пользователя
-     * @return <code>true</code> - если авторизация удачная, иначе <code>false</code>
-     */
-    public boolean auth(String login, String password, int vkid) throws SQLException {
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT login, password, vkid FROM users");
-        if (!isAuthorized(vkid)){
-            return false;
+    private String generatePassword(){
+        String password = "";
+        for(int i=0; i < 6; i++){
+            password += String.valueOf(LocaleMath.randInt(0,9));
         }
-        while(resultSet.next()){
-            int dbVKID = resultSet.getInt(VKID);
-            if (vkid == dbVKID) {
-                String loginDB = resultSet.getString(LOGIN).replace(" ", "");
-                String passwordDB = resultSet.getString(PASSWORD).replace(" ", "");
-
-                if (loginDB.equals(login) && passwordDB.equals(generatePassword(password, login))) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private String generatePassword(String password, String salt){
-        return String.valueOf((password + salt).hashCode());
+        return password;
     }
 
     public static void main(String[] args) throws SQLException {
         UsersDB usersDB = new UsersDB();
         //usersDB.addUser("Arthur","Kupriyanov",1200, "P3112");
         //usersDB.addUser("Daniel","Marshall",1222, "P3113");
-        System.out.println(usersDB.isAuthorized(1200));
-        System.out.println(usersDB.auth("marshall","myLongPass"));
-        usersDB.updateUserLoginPassword("marshall","myLongPass",1222);
-        System.out.println(usersDB.auth("marshall","myLongPass"));
+
+        //usersDB.deleteUserPassword(1222);
+        System.out.println(usersDB.checkPassword("marshall"));
+        System.out.println(usersDB.generateUserPassword("marshall"));
+        System.out.println(usersDB.checkPassword("marshall"));
+        if (usersDB.checkPassword("marshall")) {
+            System.out.println(usersDB.getUserPassword("marshall"));
+        }
         usersDB.closeConnection();
 
+    }
+
+    @Override
+    public void close() throws Exception {
+        closeConnection();
     }
 }
