@@ -1,13 +1,26 @@
 package core.commands;
 
-public class Unknown extends Command {
+import com.vk.api.sdk.objects.messages.Message;
+import core.commands.VKCommands.VKCommand;
+
+public class Unknown extends Command implements ProgramSpecification, VKCommand {
 
     @Override
-    protected void setName() {
+    protected void setConfig() {
         commandName = "unknown";
     }
     @Override
     public String init(String... args) {
+        return "Не распознанная команда";
+    }
+
+    @Override
+    public String programInit(String... args) {
+        return null;
+    }
+
+    @Override
+    public String exec(Message message) {
         return "Не распознанная команда";
     }
 }
