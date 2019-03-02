@@ -1,5 +1,7 @@
-package core.commands;
+package core;
 
+
+import core.commands.*;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,7 @@ public class CommandManager {
         commands.add(new Queue());
         commands.add(new Reg());
         commands.add(new Note());
+        commands.add(new User());
         commands.add(new Test());
 
     }
