@@ -5,7 +5,6 @@ import core.commands.VKCommands.VKCommand;
 import core.common.KeysReader;
 import core.common.UserInfoReader;
 import core.modules.UsersDB;
-import core.modules.notice.Notification;
 import core.modules.notice.NotificationNotFoundException;
 import core.modules.notice.Notifications;
 import vk.MessageSender;

@@ -2,11 +2,7 @@ package core.modules;
 
 import core.common.LocaleMath;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.*;
-import java.util.Properties;
 
 /**
  * @author Arthur Kupriyanov

@@ -1,6 +1,5 @@
 package core.commands;
 
-import com.vk.api.sdk.objects.users.User;
 import core.common.KeysReader;
 import core.common.UserInfoReader;
 import core.modules.UsersDB;

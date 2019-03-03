@@ -1,6 +1,5 @@
 package core.modules.queue;
 
-import java.util.Map;
 import java.util.TreeMap;
 
 /**

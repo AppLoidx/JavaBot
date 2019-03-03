@@ -1,6 +1,5 @@
 package core.modules;
 
-import core.commands.User;
 import vk.MessageSender;
 
 import java.sql.SQLException;

@@ -5,6 +5,6 @@ package core.modules.queue;
  */
 public interface Dated {
 
-    public void setEndTime(int time);
-    public boolean isEnded();
+    void setEndTime(int time);
+    boolean isEnded();
 }
