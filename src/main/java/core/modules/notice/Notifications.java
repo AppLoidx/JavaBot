@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * @author Arthur Kupriyanov
@@ -50,6 +51,39 @@ public class Notifications {
             return response;
         } catch (SQLException e){
             return "Ошибка при работе с базами данных: " + e.toString();
+        }
+    }
+
+    public Stream<String> getNotificationsStream() {
+        ArrayList<String> formattedNotifications = new ArrayList<>();
+        try {
+            NotificationsDB notificationsDB = new NotificationsDB();
+            ArrayList<Notification> notifications = notificationsDB.getNotification();
+            notificationsDB.closeConnection();
+
+            for (Notification notification : notifications
+            ) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("ID: ").append(notification.ID).append("\n");
+                sb.append(notification.message);
+                sb.append("\n_____________");
+                sb.append("\nAuthor: ").append(getNameByVKID(notification.authorID));
+                sb.append("\nDate: ").append(notification.date);
+                sb.append("\n===============================\n");
+                if (!sb.toString().equals("")) {
+                    formattedNotifications.add(sb.toString());
+                }
+            }
+
+            if (formattedNotifications.isEmpty()){
+                formattedNotifications.add("empty");
+            }
+
+            return formattedNotifications.stream();
+        } catch (SQLException e){
+            formattedNotifications.clear();
+            formattedNotifications.add("error \n Ошибка при работе с базами данных: " + e.toString());
+            return formattedNotifications.stream();
         }
     }
 
