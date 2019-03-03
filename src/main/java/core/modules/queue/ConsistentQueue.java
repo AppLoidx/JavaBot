@@ -8,7 +8,10 @@ import java.util.TreeMap;
 /**
  * @author Arthur Kupriyanov
  */
-public class ConsistentQueue extends DatedQueue {
+public class ConsistentQueue extends DatedQueue implements Consistent{
+    {
+        type = "consistent";
+    }
 
     private int secondQueueStartTime;
     private DatedQueue secondQueue;
@@ -27,15 +30,18 @@ public class ConsistentQueue extends DatedQueue {
         this(name, time, time);
     }
 
+    @Override
     public DatedQueue getSecondQueue(){
         return secondQueue;
     }
+    @Override
     public TreeMap<Integer, Person> getFirstQueue() {return this.queue;}
-
+    @Override
     public boolean isSecondQueueStarted(){
         return secondQueueStartTime <= Time.getNowTime();
     }
 
+    @Override
     public TreeMap<Integer, Person> getQueue(){
         if (isSecondQueueStarted()){
             return this.secondQueue.getQueue();
@@ -48,6 +54,7 @@ public class ConsistentQueue extends DatedQueue {
      * Добавить персонажа во вторую очередь, уникальность ID сохраняется
      * @see Person
      */
+    @Override
     public void addPersonToSecondQueue(Person ... persons){
         this.secondQueue.setFreeId(this.getFreeId());
         if (this.secondQueue.getQueue().isEmpty()){
@@ -56,23 +63,23 @@ public class ConsistentQueue extends DatedQueue {
         this.secondQueue.addPerson(persons);
         this.setFreeId(this.secondQueue.getFreeId());
     }
-
+    @Override
     public void deletePersonFromSecondQueue(int ... ids){
         this.secondQueue.deletePerson(ids);
     }
-
+    @Override
     public Person getPersonFromSecondQueue(int id){
         return this.secondQueue.getPerson(id);
     }
-
+    @Override
     public boolean checkExistOnSecondQueue(int id){
         return this.secondQueue.checkExist(id);
     }
-
+    @Override
     public boolean checkExistOnSecondQueue(int ... ids){
         return this.secondQueue.checkExist(ids);
     }
-
+    @Override
     public void swapOnSecondQueue(int firstId, int secondId) throws PersonNotFoundException{
         this.secondQueue.swap(firstId, secondId);
     }
@@ -93,7 +100,7 @@ public class ConsistentQueue extends DatedQueue {
             return super.getNextPersonID(step);
         }
     }
-
+    @Override
     public void personPassedToSecondQueue(int id) throws PersonNotFoundException{
         if (checkExist(id)) {
             Person person = getPerson(id);

@@ -9,8 +9,10 @@ import java.util.ArrayList;
 /**
  * @author Arthur Kupriyanov
  */
-public class FixedQueue extends SimpleQueue {
-
+public class FixedQueue extends SimpleQueue implements Fixed{
+    {
+        type = "fixed";
+    }
     private int length = 5;
 
     private class NullPerson extends Person implements Null{
@@ -18,7 +20,6 @@ public class FixedQueue extends SimpleQueue {
             super("Место свободно");
         }
     }
-
 
     public FixedQueue(String name) {
         super(name);
@@ -49,7 +50,7 @@ public class FixedQueue extends SimpleQueue {
             }
         }
     }
-
+    @Override
     public boolean isFree(int id) throws PersonNotFoundException{
         for (Person person: queue.values()
              ) {
@@ -60,11 +61,12 @@ public class FixedQueue extends SimpleQueue {
         throw new PersonNotFoundException("Персонаж с ID: " + id + " не найден");
     }
 
-
+    @Override
     public int getLength() {
         return length;
     }
 
+    @Override
     public void setLength(int length) {
         this.length = length;
         int tmpCounter = 1;

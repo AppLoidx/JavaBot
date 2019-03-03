@@ -7,7 +7,10 @@ import java.util.TreeMap;
 /**
  * @author Arthur Kupriyanov
  */
-public class DatedQueue extends SimpleQueue {
+public class DatedQueue extends SimpleQueue implements Dated{
+    {
+        type = "dated";
+    }
     protected int endTime;
 
     public DatedQueue(String name, int time) {
@@ -15,10 +18,11 @@ public class DatedQueue extends SimpleQueue {
         this.endTime = time;
     }
 
-    void setEndTime(int time) {
+    @Override
+    public void setEndTime(int time) {
         this.endTime = time;
     }
-
+    @Override
     public boolean isEnded(){
         return endTime < Time.getNowTime();
     }

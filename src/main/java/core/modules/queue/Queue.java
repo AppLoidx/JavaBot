@@ -9,6 +9,11 @@ import java.io.Serializable;
 public abstract class Queue implements Serializable {
 
     /**
+     * Тип очереди в стороковом формате для программ
+     */
+    public String type;
+
+    /**
      * Сохранение очереди в файл (сериализация)
      */
     public abstract void saveQueue() throws IOException;

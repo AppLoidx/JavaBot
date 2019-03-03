@@ -8,6 +8,9 @@ import java.util.*;
  * @author Arthur Kupriyanov
  */
 public class ShuffleQueue extends SimpleQueue implements Shuffleable {
+    {
+        type = "shuffle";
+    }
     public ShuffleQueue(String name) {
         super(name);
     }

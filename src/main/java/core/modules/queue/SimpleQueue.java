@@ -18,6 +18,10 @@ public class SimpleQueue extends Queue
                                         StatReturnable,
                                         FormattedQueueReturnable{
 
+    {
+        type = "simple";
+    }
+
     // lists for access rights
     protected ArrayList<String> readAccessList = new ArrayList<>();
     protected ArrayList<String> writeAccessList = new ArrayList<>();
