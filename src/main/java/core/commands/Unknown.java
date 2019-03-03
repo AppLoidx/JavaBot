@@ -21,6 +21,6 @@ public class Unknown extends Command implements ProgramSpecification, VKCommand 
 
     @Override
     public String exec(Message message) {
-        return "Не распознанная команда";
+        return null;
     }
 }
