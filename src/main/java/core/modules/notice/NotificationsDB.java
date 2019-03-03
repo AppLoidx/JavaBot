@@ -1,6 +1,9 @@
 package core.modules.notice;
 
+
+import core.modules.Database;
 import core.modules.Date;
+
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,11 +19,9 @@ public class NotificationsDB {
 
     private Connection connection;
 
-    public NotificationsDB() throws SQLException {
-        String dbUrl = "";
-        String log = "";
-        String additionalConfig = "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-        this.connection = DriverManager.getConnection(dbUrl + log + additionalConfig);
+    public NotificationsDB(){
+        Database database = new Database();
+        this.connection = database.getConnection();
     }
 
     public void newNotification(String notification, int authorID) throws SQLException {
