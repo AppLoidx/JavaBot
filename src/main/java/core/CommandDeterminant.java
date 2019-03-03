@@ -37,13 +37,13 @@ public class CommandDeterminant {
         for (Command command : commands
         ) {
             if (command instanceof VKCommand) {
-                if (command.getName().equals(body)) {
+                if (command.getName().equals(body.split(" ")[0])) {
                     return (VKCommand) command;
                 }
             }
         }
 
         return new Unknown();
-    };
+    }
 
 }
