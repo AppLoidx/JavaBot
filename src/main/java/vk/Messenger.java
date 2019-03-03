@@ -39,7 +39,11 @@ public class Messenger implements Runnable{
     private String getResponse(){
 
         String vkResponse =  Commander.getResponse(message);
-        if (vkResponse != null){
+        if (vkResponse != null ){
+            if (vkResponse.equals("")){
+                return null;
+            }
+            System.out.println("vkResponse");
             return vkResponse;
         } else {
             String extra = "";
@@ -49,6 +53,7 @@ public class Messenger implements Runnable{
             extra += " --#last_name " + info.getLastName();
             return Commander.getResponse(message.getBody() + extra);
         }
+
     }
 
     private void sendMessage(String msg){
