@@ -21,7 +21,7 @@ public class VKServer {
         }
     }
 
-    public static void main(String[] args) throws NullPointerException, ApiException, InterruptedException, IOException {
+    public static void main(String[] args) throws NullPointerException, ApiException, InterruptedException {
         System.out.println("Running server...");
         while (true) {
             Thread.sleep(300);
