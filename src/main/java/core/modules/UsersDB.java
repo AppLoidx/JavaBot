@@ -1,6 +1,5 @@
 package core.modules;
 
-import com.sun.javaws.exceptions.ExitException;
 import core.common.LocaleMath;
 
 import java.io.File;
@@ -26,19 +25,9 @@ public class UsersDB implements AutoCloseable{
 
     private Connection connection;
 
-    public UsersDB() throws SQLException{
-        Properties dbConfig = new Properties();
-        try {
-            dbConfig.load(new FileReader(new File("src/main/java/core/modules/herokuDatabaseConfig.properties")));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Файл с конфигурацией базы данных не найден!");
-            System.exit(ExitException.LAUNCH_ABORT_SILENT);
-        }
-        String dbUrl = dbConfig.getProperty("dbURL");
-        String log = dbConfig.getProperty("log");
-        String additionalConfig = dbConfig.getProperty("config");
-        this.connection = DriverManager.getConnection(dbUrl + log + additionalConfig);
+    public UsersDB(){
+        Database database = new Database();
+        this.connection = database.getConnection();
     }
 
     public void closeConnection() throws SQLException {
