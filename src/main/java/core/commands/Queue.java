@@ -12,11 +12,16 @@ import java.util.TreeMap;
 /**
  * @author Arthur Kupriyanov
  */
-public class Queue extends Command{
+public class Queue extends Command implements ProgramSpecification{
 
     @Override
     protected void setConfig() {
         this.commandName = "queue";
+    }
+
+    @Override
+    public String programInit(String... args) {
+        return init(args);
     }
 
     private enum QueueType{
