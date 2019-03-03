@@ -1,18 +1,23 @@
 package core.commands;
 
+import com.vk.api.sdk.objects.messages.Message;
+import core.commands.VKCommands.VKCommand;
 import core.common.KeysReader;
 import core.common.UserInfoReader;
 import core.modules.UsersDB;
+import core.modules.notice.Notification;
 import core.modules.notice.NotificationNotFoundException;
 import core.modules.notice.Notifications;
+import vk.MessageSender;
 
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * @author Arthur Kupriyanov
  */
-public class Note extends Command implements ProgramSpecification{
+public class Note extends Command implements ProgramSpecification, VKCommand {
     @Override
     public String init(String... args) {
         if (UserInfoReader.checkIsProgramm(args)){
@@ -45,8 +50,11 @@ public class Note extends Command implements ProgramSpecification{
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
+                    return e.toString();
                 } catch (NotificationNotFoundException e) {
                     return "Запись с таким номером не существует. Проверьте правильность введенных данных";
+                } catch (NumberFormatException e){
+                    return "Внутренняя ошибка при передаче ID пользователя";
                 }
             } catch (NumberFormatException e) {
                 return "Введите верный формат ключа -d";
@@ -112,5 +120,45 @@ public class Note extends Command implements ProgramSpecification{
     @Override
     protected void setConfig() {
         commandName = "note";
+    }
+
+    @Override
+    public String exec(Message message) {
+        if (message.getFwdMessages() != null){
+            Message fwdMessage = message.getFwdMessages().get(0);
+            String parsedMessageData = fwdMessage.getBody().split("\n")[0];
+            if (!parsedMessageData.equals("error") && !parsedMessageData.equals("empty")){
+                String noteID = parsedMessageData.split(" ")[1];
+
+                Notifications notifications = new Notifications();
+                try {
+                    int authorID = notifications.getAuthorID(Integer.valueOf(noteID));
+                    if (authorID == message.getUserId()){
+                        notifications.deleteNotification(Integer.valueOf(noteID));
+                        return "Запись с номером " + noteID + " успешно удалена";
+                    } else {
+                        return "У вас нет прав на удаление этой записи";
+                    }
+                } catch (SQLException | NotificationNotFoundException e) {
+                    e.printStackTrace();
+                    return "Внутренняя ошибка " + e.toString();
+                }
+            } else {
+                return "Данное объявление невозможно удалить";
+            }
+        }
+
+        String[] response = message.getBody().split(" ");
+        Map<String, String> keyMap = KeysReader.readKeys(response);
+        if (keyMap.containsKey("-s")){
+            Notifications notifications = new Notifications();
+            Stream<String> noteStream = notifications.getNotificationsStream();
+            MessageSender messageSender = new MessageSender();
+            int peerID = message.getUserId();
+            noteStream.forEach(str -> messageSender.sendMessage(str,peerID));
+            return "";
+        }
+
+        return null;
     }
 }
