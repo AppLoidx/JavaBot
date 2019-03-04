@@ -22,6 +22,7 @@ public class CommandManager {
         commands.add(new Reg());
         commands.add(new Note());
         commands.add(new User());
+        commands.add(new Version());
         commands.add(new Test());
 
     }

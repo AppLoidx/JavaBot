@@ -36,7 +36,7 @@ public class EveryDay extends Command implements ServiceCommand, VKCommand {
         try {
             HashMap<Integer, String> users = usersDB.getVKIDList();
             for(int key : users.keySet()){
-                if (key == 255396611) sendMorningSpam(key, users.get(key));
+                sendMorningSpam(key, users.get(key));
             }
 
         } catch (SQLException e) {
