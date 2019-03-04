@@ -26,45 +26,6 @@ public class Reg extends Command implements VKCommand {
             e.printStackTrace();
         }
     }
-    @Override
-    public String init(String... args) {
-        Map<String, String> keysMap = KeysReader.readKeys(args);
-
-        int vkid = Integer.parseInt(UserInfoReader.readUserID(args));
-        String name = UserInfoReader.readUserFirstName(args);
-        String lastname = UserInfoReader.readUserLastName(args);
-        String login = null;
-        String group;
-
-        if (keysMap.containsKey("-g")){
-            group = keysMap.get("-g");
-        } else return "Укажите вашу группу с ключом -g";
-        if (keysMap.containsKey("-l")) {
-            login = keysMap.get("-l");
-        }
-
-        try {
-            UsersDB usersDB = new UsersDB();
-            if (usersDB.checkUserExsist(vkid)){
-                    if (login != null){
-                        usersDB.updateUserLogin(login, vkid);
-                        return "Ваши данные были обновлены";
-                    }
-                return "Вы уже зарегестрированы под именем " + usersDB.getFullNameByVKID(vkid);
-            }
-            usersDB.addUser(name, lastname,vkid,group);
-            if (login != null){
-                usersDB.updateUserLogin(login, vkid);
-            }
-            usersDB.closeConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return "Ошибка при работе с базой данных: " + e.toString();
-        }
-
-        return "Вы успешно добавлены в базу данных";
-
-    }
 
     @Override
     protected void setConfig() {
@@ -81,7 +42,7 @@ public class Reg extends Command implements VKCommand {
             int vkid = info.getId();
             String lastname = info.getLastName();
             String name = info.getFirstName();
-            String group = null;
+            String group;
 
             Map<String, String> keyMap = KeysReader.readKeys(message.getBody().split(" "));
 
@@ -92,6 +53,7 @@ public class Reg extends Command implements VKCommand {
                 } else {
                     ms.sendMessage("Введите номер вашей группы через ключ -g.\n" +
                             "Например, reg -g P3112", message.getUserId());
+
                     return "";
                 }
                 usersDB.addUser(name, lastname, vkid, group);
