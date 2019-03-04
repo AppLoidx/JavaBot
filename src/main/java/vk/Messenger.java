@@ -43,7 +43,6 @@ public class Messenger implements Runnable{
             if (vkResponse.equals("")){
                 return null;
             }
-            System.out.println("vkResponse");
             return vkResponse;
         } else {
             String extra = "";

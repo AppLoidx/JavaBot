@@ -79,7 +79,7 @@ public class VKCore {
             if (messageId > maxMsgId){
                 maxMsgId = messageId;
             }
-            System.out.println(messages);
+
             return messages.get(0);
         }
         return null;

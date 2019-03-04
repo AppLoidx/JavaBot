@@ -2,6 +2,7 @@ package vk;
 
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.users.UserXtrCounters;
 import com.vk.api.sdk.queries.messages.MessagesSendQuery;
 
 import java.io.IOException;
@@ -34,5 +35,17 @@ public class MessageSender {
 
     public MessagesSendQuery getSendQuery(){
         return vkCore.getVk().messages().send(vkCore.getActor());
+    }
+    public UserXtrCounters getUserInfo(int id){
+        try {
+            return vkCore.getVk().users()
+                    .get(vkCore.getActor())
+                    .userIds(String.valueOf(id))
+                    .execute()
+                    .get(0);
+        } catch (ApiException | ClientException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
