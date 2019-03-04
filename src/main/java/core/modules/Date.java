@@ -59,4 +59,13 @@ public class Date {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
         return simpleDateFormat.format(new java.util.Date());
     }
+
+    public static String getTimeNow(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
+        return simpleDateFormat.format(new java.util.Date());
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Date.getTimeNow().equals("02:36"));
+    }
 }
