@@ -1,6 +1,5 @@
 package core.modules;
 
-import com.sun.javaws.exceptions.ExitException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -22,7 +21,7 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Файл с конфигурацией базы данных не найден!");
-            System.exit(ExitException.LAUNCH_ABORT_SILENT);
+            System.exit(4);
         }
         String dbUrl = dbConfig.getProperty("dbURL");
         String log = dbConfig.getProperty("log");
