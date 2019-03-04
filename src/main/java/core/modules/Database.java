@@ -27,14 +27,12 @@ public class Database {
             additionalConfig = dbConfig.getProperty("config");
         } catch (IOException e) {
             Map<String, String> env = System.getenv();
-            dbUrl = env.get("CUSTOM_DATABASE_URL");
-            log = env.get("CUSTOM_DATABASE_LOG");
-            additionalConfig = env.get("CUSTOM_DATABASE_CONFIG");
+            dbUrl = env.get("JDBC_DATABASE_URL");
             System.out.println(env);
         }
 
         try {
-            connection = DriverManager.getConnection(dbUrl + log + additionalConfig);
+            connection = DriverManager.getConnection(dbUrl);
         } catch (SQLException e) {
             e.printStackTrace();
         }
