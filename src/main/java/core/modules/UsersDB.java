@@ -3,6 +3,8 @@ package core.modules;
 import core.common.LocaleMath;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Arthur Kupriyanov
@@ -133,6 +135,20 @@ public class UsersDB implements AutoCloseable{
         }
 
         return -1;
+    }
+
+    public HashMap<Integer, String> getVKIDList() throws SQLException {
+        HashMap<Integer, String> result = new HashMap<>();
+        Statement statement;
+        statement = connection.createStatement();
+        String sql = "SELECT vkid, group_name" +
+                " FROM users";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while(resultSet.next()){
+            result.put(resultSet.getInt(VKID), resultSet.getString(GROUP_NAME).trim());
+        }
+
+        return result;
     }
 
 
