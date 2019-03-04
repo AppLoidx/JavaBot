@@ -31,9 +31,6 @@ public class Database {
             log = env.get("CUSTOM_DATABASE_LOG");
             additionalConfig = env.get("CUSTOM_DATABASE_CONFIG");
             System.out.println(env);
-            e.printStackTrace();
-            System.err.println("Файл с конфигурацией базы данных не найден!");
-            System.exit(4);
         }
 
         try {
