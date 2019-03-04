@@ -22,7 +22,9 @@ public abstract class Command {
      *
      * @return response
      */
-    public abstract String init(String ... args);
+    public String init(String ... args){
+        return null;
+    };
 
     protected abstract void setConfig();
 
