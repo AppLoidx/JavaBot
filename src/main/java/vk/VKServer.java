@@ -4,6 +4,8 @@ package vk;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
+import core.commands.EveryDay;
+import core.modules.Date;
 
 import java.io.*;
 
@@ -22,9 +24,16 @@ public class VKServer {
     }
 
     public static void main(String[] args) throws NullPointerException, ApiException, InterruptedException {
+        boolean morningSpamSended = false;
         System.out.println("Running server...");
         while (true) {
             Thread.sleep(300);
+
+            if (Date.getTimeNow().equals("07:00") && !morningSpamSended){
+                morningSpamSended = true;
+                new EveryDay().morningSpam();
+            }
+
             try {
                 Message message = vkCore.getMessage();
             if (message != null) {
