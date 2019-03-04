@@ -1,1 +1,1 @@
-web:    java $JAVA_OPTS -jar src/jars/Bot.jar
+worker:    java $JAVA_OPTS -jar src/jars/Bot.jar
