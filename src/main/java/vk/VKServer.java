@@ -24,15 +24,15 @@ public class VKServer {
     }
 
     public static void main(String[] args) throws NullPointerException, ApiException, InterruptedException {
-        boolean morningSpamSended = false;
+
+
+        new Event().addCommand("07:00", new EveryDay());
+
         System.out.println("Running server...");
         while (true) {
             Thread.sleep(300);
 
-            if (Date.getTimeNow().equals("07:00") && !morningSpamSended){
-                morningSpamSended = true;
-                new EveryDay().morningSpam();
-            }
+            new Event().handlePerDay();
 
             try {
                 Message message = vkCore.getMessage();
