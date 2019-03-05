@@ -26,13 +26,11 @@ public class Schedule extends Command{
 
     /**
      * Ключи: <br>
-     *     -a - все расписание
-     *     -f {value} - минимальная длительность свободного времени <br>
+     *     -a - все расписание <br>
      *     -p - четность [1 - четная, 0 - нечетная] <br>
      *     -g {value} - группа <br>
      *     -d {value} - количество дней на перед <br>
      *     -r {value} - номер аудитории <br>
-     *     -l - используется с ключом -r, показывает расписание лекций <br>
      * @param args ввод пользователя разделенный на массив через пробел <br>
      * @return Ответ пользователю
      */
@@ -43,30 +41,32 @@ public class Schedule extends Command{
 
         // DEFAULT VALUES
         String group;
-        System.out.println(getGroup(args));
-        if ((group=getGroup(args))==null){
-            group = "P3112";
-        }
 
         int day = dayOfWeek;
         boolean evenWeek = ScheduleParser.getWeekParity();
-        int timeRange = 0; // Длительность свободного времени
 
         Map<String, String> keysMap = KeysReader.readKeys(args);
+
+        /*
+        Парсим имя группы из сообщения или из базы данных с помощью vk id,
+        если нету ничего из них - выводит ошибку. Следует заметить, что
+        указание ключа приоритетнее, чем группа выбранная по умолчанию из БД
+         */
+        if (keysMap.containsKey("-g")) {
+            group = keysMap.get("-g");
+        } else {
+            if ((group=getGroup(args))==null) {
+                return "Вы не указали номер группы и вас нет в базе данных.\n" +
+                        "Укажите номер вашей группы через ключ -g или зарегистрируйтесь, " +
+                        "с помощью команды Reg";
+            }
+        }
+
 
         if (keysMap.containsKey("-r")){
             return new ScheduleRoom().init(args);
         }
 
-        // Значение фильтра свободного времени
-        if(keysMap.containsKey("-f")){
-            try {
-                timeRange = Integer.valueOf(keysMap.get("-f"));
-            } catch (NumberFormatException e){
-                e.printStackTrace();
-                return "Неверный формат ключа -f";
-            }
-        }
 
         // Четность недели
         if(keysMap.containsKey("-p")){
@@ -83,10 +83,6 @@ public class Schedule extends Command{
             }
         }
 
-        // Имя группы
-        if(keysMap.containsKey("-g")){
-            group = keysMap.get("-g");
-        }
 
         // Все расписание
         if (keysMap.containsKey("-a") || keysMap.containsKey("--all")){
