@@ -27,7 +27,8 @@ public class AuditoryParser {
         return Jsoup.connect(String.format(BASE_URL, auditory, "")).get();
     }
     private Document getDoc(String auditory, boolean parity) throws IOException {
-        return Jsoup.connect(String.format(BASE_URL, auditory,parity)).get();
+        String parityString = parity == true ? "1" : "2";
+        return Jsoup.connect(String.format(BASE_URL, auditory,parityString)).get();
     }
 
 
@@ -261,7 +262,7 @@ public class AuditoryParser {
     public static void main(String ... args){
         AuditoryParser ap = new AuditoryParser();
 
-        String res = ap.getFormattedSchedule("3207");
+        String res = ap.getFormattedSchedule("304", true);
         System.out.println(res);
     }
 }

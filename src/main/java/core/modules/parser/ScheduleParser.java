@@ -1,5 +1,6 @@
 package core.modules.parser;
 
+import core.modules.Date;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,7 +15,7 @@ import java.util.TreeMap;
  * Парсит расписание групп ИТМО из <a href=www.ifmo.ru>ifmo</a>
  *
  * @author Артур Куприянов
- * @version 1.0.0
+ * @version 1.2.0
  */
 public class ScheduleParser {
 
@@ -155,12 +156,12 @@ public class ScheduleParser {
 
 
     /**
-     * Получает четность недели с сайта расписаний www.ifmo.ru
+     * Получает четность недели путем сводки текущей недели года и четности в ifmo
      * @return <code>true</code> - четная неделя;<br> <code>false</code> - нечетная неделя
      */
     public static boolean getWeekParity(){
 
-        // TODO: Write a correct parity parser!
-        return false;
+        boolean weekEven = Date.getWeekOfYear()%2 == 0 ? false : true;
+        return weekEven;
     }
 }
