@@ -10,7 +10,7 @@ import core.modules.UsersDB;
 import core.modules.parser.ScheduleParser;
 import core.modules.parser.WeatherParser;
 import core.modules.res.MenheraSprite;
-import vk.MessageSender;
+import vk.VKManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -49,7 +49,7 @@ public class EveryDay extends Command implements ServiceCommand, VKCommand {
         }
     }
     private void sendMorningSpam(int vkid, String group){
-        UserXtrCounters user_info = new MessageSender().getUserInfo(vkid);
+        UserXtrCounters user_info = new VKManager().getUserInfo(vkid);
         String user_name = user_info.getFirstName();
         String weather;
         try {
@@ -77,7 +77,7 @@ public class EveryDay extends Command implements ServiceCommand, VKCommand {
                 "отключения, но зная его... если честно, не уверена)))";
 
         try {
-            new MessageSender().getSendQuery()
+            new VKManager().getSendQuery()
                     .peerId(vkid)
                     .message(msg)
                     .attachment(MenheraSprite.GOOD_MORNING_SPRITE)
@@ -91,5 +91,10 @@ public class EveryDay extends Command implements ServiceCommand, VKCommand {
     public static void main(String[] args) {
         EveryDay ed = new EveryDay();
         ed.morningSpam();
+    }
+
+    @Override
+    public void service() {
+
     }
 }
