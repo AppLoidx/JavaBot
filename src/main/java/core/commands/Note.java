@@ -7,7 +7,7 @@ import core.common.UserInfoReader;
 import core.modules.UsersDB;
 import core.modules.notice.NotificationNotFoundException;
 import core.modules.notice.Notifications;
-import vk.MessageSender;
+import vk.VKManager;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 /**
  * @author Arthur Kupriyanov
  */
-public class Note extends Command implements ProgramSpecification, VKCommand {
+public class Note extends Command implements ProgramSpecification, VKCommand, Helpable {
     @Override
     public String init(String... args) {
         if (UserInfoReader.checkIsProgramm(args)){
@@ -152,12 +152,29 @@ public class Note extends Command implements ProgramSpecification, VKCommand {
         if (keyMap.containsKey("-s")){
             Notifications notifications = new Notifications();
             Stream<String> noteStream = notifications.getNotificationsStream();
-            MessageSender messageSender = new MessageSender();
+            VKManager VKManager = new VKManager();
             int peerID = message.getUserId();
-            noteStream.forEach(str -> messageSender.sendMessage(str,peerID));
+            noteStream.forEach(str -> VKManager.sendMessage(str,peerID));
             return "";
         }
 
         return null;
+    }
+
+    @Override
+    public String getManual() {
+        return
+                "Ключи:\n" +
+                        "\t-a [заметка] = добавить заметку\n" +
+                        "\t-d [номер_заметки] = удалить заметку\n" +
+                        "\t-s  = показать все заметки\n" +
+                        "Также монжо использовать следующий метод:\n" +
+                        "Выбрать заметку, ответить не неё с сообщением note, " +
+                        "тогда она сразу удалиться без ввода ID.";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Команда для объявлений";
     }
 }

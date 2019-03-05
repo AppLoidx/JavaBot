@@ -4,6 +4,7 @@ package core.common;
  * Local Math
  * <br>
  * Подстроенные под специфические нужды класс, для работы с методами {@link java.lang.Math}
+ * @author Arthur Kupriyanov
  */
 public class LocaleMath {
 

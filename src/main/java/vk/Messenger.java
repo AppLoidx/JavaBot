@@ -29,7 +29,7 @@ public class Messenger implements Runnable{
      *
      * @return В случае успешного выполнения - строку, в случае, если команда не
      * нуждается в автоматической отправке ответа ( либо он осуществляется внутри
-     * самой программы)  - <code>null</code>. Исключительным случаем является возвращение
+     * самой программы)  - <code>""</code>. Исключительным случаем является возвращение
      * ответа от команды {@link core.commands.Unknown}, которая возвращает строковый ответ о том,
      * что команда не найдена.
      * @see Commander
@@ -50,6 +50,7 @@ public class Messenger implements Runnable{
             UserXtrCounters info = getUserInfo(message.getId());
             extra += " --#first_name " + info.getFirstName();
             extra += " --#last_name " + info.getLastName();
+
             return Commander.getResponse(message.getBody() + extra);
         }
 

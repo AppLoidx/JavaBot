@@ -332,7 +332,7 @@ public class SimpleQueue extends Queue
     public int getIDByVKID(String vkid){
         for (Person person: queue.values()
              ) {
-            if (person.getVkid().equals(vkid)){
+            if (person.getVKID().equals(vkid)){
                 return person.getId();
             }
         }

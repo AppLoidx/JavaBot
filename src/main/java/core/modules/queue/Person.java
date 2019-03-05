@@ -41,7 +41,7 @@ public class Person implements Serializable {
         return this;
     }
 
-    public String getVkid(){
+    public String getVKID(){
         return this.vkid;
     }
 
@@ -51,7 +51,7 @@ public class Person implements Serializable {
      */
     @Override
     public int hashCode() {
-        return name.hashCode() + id;
+        return name.hashCode() * 31 + id;
     }
 
     /**

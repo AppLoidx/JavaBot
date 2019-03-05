@@ -1,6 +1,6 @@
 package core.modules;
 
-import vk.MessageSender;
+import vk.VKManager;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -18,7 +18,7 @@ public class Auth {
         usersDB.deleteUserPassword(vkid);
         String password = usersDB.generateUserPassword(login);
         String message = description + "\n" + password;
-        new MessageSender().sendMessage(message, vkid);
+        new VKManager().sendMessage(message, vkid);
         usersDB.closeConnection();
         return true; // Successful
     }
