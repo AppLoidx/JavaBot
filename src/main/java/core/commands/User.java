@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * @author Arthur Kupriyanov
  */
-public class User extends Command implements ServiceCommand{
+public class User extends Command{
 
     @Override
     public String init(String ... args) {
