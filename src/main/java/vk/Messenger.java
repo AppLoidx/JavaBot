@@ -47,7 +47,7 @@ public class Messenger implements Runnable{
         } else {
             String extra = "";
             extra += " --#user_id " + message.getUserId();
-            UserXtrCounters info = getUserInfo(message.getId());
+            UserXtrCounters info = getUserInfo(message.getUserId());
             extra += " --#first_name " + info.getFirstName();
             extra += " --#last_name " + info.getLastName();
 
