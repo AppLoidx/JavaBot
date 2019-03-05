@@ -74,7 +74,7 @@ public class Queue extends Command implements ProgramSpecification{
                                 if (isProgram){
                                     return "400";
                                 }
-                                return "Неверный формат параметра -t [время ]";
+                                return "Неверный формат параметра -t [время окончания очереди]";
                             }
                         } else {
                             if (isProgram){

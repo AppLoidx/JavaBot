@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * @author Arthur Kupriyanov
  */
-public class QueueSimpleHandler implements QueueHandler<SimpleQueue>{
-    public String handle(SimpleQueue queue, String... args){
+public class QueueSimpleHandler{
+    public <T extends SimpleQueue> String handle(T queue, String... args){
         Map<String, String> keysMap = KeysReader.readKeys(args);
 
         String userID = UserInfoReader.readUserID(args);
@@ -53,6 +53,7 @@ public class QueueSimpleHandler implements QueueHandler<SimpleQueue>{
                 userFullname = usersDB.getFullNameByVKID(Integer.valueOf(userID)) ;
             } catch (SQLException e) {
                 e.printStackTrace();
+
             }
             if (userFullname == null){
                 return "Ошибка при работе с базой данных";
@@ -64,7 +65,7 @@ public class QueueSimpleHandler implements QueueHandler<SimpleQueue>{
                 queue.saveQueue();
                 return "Вы успешно добавлены в очередь";
             } catch (IOException e) {
-                e.printStackTrace();
+
                 return "Ошибка при сохранении очереди";
             }
         }
@@ -108,7 +109,7 @@ public class QueueSimpleHandler implements QueueHandler<SimpleQueue>{
                     try {
                         queue.saveQueue();
                     } catch (IOException e) {
-                        e.printStackTrace();
+
                         return "Ошибка при сохранении очереди";
                     }
                     return "Вы поменялись с ID: " + secondUserID;
@@ -117,16 +118,16 @@ public class QueueSimpleHandler implements QueueHandler<SimpleQueue>{
                 try {
                     queue.saveQueue();
                 } catch (IOException e) {
-                    e.printStackTrace();
+
                     return "Ошибка при сохранении очереди";
                 }
                 return "Заявка на обмен местами отправлен пользователю с ID: " + secondUserID;
             } catch (NumberFormatException e){
-                e.printStackTrace();
+
                 return "Неверный формат ключа -s [int_ИД_ПОЛЬЗОВАТЕЛЯ]";
             }
         }
-        return "пусто";
+        return null;
     }
 
 
