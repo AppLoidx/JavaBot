@@ -83,6 +83,15 @@ public class KeysReader {
     }
 
     /**
+     * Перегрузка {@link #readKeys(String[])}
+     * @param words строковый запрос
+     * @return карту вида ключ - значение
+     */
+    public static Map<String, String> readKeys(String words){
+        return readKeys(words.split(" "));
+    }
+
+    /**
      * Сортированная карта ключей и их значений
      * version: 1.0
      * @param words массив ключей и их значений, ключи должны начинаться с "-" или "--"
