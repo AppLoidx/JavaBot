@@ -17,13 +17,11 @@ public class CommandManager {
 
     static {
         commands.add(new Schedule());
-        commands.add(new Unknown());
         commands.add(new Queue());
         commands.add(new Reg());
+        commands.add(new Help());
         commands.add(new Note());
-        commands.add(new User());
         commands.add(new Version());
-        commands.add(new Test());
 
     }
 
