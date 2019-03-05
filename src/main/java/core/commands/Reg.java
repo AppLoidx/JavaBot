@@ -6,9 +6,8 @@ import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import core.commands.VKCommands.VKCommand;
 import core.common.KeysReader;
-import core.common.UserInfoReader;
 import core.modules.UsersDB;
-import vk.MessageSender;
+import vk.VKManager;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -17,7 +16,7 @@ import java.util.Map;
  * @version 1.0
  * @author Arthur Kupriyanov
  */
-public class Reg extends Command implements VKCommand {
+public class Reg extends Command implements VKCommand , Helpable{
     public static void main(String[] args) {
         try {
             UsersDB usersDB = new UsersDB();
@@ -34,7 +33,7 @@ public class Reg extends Command implements VKCommand {
 
     @Override
     public String exec(Message message) {
-        MessageSender ms = new MessageSender();
+        VKManager ms = new VKManager();
         UserXtrCounters info = ms.getUserInfo(message.getUserId());
 
         try {
@@ -44,12 +43,15 @@ public class Reg extends Command implements VKCommand {
             String name = info.getFirstName();
             String group;
 
-            Map<String, String> keyMap = KeysReader.readKeys(message.getBody().split(" "));
+            Map<String, String> keyMap = KeysReader.readKeys(message.getBody());
 
 
             if (!usersDB.checkUserExsist(vkid)) {
                 if (keyMap.containsKey("-g")){
                     group = keyMap.get("-g");
+                    if (group.equals("")){
+                        ms.sendMessage("Вы не ввели номер группы", message.getUserId());
+                    }
                 } else {
                     ms.sendMessage("Введите номер вашей группы через ключ -g.\n" +
                             "Например, reg -g P3112", message.getUserId());
@@ -70,6 +72,16 @@ public class Reg extends Command implements VKCommand {
 
                 usersDB.closeConnection();
             } else {
+                if (keyMap.containsKey("-l")){
+                    String login = keyMap.get("-l");
+                    if (!login.equals("")) {
+                        usersDB.updateUserLogin(login, message.getUserId());
+                        ms.sendMessage("Вы успешно измели свой логин на " + login, message.getUserId());
+                    } else {
+                        ms.sendMessage("Введите логин вместе с ключом -l", message.getUserId());
+                    }
+                }
+                usersDB.closeConnection();
                 return "Вы уже зарегестрированы";
             }
         } catch (SQLException e) {
@@ -79,5 +91,23 @@ public class Reg extends Command implements VKCommand {
 
 
         return "";
+    }
+
+    @Override
+    public String getManual() {
+        String manual =
+                "Ключи:\n" +
+                        "\t-g [номер_группы]\n" +
+                        "\t-l [логин]\n" +
+                        "Номер группы нужен, чтобы корректно отображать раписание, " +
+                        "доступ к очередям группы, групповых рассылок\n" +
+                        "Логин нужен для авторизации через сторонние графические приложения. " +
+                        "Пароль для этого не нужен.";
+        return manual;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Команда для регистрации";
     }
 }
