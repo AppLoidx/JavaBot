@@ -1,19 +1,22 @@
 package core.commands;
 
+import com.vk.api.sdk.objects.messages.Message;
 import core.CommandManager;
+import core.commands.VKCommands.VKCommand;
+
 
 /**
  * @author Arthur Kupriyanov
  */
-public class Help extends Command {
+public class Help extends Command implements VKCommand {
     @Override
     protected void setConfig() {
         commandName = "help";
     }
 
     @Override
-    public String init(String ... args) {
-
+    public String exec(Message message) {
+        String[] args = message.getBody().split(" ");
         if (args.length > 1){
             StringBuilder sb = new StringBuilder();
             for (int i=1; i< args.length ; i++){
