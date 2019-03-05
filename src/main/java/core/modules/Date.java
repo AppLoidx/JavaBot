@@ -27,6 +27,10 @@ public class Date {
         }
     }
 
+    public static int getWeekOfYear(){
+        return cal.get(Calendar.WEEK_OF_YEAR);
+    }
+
 
     /**
      * Увеличивает день на значение value, не может быть больше 7
@@ -61,11 +65,12 @@ public class Date {
     }
 
     public static String getTimeNow(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         return simpleDateFormat.format(new java.util.Date());
     }
 
     public static void main(String[] args) {
-        System.out.println(Date.getTimeNow().equals("02:36"));
+        System.out.println(Date.getTimeNow());
+        System.out.println(getWeekOfYear());
     }
 }
