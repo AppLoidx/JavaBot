@@ -2,11 +2,8 @@ package core.commands.spam;
 
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
-import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
-import core.commands.Command;
 import core.commands.ServiceCommand;
-import core.commands.VKCommands.VKCommand;
 import core.modules.Date;
 import core.modules.UsersDB;
 import core.modules.parser.ScheduleParser;

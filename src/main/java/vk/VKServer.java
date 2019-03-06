@@ -26,7 +26,7 @@ public class VKServer {
     public static void main(String[] args) throws NullPointerException, ApiException, InterruptedException {
 
 
-        new Event().addCommand("09:31", new MorningSpam());
+        new Event().addCommand("07:00", new MorningSpam());
         new Event().addCommand("20:05", new EveningSpam());
 
         System.out.println("Running server...");
