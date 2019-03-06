@@ -12,7 +12,7 @@ import core.commands.exceptions.CommandHasNoNameException;
 public abstract class Command {
 
     final String name;
-    String commandName;
+    public String commandName;
     {
         setConfig();
         name = commandName;

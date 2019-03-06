@@ -14,7 +14,7 @@ import java.util.Map;
  * @author Артур Куприянов
  * @version 1.4
  */
-public class Schedule extends Command{
+public class Schedule extends Command implements Helpable{
 
 
     @Override
@@ -150,5 +150,35 @@ public class Schedule extends Command{
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public String getManual() {
+        return "Эта команда может работать в двух режимах:\n" +
+                "По аудиториям (с ключом -r [номер_комнаты])\n" +
+                "По группам (без ключа -r)\n" +
+                "\nПо аудиториям:" +
+                "-g [номер_группы] - если вы не укзали номер группы, то оно берется из базы данных, " +
+                "если вы зарегистрированы.\n" +
+                "-d [int] = покажет расписние на int дней вперед\n" +
+                "-p [1 или 0] - 1 - четная неделя; 0 - нечетная\n" +
+                "-a = вывести все недельное расписание\n" +
+                "\nПо комнатам:" +
+                "Обязательный ключ: -r [номер_комнаты]\n" +
+                "По умолчнию покажет промежуток свободных интервалов в комнате.\n" +
+                "-f [int] = покажет свободные промежутки большие или равные значению int (в минутах)\n" +
+                "-l = покажет лекции в этой аудитории\n" +
+                "-p [1 или 0] - 1 - четная неделя; 0 - нечетная\n";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Команда для вывода расписаний";
+    }
+
+    public static void main(String[] args) {
+        Helpable h = new Schedule();
+        System.out.println(h.getDescription());
+        System.out.println(h.getManual());
     }
 }

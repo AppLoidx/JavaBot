@@ -63,6 +63,6 @@ public class Help extends Command implements VKCommand {
 
     public static void main(String[] args) {
         Help h = new Help();
-        System.out.println(h.init("help"));
+        System.out.println();
     }
 }
