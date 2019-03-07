@@ -21,7 +21,7 @@ public class VKCore {
     private GroupActor actor;
     private static int maxMsgId = -1;
 
-    public VKCore() throws IOException, ClientException, ApiException {
+    public VKCore() throws ClientException, ApiException {
 
         TransportClient transportClient = HttpTransportClient.getInstance();
         vk = new VkApiClient(transportClient);
@@ -29,10 +29,18 @@ public class VKCore {
         // Загрузка конфигураций
 
         Properties prop = new Properties();
-        prop.load(new FileInputStream("src/main/resources/vkconfig.properties"));
+        int groupId;
+        String access_token;
+        try {
+            prop.load(new FileInputStream("src/main/resources/vkconfig.properties"));
+            groupId = Integer.valueOf(prop.getProperty("groupId"));
+            access_token = prop.getProperty("accessToken");
+        } catch (IOException e) {
+            groupId = Integer.parseInt(System.getenv().get("GROUP_ID"));
+            access_token = System.getenv().get("ACCESS_TOKEN");
+        }
 
-        int groupId = Integer.valueOf(prop.getProperty("groupId"));
-        String access_token = prop.getProperty("accessToken");
+
 
         actor = new GroupActor(groupId, access_token);
 
