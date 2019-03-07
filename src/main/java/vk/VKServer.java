@@ -18,7 +18,7 @@ public class VKServer {
     static {
         try {
             vkCore = new VKCore();
-        } catch (IOException | ApiException | ClientException e) {
+        } catch (ApiException | ClientException e) {
             e.printStackTrace();
         }
     }
