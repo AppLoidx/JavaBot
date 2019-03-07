@@ -35,8 +35,7 @@ public class TeacherScheduleParser {
         }
         for (Element element: schedule.select("tr")) {
             Map<String, String> pair = new HashMap<>();
-
-            String scheduleWeekParity = element.select("td.time").select("dt[style]").text();
+            String scheduleWeekParity = element.select("td.time").select("span").select("dt").text();
 
 
             if((scheduleWeekParity.equals(weekParity) || scheduleWeekParity.equals("")) && !element.text().equals("")) {
@@ -49,18 +48,18 @@ public class TeacherScheduleParser {
     private Map<String,Map<String,String>> parseScheduleDoc(Document doc, int day){
         TreeMap<String,Map<String,String>> dayMap = new TreeMap<>();
         Elements schedule = doc.select("table.rasp_tabl[id="+ day + "day]");
-//        String weekParity = "нечетная неделя";
-//        if (evenWeek){
-//            weekParity = "четная неделя";
-//        }
+
         for (Element element: schedule.select("tr")) {
             Map<String, String> pair = new HashMap<>();
-
-            String scheduleWeekParity = element.select("td.time").select("dt[style]").text();
 
 
             if(!element.text().equals("")) {
                 parsePairs(element, pair);
+                if (pair.containsKey("even")){
+                    dayMap.put(element.select("td.time").select("span").text().split(" ")[0] +" "+ pair.get("even")
+                            , pair);
+                    continue;
+                }
                 dayMap.put(element.select("td.time").select("span").text().split(" ")[0], pair);
             }
         }
@@ -84,20 +83,22 @@ public class TeacherScheduleParser {
     private void parsePairs(Element element, Map<String, String> pair) {
         pair.put("place", element.select("td.room").select("span").text());
         pair.put("room", element.select("td.room").select("dd").text());
-        String dailyPair = element.select("td").select("span").text().split(" ")[3];
-        if (!dailyPair.matches("[a-zA-Z][0-9].*")){
-            dailyPair = element.select("td").select("span").text().split(" ")[1];
+        String group = element.select("td").select("span").text().split(" ")[3];
+        if (!group.matches("[a-zA-Z][0-9].*")){
+            group = element.select("td").select("span").text().split(" ")[1];
         }
-        pair.put("group", dailyPair);
+        pair.put("group", group);
         pair.put("lesson", element.select("td.lesson").select("yobject").text() +
                 element.select("td.lesson").select("dd").text());
-        pair.put("even", element.select("td.time").select("dt[style]").text());
+        pair.put("even", element.select("td.time").select("span").select("dt").text());
     }
 
+    @SuppressWarnings("Duplicates")
     private String getLessons(Map<String, Map<String, String>> scheduleDoc) {
         StringBuilder sb = new StringBuilder();
         for (String key:scheduleDoc.keySet()
         ) {
+            sb.append("\n");
             sb.append(String.format("[%s]",key));
             sb.append("\nПара: ");
             sb.append(scheduleDoc.get(key).get("lesson"));
@@ -105,9 +106,12 @@ public class TeacherScheduleParser {
             sb.append(scheduleDoc.get(key).get("group"));
             sb.append("\nМесто: ");
             sb.append(scheduleDoc.get(key).get("place"));
+            String even = scheduleDoc.get(key).get("even");
+            if (!even.equals("")) {
+                sb.append("\nЧетность: ");
+                sb.append(even);
+            }
             sb.append("\n");
-            sb.append("\nЧетность: ");
-            sb.append(scheduleDoc.get(key).get("even"));
         }
 
         return sb.toString();
@@ -115,19 +119,7 @@ public class TeacherScheduleParser {
 
     public String getFormattedSchedule(int teacherID) throws IOException {
         ArrayList<Map<String, Map<String, String>>> parsedDocPairs = parseScheduleDoc(getDoc(teacherID));
-        StringBuilder sb = new StringBuilder();
-        int day = 0;
-        for(Map<String, Map<String, String>> parsedInnerDoc : parsedDocPairs){
-            String schedule;
-            if (!(schedule = getLessons(parsedInnerDoc)).equals("")) {
-                sb.append("\n").append(daysName[day++]).append(":\n");
-                sb.append("\n");
-                sb.append(getLessons(parsedInnerDoc));
-                sb.append("\n---------------\n");
-            }
-        }
-
-        return sb.toString();
+        return buildFormattedSchedule(parsedDocPairs);
     }
 
 
@@ -142,6 +134,10 @@ public class TeacherScheduleParser {
 
     public String getFormattedSchedule(int teacherID, boolean evenWeek) throws IOException {
         ArrayList<Map<String, Map<String, String>>> parsedDocPairs = parseScheduleDoc(getDoc(teacherID), evenWeek);
+        return buildFormattedSchedule(parsedDocPairs);
+    }
+
+    private String buildFormattedSchedule(ArrayList<Map<String, Map<String, String>>> parsedDocPairs) {
         StringBuilder sb = new StringBuilder();
         int day = 0;
         for(Map<String, Map<String, String>> parsedInnerDoc : parsedDocPairs){
@@ -149,28 +145,12 @@ public class TeacherScheduleParser {
             if (!(schedule = getLessons(parsedInnerDoc)).equals("")) {
                 sb.append("\n").append(daysName[day++]).append(":\n");
                 sb.append("\n");
-                sb.append(getLessons(parsedInnerDoc));
+                sb.append(schedule);
                 sb.append("\n---------------\n");
-            }
+            } else day++;
         }
 
         return sb.toString();
     }
 
-    public static void main(String[] args) throws IOException {
-        TeacherScheduleParser tsp = new TeacherScheduleParser();
-//        System.out.println(
-//        tsp.parseScheduleDoc(tsp.getDoc(146060), true, 1));
-//        System.out.println(
-//        tsp.parseScheduleDoc(tsp.getDoc(146060), true, 2));
-//        System.out.println(
-//        tsp.parseScheduleDoc(tsp.getDoc(146060), true, 3));
-//        System.out.println(
-//        tsp.parseScheduleDoc(tsp.getDoc(146060), true, 4));
-        System.out.println(
-        tsp.parseScheduleDoc(tsp.getDoc(146060), true, 5));
-        System.out.println(tsp.getFormattedSchedule(146060, true));
-        System.out.println(tsp.getFormattedSchedule(140060, 1));
-        System.out.println(tsp.getFormattedSchedule(140060));
-    }
 }
