@@ -164,4 +164,16 @@ public class ScheduleParser {
         boolean weekEven = Date.getWeekOfYear()%2 == 0 ? false : true;
         return weekEven;
     }
+
+    public static boolean getWeekParity(int increase){
+        boolean weekEven = getWeekParity();
+        int day = Date.getDayOfWeek();
+        if ((((day + increase - 1)/ 7) % 2 != 0)){
+            weekEven = !weekEven;
+        }
+
+        return weekEven;
+    }
+
+
 }
