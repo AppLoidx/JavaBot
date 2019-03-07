@@ -11,7 +11,7 @@ public class Unknown extends Command implements ProgramSpecification, VKCommand 
     }
     @Override
     public String init(String... args) {
-        return "У меня нет распознователя простой речи.\n" +
+        return "У меня нет распознавателя простой речи.\n" +
                 "Не понимаю эту команду...";
     }
 
