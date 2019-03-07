@@ -82,6 +82,11 @@ public class UsersDB implements AutoCloseable{
         return null;
     }
 
+    /**
+     * Получение логина с помощью VK ID
+     * @param vkid идентификатор пользователя в VK
+     * @return логин пользователя
+     */
     public String getLoginByVKID(int vkid) throws SQLException {
         Statement statement;
         statement = connection.createStatement();
@@ -100,7 +105,11 @@ public class UsersDB implements AutoCloseable{
         return null;
     }
 
-
+    /**
+     * Получение пароля пользователя с помощью логина
+     * @param login логин пользователя
+     * @return пароль
+     */
     public String getUserPassword(String login) throws SQLException {
         Statement statement;
         statement = connection.createStatement();
@@ -119,6 +128,11 @@ public class UsersDB implements AutoCloseable{
         return null;
     }
 
+    /**
+     * Получение VK ID с помощью логина
+     * @param login логин, по которому производиться поиск
+     * @return VK ID пользователя
+     */
     public int getVKIDByLogin(String login) throws SQLException {
         Statement statement;
         statement = connection.createStatement();
@@ -137,7 +151,11 @@ public class UsersDB implements AutoCloseable{
         return -1;
     }
 
-    public HashMap<Integer, String> getVKIDList() throws SQLException {
+    /**
+     * Получение карты VKID и номера группы
+     * @return Карта VKID:номер_группы
+     */
+    public HashMap<Integer, String> getVKIDListWithGroup() throws SQLException {
         HashMap<Integer, String> result = new HashMap<>();
         Statement statement;
         statement = connection.createStatement();
@@ -171,11 +189,22 @@ public class UsersDB implements AutoCloseable{
         statement.executeUpdate(sqlStatement);
     }
 
+    /**
+     * Обновление логина пользователя через его VK ID
+     * @param login логин пользователя
+     * @param VKID идентификатор в VK
+     */
     public void updateUserLogin(String login, int VKID) throws SQLException {
         Statement statement = connection.createStatement();
         String sql = "UPDATE users SET login='"+login+"',  WHERE vkid="+VKID;
         statement.execute(sql);
     }
+
+    /**
+     * Генерирует пароль для пользователя и сохраняет его в базу данных
+     * @param login логин пользователя
+     * @return сгенерированныйпароль
+     */
     public String generateUserPassword(String login) throws SQLException {
         Statement statement = connection.createStatement();
         String newPassword = generatePassword();
@@ -183,6 +212,11 @@ public class UsersDB implements AutoCloseable{
         statement.execute(sql);
         return newPassword;
     }
+
+    /**
+     * Удаление\очистка поля пароля пользователя
+     * @param vkid идентификатор пользователя в VK
+     */
     public void deleteUserPassword(int vkid) throws SQLException {
         Statement statement = connection.createStatement();
         String sql = "UPDATE users SET password=null  WHERE vkid="+vkid;
@@ -331,11 +365,11 @@ public class UsersDB implements AutoCloseable{
     }
 
     private String generatePassword(){
-        String password = "";
+        StringBuilder password = new StringBuilder();
         for(int i=0; i < 6; i++){
-            password += String.valueOf(LocaleMath.randInt(0,9));
+            password.append(LocaleMath.randInt(0, 9));
         }
-        return password;
+        return password.toString();
     }
 
     public static void main(String[] args) throws SQLException {
