@@ -62,6 +62,13 @@ public class Schedule extends Command implements Helpable{
             }
         }
 
+        if (!group.matches("[a-zA-Z][0-9].*")){
+            String teacherSchedule = new ScheduleTeacher().init(keysMap, args);
+            if (teacherSchedule.equals("")){
+                return "На этот день у вас нет пар!";
+            }
+            return teacherSchedule;
+        }
 
         if (keysMap.containsKey("-r")){
             return new ScheduleRoom().init(args);
@@ -88,19 +95,24 @@ public class Schedule extends Command implements Helpable{
         if (keysMap.containsKey("-a") || keysMap.containsKey("--all")){
 
             // Проверяем был ли задан параметр "-p"
+            String schedule;
             if(keysMap.containsKey("-p")){
                 try {
-                    return p.formattedAllSchedule(group, evenWeek);
+                    schedule = p.formattedAllSchedule(group, evenWeek);
                 } catch (IOException e) {
                     return e.toString();
                 }
             }else{
                 try {
-                    return p.formattedAllSchedule(group);
+                    schedule = p.formattedAllSchedule(group);
                 } catch (IOException e) {
                     return e.toString();
                 }
             }
+
+            if (schedule.equals("")){
+                return "пусто";
+            } else return schedule;
         }
 
         // через несколько дней
@@ -154,21 +166,26 @@ public class Schedule extends Command implements Helpable{
 
     @Override
     public String getManual() {
-        return "Эта команда может работать в двух режимах:\n" +
+        return "Эта команда может работать в трех режимах:\n" +
                 "По аудиториям (с ключом -r [номер_комнаты])\n" +
                 "По группам (без ключа -r)\n" +
-                "\nПо аудиториям:" +
+                "\nПо группам:\n" +
                 "-g [номер_группы] - если вы не укзали номер группы, то оно берется из базы данных, " +
                 "если вы зарегистрированы.\n" +
                 "-d [int] = покажет расписние на int дней вперед\n" +
                 "-p [1 или 0] - 1 - четная неделя; 0 - нечетная\n" +
                 "-a = вывести все недельное расписание\n" +
-                "\nПо комнатам:" +
+                "\nПо комнатам:\n" +
                 "Обязательный ключ: -r [номер_комнаты]\n" +
                 "По умолчнию покажет промежуток свободных интервалов в комнате.\n" +
                 "-f [int] = покажет свободные промежутки большие или равные значению int (в минутах)\n" +
                 "-l = покажет лекции в этой аудитории\n" +
-                "-p [1 или 0] - 1 - четная неделя; 0 - нечетная\n";
+                "-p [1 или 0] - 1 - четная неделя; 0 - нечетная\n" +
+                "\nДля преподавателей:\n" +
+                "Вместо указания группы с ключом -g укажите номер ИСУ:\n" +
+                "\"reg -g [номер_ису]\"\n" +
+                "Таким образом, можно получить расписание преподавателя.\n" +
+                "Остальные ключи также валидны.";
     }
 
     @Override

@@ -10,8 +10,8 @@ import java.util.Map;
 /**
  * @author Arthur Kupriyanov
  */
-public class ScheduleRoom extends Command{
-    @Override
+public class ScheduleRoom{
+
     public String init(String... args) {
 
         int dayOfWeek = Date.getDayOfWeek();
@@ -107,8 +107,4 @@ public class ScheduleRoom extends Command{
         return "Проверьте правильность введенных данных";
     }
 
-    @Override
-    protected void setConfig() {
-        commandName = "scheduleRoom";
-    }
 }
