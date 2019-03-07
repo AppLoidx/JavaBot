@@ -11,7 +11,7 @@ import java.util.Calendar;
  */
 public class Date {
 
-    static private Calendar cal = Calendar.getInstance();
+    static private Calendar cal;
 
 
     /**
