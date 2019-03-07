@@ -4,11 +4,13 @@ import com.vk.api.sdk.objects.messages.Message;
 import core.CommandManager;
 import core.commands.VKCommands.VKCommand;
 
+import java.util.ArrayList;
+
 
 /**
  * @author Arthur Kupriyanov
  */
-public class Help extends Command implements VKCommand {
+public class Help extends Command implements VKCommand, Helpable {
     @Override
     protected void setConfig() {
         commandName = "help";
@@ -16,13 +18,20 @@ public class Help extends Command implements VKCommand {
 
     @Override
     public String exec(Message message) {
+        ArrayList<String> garbage = new ArrayList<>();
         String[] args = message.getBody().split(" ");
         if (args.length > 1){
             StringBuilder sb = new StringBuilder();
             for (int i=1; i< args.length ; i++){
                 boolean found = false;
+                boolean repeated = false;
                for (Command command : CommandManager.getCommands()){
                    if (command.getName().equals(args[i])){
+                       if (garbage.contains(command.getName())){
+                           found = true;
+                           repeated = true;
+                           continue;
+                       } else garbage.add(command.getName());
                        if (command instanceof Helpable){
                            sb.append(args[i])
                                    .append(":\n")
@@ -38,7 +47,9 @@ public class Help extends Command implements VKCommand {
                if (!found){
                    sb.append("Команда ").append(args[i]).append(" не найдена");
                }
-                sb.append("\n------------\n");
+               if (!repeated) {
+                   sb.append("\n------------\n");
+               }
             }
             return sb.toString();
         } else {
@@ -64,5 +75,22 @@ public class Help extends Command implements VKCommand {
     public static void main(String[] args) {
         Help h = new Help();
         System.out.println();
+    }
+
+    @Override
+    public String getManual() {
+        return
+        "При использовании просто команды \"help\"\n" +
+                "Выводит список доступных команд.\n\n" +
+                "В разделе команд, есть те, которые имеют расширенную документацию. Для " +
+                "вызова более расширенного описания - введите help [имя_команды]\n\n" +
+                "Если хотите получить документацию сразу по нескольким командам - используйте " +
+                "список команд, разделенных пробелом:\n" +
+                "help [имя_команды_1] [имя_команды_2]";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Команда для вывода мануала по остальным командам";
     }
 }
