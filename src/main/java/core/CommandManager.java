@@ -23,6 +23,7 @@ public class CommandManager {
         commands.add(new Help());
         commands.add(new Note());
         commands.add(new Version());
+        commands.add(new Spam());
 
     }
 
