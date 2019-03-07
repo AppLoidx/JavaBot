@@ -4,14 +4,11 @@ import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import core.commands.ServiceCommand;
-import core.modules.Date;
 import core.modules.UsersDB;
 import core.modules.parser.ScheduleParser;
-import core.modules.parser.WeatherParser;
 import core.modules.res.MenheraSprite;
 import vk.VKManager;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -27,7 +24,7 @@ public class EveningSpam implements ServiceCommand {
     private void evenSpam(){
             UsersDB usersDB = new UsersDB();
             try {
-                HashMap<Integer, String> users = usersDB.getVKIDList();
+                HashMap<Integer, String> users = usersDB.getVKIDListWithGroup();
                 for(int key : users.keySet()){
                     sendEvenSpam(key, users.get(key));
                 }
@@ -46,32 +43,38 @@ public class EveningSpam implements ServiceCommand {
         UserXtrCounters user_info = new VKManager().getUserInfo(vkid);
         String user_name = user_info.getFirstName();
 
-        String schedule;
-        try {
-            schedule = new ScheduleParser().formattedDaySchedule(Date.increaseDayOfWeek(Date.getDayOfWeek(),1),group,ScheduleParser.getWeekParity());
-        } catch (IOException e) {
-            schedule = "расписание получить не удалось...";
-        }
+        String schedule = SpamDataGetter.getSchedule(group, 1);
 
         String scheduleAdditionalData;
-        String parity = ScheduleParser.getWeekParity() ? "четная" : "нечетная";
+        String parity = ScheduleParser.getWeekParity(1) ? "четная" : "нечетная";
         scheduleAdditionalData = "Группа: " + group + "\n" +
                 "Четность: " + parity + "\n";
 
-        String msg = "Добрейший вечерочек, " + user_name +
-                "\n\n" + "Вот расписание на завтра. Не забудь все проверить! " +
-                "Может быть я что-то перепутала?.\n\n" + scheduleAdditionalData + schedule + "\n\n" +
-                "Не забудь сделать домашку!\n\nХорошего вечера!";
-
+        String msg = "Добрейший вечерочек, " + user_name;
+        if (!schedule.equals("")) {
+            msg +=
+                    "\n\n" + "Вот расписание на завтра. Не забудь все проверить! " +
+                            "Может быть я что-то перепутала?.\n\n" + scheduleAdditionalData + schedule + "\n\n" +
+                            "Не забудь сделать домашку!\n\nХорошего вечера!";
+        } else {
+            msg += "\n\n" + "Ммм... На завтра я пар не нашла. Можешь на всякий случай проверить, " +
+                    "но если у тебя завтра действительно нет пар - то отдохни как следует! И соберись " +
+                    "с силами на следующую учебную неделю.\nЕще раз приятного отдыха!";
+        }
         try {
+            if (!schedule.equals("")){
             new VKManager().getSendQuery()
                     .peerId(vkid)
                     .message(msg)
                     .attachment(MenheraSprite.CHILL_SPRITE)
-                    .execute();
-        } catch (ApiException | ClientException ignored) {
-
-        }
+                    .execute();}
+            else {
+                new VKManager().getSendQuery()
+                        .peerId(vkid)
+                        .message(msg)
+                        .attachment(MenheraSprite.CHILL_ON_THE_SUN)
+                        .execute();}
+            } catch (ApiException | ClientException ignored){}
     }
 
     public static void main(String[] args) {
