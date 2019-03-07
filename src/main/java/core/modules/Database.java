@@ -18,11 +18,11 @@ public class Database {
     {
         Properties dbConfig = new Properties();
         String dbUrl;
-        String log;
-        String additionalConfig;
         try {
             dbConfig.load(new FileReader(new File("src/main/java/core/modules/herokuDatabaseConfig.properties")));
-            dbUrl = dbConfig.getProperty("dbURL") + dbConfig.getProperty("log") + dbConfig.getProperty("config");
+            dbUrl = dbConfig.getProperty("dbURL")
+                    + dbConfig.getProperty("log")
+                    + dbConfig.getProperty("config");
 
         } catch (IOException e) {
             Map<String, String> env = System.getenv();

@@ -11,6 +11,6 @@ public class Version extends Command{
 
     @Override
     public String init(String... args) {
-        return "9:25 07.03.2019";
+        return "0:18 08.03.2019";
     }
 }
