@@ -19,6 +19,7 @@ public class Date {
      * @return День недели
      */
     public static int getDayOfWeek(){
+        cal = Calendar.getInstance();
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
         if (dayOfWeek - 1 == 0){
             return 7;
@@ -28,6 +29,7 @@ public class Date {
     }
 
     public static int getWeekOfYear(){
+        cal = Calendar.getInstance();
         return cal.get(Calendar.WEEK_OF_YEAR);
     }
 
@@ -72,5 +74,6 @@ public class Date {
     public static void main(String[] args) {
         System.out.println(Date.getTimeNow());
         System.out.println(getWeekOfYear());
+        System.out.println(getDayOfWeek());
     }
 }

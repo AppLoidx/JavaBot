@@ -80,6 +80,7 @@ public class MorningSpam implements ServiceCommand {
     public static void main(String[] args) {
         MorningSpam ed = new MorningSpam();
         ed.morningSpam();
+
     }
 
     @Override
