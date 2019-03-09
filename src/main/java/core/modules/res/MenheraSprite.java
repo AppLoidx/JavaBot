@@ -17,6 +17,7 @@ public class MenheraSprite {
     public static final String BANG_SPRITE = "photo-172998024_456239044";
     public static final String CHILL_SPRITE = "photo-172998024_456239045";
     public static final String CHILL_ON_THE_SUN = "photo-172998024_456239046";
+    public static final String GO_SLEEP = "photo-172998024_456239047";
 
 
 }
