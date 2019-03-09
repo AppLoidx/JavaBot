@@ -45,7 +45,7 @@ public class VKManager {
      * @return {@link UserXtrCounters} информацию о пользователе
      * @see UserXtrCounters
      */
-    public UserXtrCounters getUserInfo(int id){
+    public static UserXtrCounters getUserInfo(int id){
         try {
             return vkCore.getVk().users()
                     .get(vkCore.getActor())
