@@ -16,6 +16,7 @@ import java.util.HashMap;
  * @author Arthur Kupriyanov
  */
 public class EveningSpam implements ServiceCommand {
+
     @Override
     public void service() {
         evenSpam();

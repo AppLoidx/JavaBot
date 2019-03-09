@@ -41,7 +41,7 @@ public class MorningSpam implements ServiceCommand {
 
         String weather = SpamDataGetter.getWeather();
 
-        String schedule = SpamDataGetter.getSchedule(group);
+        String schedule = SpamDataGetter.getSchedule(group,1);
 
         String scheduleAdditionalData;
         String parity = ScheduleParser.getWeekParity() ? "четная" : "нечетная";
@@ -68,7 +68,7 @@ public class MorningSpam implements ServiceCommand {
 
     public static void main(String[] args) {
         MorningSpam ed = new MorningSpam();
-        ed.morningSpam();
+        ed.sendMorningSpam(255396611, "P3112");
 
     }
 
