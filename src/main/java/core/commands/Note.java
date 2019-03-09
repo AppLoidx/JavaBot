@@ -80,7 +80,7 @@ public class Note extends Command implements ProgramSpecification, VKCommand, He
             }
             try {
                 UsersDB usersDB = new UsersDB();
-                if (!usersDB.checkUserExsist(Integer.parseInt(UserInfoReader.readUserID(args)))){
+                if (!usersDB.checkUserExist(Integer.parseInt(UserInfoReader.readUserID(args)))){
                     return "404";
                 }
                 notifications.addNotification(keyMap.get("-a"), Integer.parseInt(UserInfoReader.readUserID(args)));

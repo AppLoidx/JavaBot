@@ -34,7 +34,7 @@ public class Reg extends Command implements VKCommand , Helpable{
     @Override
     public String exec(Message message) {
         VKManager ms = new VKManager();
-        UserXtrCounters info = ms.getUserInfo(message.getUserId());
+        UserXtrCounters info = VKManager.getUserInfo(message.getUserId());
 
         try {
             UsersDB usersDB = new UsersDB();
@@ -46,9 +46,12 @@ public class Reg extends Command implements VKCommand , Helpable{
             Map<String, String> keyMap = KeysReader.readKeys(message.getBody());
 
 
-            if (!usersDB.checkUserExsist(vkid)) {
+            if (!usersDB.checkUserExist(vkid)) {
                 if (keyMap.containsKey("-g")){
                     group = keyMap.get("-g");
+                    if (!group.matches("[a-zA-Z][0-9].*")){
+                        return "Введите верный формат группы. Например, P3112";
+                    }
                     if (group.equals("")){
                         ms.sendMessage("Вы не ввели номер группы", message.getUserId());
                     }
@@ -58,6 +61,7 @@ public class Reg extends Command implements VKCommand , Helpable{
 
                     return "";
                 }
+
                 usersDB.addUser(name, lastname, vkid, group);
 
                 try {
@@ -75,35 +79,35 @@ public class Reg extends Command implements VKCommand , Helpable{
                 if (keyMap.containsKey("-l")){
                     String login = keyMap.get("-l");
                     if (!login.equals("")) {
+                        if (usersDB.checkUserExist(login)){
+                            return "Такой логин уже есть. Выберите другой";
+                        }
                         usersDB.updateUserLogin(login, message.getUserId());
                         ms.sendMessage("Вы успешно измели свой логин на " + login, message.getUserId());
                     } else {
                         ms.sendMessage("Введите логин вместе с ключом -l", message.getUserId());
                     }
-                }
+                } else return "Вы уже зарегестрированы";
                 usersDB.closeConnection();
-                return "Вы уже зарегестрированы";
+                return "";
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             return "Ошибка при работе с базой данных: " + e.toString();
         }
-
-
         return "";
     }
 
     @Override
     public String getManual() {
-        String manual =
-                "Ключи:\n" +
-                        "\t-g [номер_группы]\n" +
-                        "\t-l [логин]\n" +
-                        "Номер группы нужен, чтобы корректно отображать раписание, " +
-                        "доступ к очередям группы, групповых рассылок\n" +
-                        "Логин нужен для авторизации через сторонние графические приложения. " +
-                        "Пароль для этого не нужен.";
-        return manual;
+        return "Ключи:\n" +
+                "\t-g [номер_группы]\n" +
+                "\t-l [логин]\n" +
+                "Номер группы нужен, чтобы корректно отображать раписание, " +
+                "доступ к очередям группы, групповых рассылок\n" +
+                "Логин нужен для авторизации через сторонние графические приложения. " +
+                "Пароль для этого не нужен.";
     }
 
     @Override
