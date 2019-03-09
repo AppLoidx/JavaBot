@@ -47,7 +47,7 @@ public class QueueSimpleHandler{
             String userFullname = null;
             try {
                 UsersDB usersDB = new UsersDB();
-                if (!usersDB.checkUserExsist(Integer.valueOf(userID))){
+                if (!usersDB.checkUserExist(Integer.valueOf(userID))){
                     return "Вас нет в базе данных, пожалуйста зарегестрируйтесь командой reg";
                 }
                 userFullname = usersDB.getFullNameByVKID(Integer.valueOf(userID)) ;

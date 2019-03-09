@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Auth {
     public boolean newAuth(String login, String description) throws SQLException {
         UsersDB usersDB = new UsersDB();
-        if (!usersDB.checkUserExsist(login)){
+        if (!usersDB.checkUserExist(login)){
             return false; // Not Found
         }
         int vkid = usersDB.getVKIDByLogin(login);
@@ -26,7 +26,7 @@ public class Auth {
     private boolean checkPassword(String login, String password) throws SQLException {
 
         UsersDB usersDB = new UsersDB();
-        if (!usersDB.checkUserExsist(login) || !usersDB.checkPassword(login)) {
+        if (!usersDB.checkUserExist(login) || !usersDB.checkPassword(login)) {
             usersDB.closeConnection();
             return false;
         }

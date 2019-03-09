@@ -196,7 +196,7 @@ public class UsersDB implements AutoCloseable{
      */
     public void updateUserLogin(String login, int VKID) throws SQLException {
         Statement statement = connection.createStatement();
-        String sql = "UPDATE users SET login='"+login+"',  WHERE vkid="+VKID;
+        String sql = "UPDATE users SET login='"+login+"' WHERE vkid="+VKID;
         statement.execute(sql);
     }
 
@@ -295,7 +295,7 @@ public class UsersDB implements AutoCloseable{
      * @param vkid номер VK ID
      * @return <code>true</code> если есть, иначе <code>false</code>
      */
-    public boolean checkUserExsist(int vkid) throws SQLException {
+    public boolean checkUserExist(int vkid) throws SQLException {
         Statement statement;
         statement = connection.createStatement();
         String sql = "SELECT vkid" +
@@ -315,7 +315,7 @@ public class UsersDB implements AutoCloseable{
      * @param login логин пользователя
      * @return <code>true</code> если такой логин есть, иначе <code>false</code>
      */
-    public boolean checkUserExsist(String login) throws SQLException {
+    public boolean checkUserExist(String login) throws SQLException {
         Statement statement;
         statement = connection.createStatement();
         String sql = "SELECT login" +
@@ -323,12 +323,11 @@ public class UsersDB implements AutoCloseable{
         ResultSet resultSet = statement.executeQuery(sql);
         while(resultSet.next()){
             try {
-                String loginDB = resultSet.getString(LOGIN).replace(" ","");
+                String loginDB = resultSet.getString(LOGIN).trim();
                 if ( loginDB.equals(login)){
                     return true;
                 }
-            } catch (NullPointerException e){
-                return false;
+            } catch (NullPointerException ignored){
             }
 
         }
