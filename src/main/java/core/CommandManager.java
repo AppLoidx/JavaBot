@@ -24,6 +24,7 @@ public class CommandManager {
         commands.add(new Note());
         commands.add(new Version());
         commands.add(new Spam());
+        commands.add(new Comment());
 
     }
 
