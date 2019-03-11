@@ -1,5 +1,7 @@
 package core.modules.queue;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 /**
@@ -9,23 +11,27 @@ import java.io.Serializable;
  */
 public class Person implements Serializable {
     /** Имя персонажа*/
+    @Expose
     private String name;
     /** Номер персонажа, однозначно идентифицирующий его*/
+    @Expose
     private int id;
-
-    private String vkid;
+    @Expose
+    private int vkid;
     /**
      *
      * @param name имя персонажа
      * @param id номер персонажа, однозначно идентифицирующий его
      */
-    Person(String name, int id){
+    public Person(String name, int id, int vkid){
         this.name = name;
         this.id = id;
+        this.vkid = vkid;
     }
-    public Person(String name){
+    public Person(String name, int vkid){
         this.name = name;
-        this.id = 0;
+        this.id = -1;
+        this.vkid = vkid;
     }
 
     public int getId() {
@@ -36,12 +42,8 @@ public class Person implements Serializable {
         return name;
     }
 
-    public Person setVKID(String vkid){
-        this.vkid = vkid;
-        return this;
-    }
 
-    public String getVKID(){
+    public int getVKID(){
         return this.vkid;
     }
 

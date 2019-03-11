@@ -2,7 +2,8 @@ package core.modules.queue;
 
 import core.common.LocaleMath;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.TreeMap;
 
 /**
  * @author Arthur Kupriyanov

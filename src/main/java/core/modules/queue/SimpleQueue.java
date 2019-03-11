@@ -1,12 +1,18 @@
 package core.modules.queue;
 
+import com.google.gson.annotations.Expose;
 import core.modules.queue.exceptions.PersonNotFoundException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.TreeMap;
 
 /**
@@ -26,24 +32,32 @@ public class SimpleQueue extends Queue
     protected ArrayList<String> readAccessList = new ArrayList<>();
     protected ArrayList<String> writeAccessList = new ArrayList<>();
     protected ArrayList<String> executeAccessList = new ArrayList<>();
-    protected ArrayList<String> users = new ArrayList<>();
 
-    /**<seat on queue, person class>*/
+    /** Contains users VKID in queue */
+    protected HashSet<Integer> users = new HashSet<>();
+
+    /**seat on queue, person class*/
+    @Expose
     protected TreeMap<Integer, Person> queue = new TreeMap<>();
 
     /** For statistic */
+    @Expose
     protected Stat stat = new Stat();
 
     /** Current place in queue*/
+    @Expose
     private int currentPlace = 0;
 
     /** Field for saving free ID*/
+    @Expose
     private int freeId = 0;
 
     /** Queue name */
+    @Expose
     private String name;
 
     /** Queue description*/
+    @Expose
     private String description;
 
     /** for requests*/
@@ -80,6 +94,10 @@ public class SimpleQueue extends Queue
         this.description = description;
     }
 
+    public void setStat(Stat stat){
+        this.stat = stat;
+    }
+
     @Override
     public boolean isEmpty() {
         return queue.isEmpty();
@@ -89,16 +107,19 @@ public class SimpleQueue extends Queue
     public void addPerson(Person... persons) {
         for (Person person: persons
              ) {
-            if (person.getId() != freeId){
-                person.setId(freeId);
+            if (!users.contains(person.getVKID())) {
+                if (person.getId() < freeId) {
+                    person.setId(freeId);
+                }
+                if (queue.isEmpty()) {
+                    queue.put(freeId, person);
+                } else {
+                    queue.put(queue.lastKey() + 1, person);
+                }
+                this.freeId++;
+                this.stat.peopleCount++;
+                addUserID(person.getVKID());
             }
-            if (queue.isEmpty()){
-                queue.put(freeId, person);
-            }else {
-                queue.put(queue.lastKey() + 1, person);
-            }
-            this.freeId++;
-            this.stat.peopleCount++;
         }
     }
 
@@ -123,6 +144,7 @@ public class SimpleQueue extends Queue
         }
         for (int key: removableKeys
              ) {
+            deleteUser(queue.get(key).getVKID());
             queue.remove(key);
         }
 
@@ -137,7 +159,12 @@ public class SimpleQueue extends Queue
         if (queue.isEmpty()){
             throw new PersonNotFoundException("Персонаж с указанным ID не найден");
         }
-        return queue.get(currentPlace).getId();
+        try {
+            return queue.get(currentPlace).getId();
+        } catch (NullPointerException e){
+            currentPlace = queue.get(queue.firstKey()).getId();
+            return queue.get(currentPlace).getId();
+        }
     }
 
     @Override
@@ -153,7 +180,7 @@ public class SimpleQueue extends Queue
     @Override
     public Person getCurrentPerson() throws PersonNotFoundException {
         if (!queue.isEmpty()){
-            return queue.get(currentPlace);
+            return this.getPerson(currentPlace);
         } else{
             throw new PersonNotFoundException("Очередь пустая");
         }
@@ -298,11 +325,25 @@ public class SimpleQueue extends Queue
     }
 
     // операции с пользовательскими ID
-    public void addUserID(String userID){
+    public void addUserID(Integer userID){
         users.add(userID);
     }
-    public ArrayList<String> getUsers(){
+    public void addUserID(ArrayList<Integer> list){
+        users.addAll(list);
+    }
+
+    public HashSet<Integer> getUsers(){
         return users;
+    }
+
+    public void deleteUser(int vkid){
+        Iterator<Integer> iter = users.iterator();
+        int key = 0;
+        while(iter.hasNext()){
+            if (iter.next() == vkid){
+                users.remove(key);
+            }
+        }
     }
 
     // Операции со списками прав доступа
@@ -329,13 +370,17 @@ public class SimpleQueue extends Queue
         return executeAccessList;
     }
 
-    public int getIDByVKID(String vkid){
+    public int getIDByVKID(int vkid){
         for (Person person: queue.values()
              ) {
-            if (person.getVKID().equals(vkid)){
+            if (person.getVKID() == (vkid)){
                 return person.getId();
             }
         }
         throw new PersonNotFoundException("Персонаж не найден по VKID");
+    }
+
+    public boolean isEnded(){
+        return queue.isEmpty();
     }
 }

@@ -1,5 +1,7 @@
 package core.modules.queue;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -11,6 +13,7 @@ public abstract class Queue implements Serializable {
     /**
      * Тип очереди в стороковом формате для программ
      */
+    @Expose
     public String type;
 
     /**

@@ -17,7 +17,7 @@ public class FixedQueue extends SimpleQueue implements Fixed{
 
     private class NullPerson extends Person implements Null{
         NullPerson() {
-            super("Место свободно");
+            super("Место свободно",0);
         }
     }
 
