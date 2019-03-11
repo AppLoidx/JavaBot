@@ -5,7 +5,6 @@ import com.vk.api.sdk.objects.users.UserXtrCounters;
 import core.commands.VKCommands.VKCommand;
 import core.common.KeysReader;
 import core.modules.UsersDB;
-import vk.Messenger;
 import vk.VKManager;
 
 import java.sql.SQLException;

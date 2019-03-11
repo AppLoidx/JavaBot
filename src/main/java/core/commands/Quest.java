@@ -2,12 +2,10 @@ package core.commands;
 
 import com.vk.api.sdk.objects.messages.Message;
 import core.commands.VKCommands.VKCommand;
-import core.common.KeysReader;
 import core.modules.QuestionsDB;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * @author Arthur Kupriyanov
