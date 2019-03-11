@@ -175,5 +175,10 @@ public class ScheduleParser {
         return weekEven;
     }
 
+    public static void main(String[] args) {
+        System.out.println(getWeekParity(1));
+        System.out.println(Date.getWeekOfYear());
+    }
+
 
 }

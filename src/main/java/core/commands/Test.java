@@ -19,7 +19,7 @@ public class Test extends Command implements VKCommand {
         String msg = "";
         msg += "Day: " + Date.getDayOfWeek();
         msg += "\n parity : " + ScheduleParser.getWeekParity();
-        msg += "\n Day increament " + Date.increaseDayOfWeek(Date.getDayOfWeek());
+        msg += "\n Day increment " + Date.increaseDayOfWeek(Date.getDayOfWeek());
         msg += "\n parity increment : " + ScheduleParser.getWeekParity(1);
         msg += "\n parity increment2 : " + ScheduleParser.getWeekParity(2);
         msg += "\n parity increment3 : " + ScheduleParser.getWeekParity(3);
