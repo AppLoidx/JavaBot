@@ -7,8 +7,6 @@ import com.vk.api.sdk.queries.messages.MessagesSendQuery;
 import core.common.LocaleMath;
 import core.modules.res.MenheraSprite;
 
-import java.io.IOException;
-
 /**
  * @author Arthur Kupriyanov
  */

@@ -1,6 +1,5 @@
 package vk;
 
-import core.commands.Command;
 import core.commands.ServiceCommand;
 import core.modules.Date;
 
