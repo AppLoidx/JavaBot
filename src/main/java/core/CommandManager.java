@@ -25,6 +25,8 @@ public class CommandManager {
         commands.add(new Version());
         commands.add(new Spam());
         commands.add(new Comment());
+        commands.add(new Test());
+        commands.add(new Quest());
 
     }
 
