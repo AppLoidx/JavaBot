@@ -13,6 +13,11 @@ public class Commander {
         return CommandDeterminant.getCommand(CommandManager.getCommands(), userInput).init(userInput);
     }
 
+    public static String getProgramResponse(String userInput){
+        return CommandDeterminant.getProgramCommand(CommandManager.getCommands(), userInput).programInit(userInput);
+
+    }
+
     /**
      * Обработка сообщений, получаемых через сервис Вконтакте. Имеет ряд дополнительной информации,
      * но не используется для обработки запросов с программ.

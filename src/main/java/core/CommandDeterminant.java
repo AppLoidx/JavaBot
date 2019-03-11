@@ -2,6 +2,7 @@ package core;
 
 import com.vk.api.sdk.objects.messages.Message;
 import core.commands.Command;
+import core.commands.ProgramSpecification;
 import core.commands.Unknown;
 import core.commands.VKCommands.VKCommand;
 
@@ -39,6 +40,20 @@ public class CommandDeterminant {
             if (command instanceof VKCommand) {
                 if (command.getName().equals(body.split(" ")[0])) {
                     return (VKCommand) command;
+                }
+            }
+        }
+
+        return new Unknown();
+    }
+
+    public static ProgramSpecification getProgramCommand(ArrayList<Command> commands, String message) {
+
+        for (Command command : commands
+        ) {
+            if (command instanceof ProgramSpecification) {
+                if (command.getName().equals(message.split(" ")[0])) {
+                    return (ProgramSpecification) command;
                 }
             }
         }
