@@ -1,19 +1,22 @@
 package core.commands.queue;
 
+import com.vk.api.sdk.objects.messages.Message;
 import core.commands.Command;
 import core.commands.ProgramSpecification;
+import core.commands.VKCommands.VKCommand;
 import core.common.KeysReader;
 import core.common.UserInfoReader;
 import core.modules.queue.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
  * @author Arthur Kupriyanov
  */
-public class Queue extends Command implements ProgramSpecification {
+public class Queue extends Command implements ProgramSpecification, VKCommand {
 
     @Override
     protected void setConfig() {
@@ -23,6 +26,32 @@ public class Queue extends Command implements ProgramSpecification {
     @Override
     public String programInit(String... args) {
         return init(args);
+    }
+
+    @Override
+    public String exec(Message message) {
+        Map<String, String> keyMap = KeysReader.readKeys(message.getBody());
+        String name = null;
+        if (keyMap.containsKey("-n")){
+            name = keyMap.get("-n");
+        }
+
+
+            if (name!=null){
+                QueueDB queueDB = new QueueDB();
+                try {
+                    SimpleQueue queue = queueDB.getSimpleQueue(name);
+                    if (queue == null){
+                        return "очередь с таким именем не найдена";
+                    }
+                    return queue.getFormattedQueue();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return "ошибка : "+ e.getMessage();
+                }
+            } else {
+                return "введите имя очереди";
+            }
     }
 
     private enum QueueType{

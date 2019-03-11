@@ -43,7 +43,6 @@ public class QueueSimpleHandler{
             if (queue.getUsers().contains(userID)){
                 return "Вы уже в очереди";
             }
-            System.out.println(userID);
             String userFullname = null;
             try {
                 UsersDB usersDB = new UsersDB();
@@ -58,8 +57,7 @@ public class QueueSimpleHandler{
             if (userFullname == null){
                 return "Ошибка при работе с базой данных";
             }
-            queue.addPerson(new Person(userFullname).setVKID(userID));
-            queue.addUserID(userID);
+            queue.addPerson(new Person(userFullname, Integer.valueOf(userID)));
 
             try {
                 queue.saveQueue();
@@ -97,7 +95,7 @@ public class QueueSimpleHandler{
             int secondUserID;
             try{
                 secondUserID = Integer.valueOf(keysMap.get("-s"));
-                int userQueueID = queue.getIDByVKID(userID);
+                int userQueueID = queue.getIDByVKID(Integer.valueOf(userID));
 
                 queue.request.addSwapRequest(userQueueID, secondUserID);
 
