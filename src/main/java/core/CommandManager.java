@@ -27,6 +27,7 @@ public class CommandManager {
         commands.add(new Comment());
         commands.add(new Test());
         commands.add(new Quest());
+        commands.add(new TimedCommand());
 
     }
 
