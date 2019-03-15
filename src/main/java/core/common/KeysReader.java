@@ -27,11 +27,17 @@ public class KeysReader {
 
         boolean firstWord = true;
         boolean isOneWord = true;
+        boolean multiWord = false;
+        boolean firstMultiIdent = true;
+
+        String multiWordValue = "";
 
         for (String word: words
              ) {
-
-            if (word.matches("-[a-z]") || word.matches("--[a-z#_]*")) {
+            if (word.matches("%.*")){
+                multiWord = true;
+            }
+            if ((word.matches("-[a-z]") || word.matches("--[a-z#_]*")) && !multiWord) {
                 // Если ключ пустой
                 if (reservedKey != null){
                     if(isOneWord) keyMap.put(reservedKey, value.toString());
@@ -54,24 +60,39 @@ public class KeysReader {
                 }
                 else firstWord = false;
 
-                value.append(word);
+                if (multiWord){
+                    multiWordValue += word + " ";
+                } else value.append(word);
 
+                if (!firstMultiIdent) {
+                    if (word.matches(".*%")) {
+                        multiWord = false;
+                        firstMultiIdent = true;
+                        value.append(multiWordValue.replace("%","").trim());
+                        multiWordValue = "";
+                    }
+                }else if (multiWord) firstMultiIdent = false;
+
+
+
+            }
                 //value.append(word);
 
                 //keyMap.put(reservedKey, value.toString());//word);
                 //value = new StringBuilder();
                 //reservedKey = null;
-            }
-
-            if (word.matches("-[a-z]*")){
-                String[] keys = word.split("");
-                for (String key: keys
-                     ) {
-                    if(key.matches("[a-z]")) {
-                        keyMap.put("-"+key, "");
+            if (!multiWord) {
+                if (word.matches("-[a-z]*")) {
+                    String[] keys = word.split("");
+                    for (String key : keys
+                    ) {
+                        if (key.matches("[a-z]")) {
+                            keyMap.put("-" + key, "");
+                        }
                     }
                 }
             }
+
         }
 
         if (reservedKey != null){ keyMap.put(reservedKey, value.toString().trim()); }
@@ -154,6 +175,12 @@ public class KeysReader {
             }
         }
         return response;
+    }
+
+    public static void main(String[] args) {
+        String s = "schedule -c -p %goru -t 3 -h 5 -d 4 % -h 56 -e % rttt -x 4 -n 1 % -w % gwewef -t -y 3%";
+
+        System.out.println(KeysReader.readKeys(s));
     }
 
 }
