@@ -43,6 +43,7 @@ public class UserInfoReader {
         return null;
     }
 
+    @Deprecated
     public static boolean checkIsProgramm(String ... args){
         Map<String, String> keysMap = KeysReader.readKeys(args);
 
