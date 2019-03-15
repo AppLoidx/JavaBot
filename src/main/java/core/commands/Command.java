@@ -11,7 +11,7 @@ import core.commands.exceptions.CommandHasNoNameException;
  */
 public abstract class Command {
 
-    final String name;
+    private final String name;
     public String commandName;
     {
         setConfig();
