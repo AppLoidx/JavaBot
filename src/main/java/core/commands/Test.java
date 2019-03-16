@@ -3,7 +3,7 @@ package core.commands;
 import com.vk.api.sdk.objects.messages.Message;
 import core.commands.VKCommands.VKCommand;
 import core.modules.Date;
-import core.modules.parser.ScheduleParser;
+import core.modules.parser.itmo.schedule.ScheduleParser;
 
 /**
  * @author Arthur Kupriyanov
