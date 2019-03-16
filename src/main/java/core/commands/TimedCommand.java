@@ -64,7 +64,7 @@ public class TimedCommand extends Command implements VKCommand, Helpable {
             if (id.matches("[0-9]*")){
                 cl.deleteByID(id);
                 db.addList(cl, message.getUserId());
-                msg.append("Ваша команда с ID ").append(id).append(" успешно удалена!");
+                msg.append("Ваша команда с ID ").append(id).append(" успешно удалена!\n");
             }
 
             return msg.toString();
