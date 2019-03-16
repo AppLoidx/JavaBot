@@ -1,6 +1,7 @@
 package core.modules.vkSDK;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.vk.api.sdk.objects.base.BoolInt;
 import com.vk.api.sdk.objects.base.Geo;
@@ -149,7 +150,7 @@ public class MessageConverter {
     private Geo geo;
 
     public Message buildMessage(){
-        Gson gson = new Gson().newBuilder().create();
+        Gson gson = new GsonBuilder().create();
         String json = gson.toJson(this);
 
         return gson.fromJson(json, Message.class);
