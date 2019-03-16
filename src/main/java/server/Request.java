@@ -1,4 +1,4 @@
-package core.server;
+package server;
 
 import com.google.gson.Gson;
 import core.modules.notice.Notification;
