@@ -2,8 +2,8 @@ package core.commands;
 
 import core.common.KeysReader;
 import core.modules.Date;
-import core.modules.parser.AuditoryParser;
-import core.modules.parser.ScheduleParser;
+import core.modules.parser.itmo.schedule.AuditoryParser;
+import core.modules.parser.itmo.schedule.ScheduleParser;
 
 import java.util.Map;
 

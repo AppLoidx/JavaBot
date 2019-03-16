@@ -1,8 +1,8 @@
 package core.commands;
 
 import core.modules.Date;
-import core.modules.parser.ScheduleParser;
-import core.modules.parser.TeacherScheduleParser;
+import core.modules.parser.itmo.schedule.ScheduleParser;
+import core.modules.parser.itmo.schedule.TeacherScheduleParser;
 
 import java.io.IOException;
 import java.util.Map;

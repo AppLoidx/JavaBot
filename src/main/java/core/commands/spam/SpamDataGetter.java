@@ -1,7 +1,7 @@
 package core.commands.spam;
 
 import core.modules.Date;
-import core.modules.parser.ScheduleParser;
+import core.modules.parser.itmo.schedule.ScheduleParser;
 import core.modules.parser.WeatherParser;
 
 import java.io.IOException;

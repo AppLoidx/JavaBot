@@ -1,4 +1,4 @@
-package core.modules.parser;
+package core.modules.parser.itmo.schedule;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

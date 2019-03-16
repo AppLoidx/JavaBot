@@ -5,7 +5,7 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import core.commands.ServiceCommand;
 import core.modules.UsersDB;
-import core.modules.parser.ScheduleParser;
+import core.modules.parser.itmo.schedule.ScheduleParser;
 import core.modules.res.MenheraSprite;
 import vk.VKManager;
 

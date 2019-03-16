@@ -4,7 +4,7 @@ import core.common.KeysReader;
 import core.common.UserInfoReader;
 import core.modules.Date;
 import core.modules.UsersDB;
-import core.modules.parser.ScheduleParser;
+import core.modules.parser.itmo.schedule.ScheduleParser;
 
 import java.io.IOException;
 import java.sql.SQLException;
