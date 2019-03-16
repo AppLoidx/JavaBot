@@ -63,11 +63,19 @@ public class Date {
         return increaseDayOfWeek(day, 1);
     }
 
+    /**
+     *
+     * @return dd.MM.yyyy HH:mm
+     */
     public static String getDate(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         return simpleDateFormat.format(new java.util.Date());
     }
 
+    /**
+     *
+     * @return HH:mm
+     */
     public static String getTimeNow(){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
         return simpleDateFormat.format(new java.util.Date());
