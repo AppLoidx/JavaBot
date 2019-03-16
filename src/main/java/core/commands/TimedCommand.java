@@ -59,12 +59,15 @@ public class TimedCommand extends Command implements VKCommand, Helpable {
             if (cl == null){
                 return "Ваш список команд пуст";
             }
-            String id = keyMap.get("-d");
+            StringBuilder msg = new StringBuilder();
+            for (String id : keyMap.get("-d").split(" "))
             if (id.matches("[0-9]*")){
                 cl.deleteByID(id);
                 db.addList(cl, message.getUserId());
-                return "Ваша команда с ID " + id + " успешно удалена!";
+                msg.append("Ваша команда с ID ").append(id).append(" успешно удалена!");
             }
+
+            return msg.toString();
         }
 
         if (cl == null){
