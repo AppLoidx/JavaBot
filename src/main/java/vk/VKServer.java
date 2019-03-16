@@ -27,6 +27,8 @@ public class VKServer {
         new Event().addCommand("07:00", new MorningSpam());
         new Event().addCommand("20:05", new EveningSpam());
 
+        new Thread(new CustomEvent()).start();
+
         System.out.println("Running server...");
         while (true) {
             Thread.sleep(300);
