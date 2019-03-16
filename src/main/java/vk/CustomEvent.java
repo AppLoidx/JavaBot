@@ -33,7 +33,7 @@ public class CustomEvent implements Runnable {
                                 }
                             }
                         }
-                    Thread.sleep(2000);
+                    Thread.sleep(20000);
                 }
             } catch (InterruptedException | SQLException e) {
                 e.printStackTrace();
