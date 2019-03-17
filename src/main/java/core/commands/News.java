@@ -28,7 +28,6 @@ public class News extends Command implements VKCommand, Helpable {
 
             news.stream().limit(4).forEach((n) -> {
 
-                System.out.println(n);
                 MessagesSendQuery query = new VKManager().getSendQuery();
 
                 String msg = n.getMessage();
