@@ -127,8 +127,9 @@
             <artifactId>sebcomp</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/sebcomp.jar</systemPath>
+            <systemPath>C:/java/Bot/bcomp.jar</systemPath>
         </dependency>
+
     </dependencies>
 
 
