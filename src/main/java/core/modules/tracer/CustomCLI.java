@@ -123,7 +123,7 @@ public class CustomCLI {
     }
 
     private String getRegs() {
-        return this.getReg(CPU.Reg.IP) + " " + this.getReg(CPU.Reg.ADDR) + " " + this.getReg(CPU.Reg.INSTR) + " " + this.getReg(CPU.Reg.DATA) + " " + this.getReg(Reg.ACCUM) + " " + this.getFormattedState(0);
+        return this.getReg(CPU.Reg.IP) + " " + this.getReg(CPU.Reg.ADDR) + " " + this.getReg(CPU.Reg.INSTR) + " " + this.getReg(CPU.Reg.DATA) + " " + this.getReg(CPU.Reg.ACCUM) + " " + this.getFormattedState(0);
     }
 
     private void printRegs(String add) {

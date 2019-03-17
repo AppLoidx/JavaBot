@@ -122,15 +122,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency> -->
-
         <dependency>
-        <groupId>se.ifmo.ru</groupId>
-        <artifactId>bcomp</artifactId>
-        <version>1.0</version>
-        <scope>system</scope>
-        <systemPath>${project.basedir}/src/main/resources/bcomp.jar</systemPath>
-    </dependency>
-
+            <groupId>com.se.ifmo.ru</groupId>
+            <artifactId>sebcomp</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/sebcomp.jar</systemPath>
+        </dependency>
     </dependencies>
 
 
