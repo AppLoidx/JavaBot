@@ -1,6 +1,5 @@
 package vk;
 
-
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
@@ -9,6 +8,7 @@ import core.commands.spam.MorningSpam;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 public class VKServer {
     public static VKCore vkCore;
@@ -22,7 +22,6 @@ public class VKServer {
     }
 
     public static void main(String[] args) throws NullPointerException, ApiException, InterruptedException {
-
 
         new Event().addCommand("07:00", new MorningSpam());
         new Event().addCommand("20:05", new EveningSpam());

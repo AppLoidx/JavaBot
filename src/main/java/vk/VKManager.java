@@ -21,22 +21,6 @@ public class VKManager {
         }
     }
 
-    public void sendMessage(String msg, int peerId){
-        if (msg == null){
-            System.out.println("null");
-            return;
-        }
-        try {
-            vkCore.getVk().messages().send(vkCore.getActor()).peerId(peerId).message(msg).execute();
-        } catch (ApiException | ClientException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public MessagesSendQuery getSendQuery(){
-        return vkCore.getVk().messages().send(vkCore.getActor());
-    }
-
     /**
      * Обращается к VK API и получает объект, описывающий пользователя.
      * @param id идентификатор пользователя в VK
@@ -45,7 +29,8 @@ public class VKManager {
      */
     public static UserXtrCounters getUserInfo(int id){
         try {
-            return vkCore.getVk().users()
+            return vkCore.getVk()
+                    .users()
                     .get(vkCore.getActor())
                     .userIds(String.valueOf(id))
                     .execute()
@@ -54,6 +39,27 @@ public class VKManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public MessagesSendQuery getSendQuery(){
+        return vkCore.getVk().messages().send(vkCore.getActor());
+    }
+
+    public void sendMessage(String msg, int peerId){
+        if (msg == null){
+            System.out.println("null");
+            return;
+        }
+        try {
+            vkCore.getVk()
+                    .messages()
+                    .send(vkCore.getActor())
+                    .peerId(peerId)
+                    .message(msg)
+                    .execute();
+        } catch (ApiException | ClientException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) throws ClientException, ApiException {

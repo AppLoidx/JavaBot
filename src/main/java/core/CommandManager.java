@@ -2,7 +2,10 @@ package core;
 
 
 import core.commands.*;
+import core.commands.modes.Session;
+import core.commands.modes.Tracer;
 import core.commands.queue.Queue;
+import core.modules.session.SessionManager;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,9 @@ public class CommandManager {
         commands.add(new Quest());
         commands.add(new TimedCommand());
         commands.add(new News());
+        commands.add(new Session());
+
+        SessionManager.addMode(new Tracer());
 
     }
 
