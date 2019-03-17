@@ -8,6 +8,7 @@ import core.modules.session.SessionManager;
 import core.modules.session.UserIOStream;
 import core.modules.tracer.CustomCLI;
 import ru.ifmo.cs.bcomp.MicroPrograms;
+import vk.VKManager;
 
 /**
  * @author Arthur Kupriyanov
@@ -29,6 +30,7 @@ public class Tracer extends Command implements Mode, Helpable {
 
     @Override
     public String getResponse(Message message) {
+        new VKManager().sendMessage("getResposne called", message.getUserId());
         String oldOutput = "";
         if (output.available()){
             oldOutput = output.readString() + "\n";
