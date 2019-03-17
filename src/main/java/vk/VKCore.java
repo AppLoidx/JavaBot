@@ -1,5 +1,6 @@
 package vk;
 
+import com.sun.media.jfxmedia.logging.Logger;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
@@ -8,6 +9,7 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.queries.messages.MessagesGetLongPollHistoryQuery;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,7 +26,7 @@ public class VKCore {
 
         TransportClient transportClient = HttpTransportClient.getInstance();
         vk = new VkApiClient(transportClient);
-
+        Logger.setLevel(Logger.OFF);
         // Загрузка конфигураций
 
         Properties prop = new Properties();
