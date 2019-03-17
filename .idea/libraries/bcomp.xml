@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="bcomp">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/java/core/modules/tracer/bcomp.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
