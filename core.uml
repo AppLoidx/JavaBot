@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>core</OriginalElement>
+  <nodes>
+    <node x="24.0" y="662.0">core.CommanderTester2.Messanger</node>
+    <node x="923.0" y="583.0">core.commands.exceptions</node>
+    <node x="0.0" y="509.0">core.commands.Queue.QueueType</node>
+    <node x="1390.0" y="400.0">core.modules.UsersDB</node>
+    <node x="1236.0" y="168.0">core.modules.queue.DatedQueue</node>
+    <node x="444.00000000000006" y="168.0">core.commands.QueueDatedHandler</node>
+    <node x="804.0" y="736.0">core.modules.parser</node>
+    <node x="204.0" y="430.0">core.commands.RegSimple</node>
+    <node x="0.0" y="168.0">core.common.Null</node>
+    <node x="1370.0" y="168.0">core.modules.queue.ShuffleQueue</node>
+    <node x="983.0" y="430.0">core.commands.Test</node>
+    <node x="13.0" y="430.0">core.commands.Queue</node>
+    <node x="115.0" y="810.0">core.modules.queue.Stat</node>
+    <node x="1103.0" y="583.0">core.modules.queue.QueueFormatter</node>
+    <node x="1283.0" y="583.0">core.modules.queue.exceptions</node>
+    <node x="1326.5" y="321.0">core.modules.SQLiteDB</node>
+    <node x="960.0" y="736.0">core.common.LocaleMath</node>
+    <node x="1501.0" y="400.0">core.modules.LinksDB</node>
+    <node x="90.0" y="168.0">core.commands.QueueShuffleHandler</node>
+    <node x="501.25000000000006" y="0.0">core.modules.queue.Queue</node>
+    <node x="1516.2279166666667" y="0.0">core.modules.queue.StatReturnable</node>
+    <node x="1463.0" y="583.0">core.common.UserInfoReader</node>
+    <node x="726.0" y="583.0">core.commands.CommandManager</node>
+    <node x="801.0" y="168.0">core.commands.QueueConsistentHandler</node>
+    <node x="327.0" y="736.0">core.Commander</node>
+    <node x="459.50000000000006" y="89.0">core.commands.QueueHandler</node>
+    <node x="1403.0" y="736.0">core.modules.queue.Main</node>
+    <node x="328.0" y="430.0">core.commands.Reg</node>
+    <node x="164.0" y="736.0">core.InputHandler</node>
+    <node x="198.0" y="583.0">core.CommanderTester</node>
+    <node x="116.0" y="430.0">core.commands.Day</node>
+    <node x="1098.0" y="400.0">core.modules.TeachersNotesDB</node>
+    <node x="0.0" y="583.0">core.CommanderTester2</node>
+    <node x="906.7533333333333" y="0.0">core.modules.queue.Swapable</node>
+    <node x="1115.0" y="736.0">core.common.KeysReader</node>
+    <node x="390.0" y="583.0">core.modules.Time</node>
+    <node x="647.0" y="736.0">core.common.JSONReader</node>
+    <node x="488.0" y="321.0">core.commands.Command</node>
+    <node x="1259.0" y="400.0">core.modules.QuestionDB</node>
+    <node x="390.5" y="662.0">core.modules.Time.Type</node>
+    <node x="510.0" y="583.0">core.commands.CommandDeterminant</node>
+    <node x="0.0" y="810.0">core.modules.queue.Test</node>
+    <node x="487.0" y="736.0">core.commands.enums</node>
+    <node x="658.0" y="430.0">core.commands.Link</node>
+    <node x="1141.2279166666667" y="0.0">core.modules.queue.FormattedQueueReturnable</node>
+    <node x="1268.0" y="736.0">core.modules.queue.Request</node>
+    <node x="272.0" y="168.0">core.commands.QueueFixedHandler</node>
+    <node x="1356.2279166666667" y="0.0">core.modules.queue.QueueReturnable</node>
+    <node x="1002.0" y="168.0">core.modules.queue.Person</node>
+    <node x="1203.7745833333336" y="89.0">core.modules.queue.SimpleQueue</node>
+    <node x="1523.0" y="736.0">core.modules.Date</node>
+    <node x="0.0" y="736.0">core.modules.queue.QueueLoader</node>
+    <node x="1106.0" y="168.0">core.modules.queue.FixedQueue</node>
+    <node x="982.8945833333335" y="247.0">core.modules.queue.FixedQueue.NullPerson</node>
+    <node x="748.0" y="430.0">core.commands.Unknown</node>
+    <node x="1406.5" y="89.0">core.modules.queue.Shuffleable</node>
+    <node x="1223.5" y="247.0">core.modules.queue.ConsistentQueue</node>
+    <node x="416.0" y="430.0">core.commands.ScheduleRoom</node>
+    <node x="620.0" y="168.0">core.commands.QueueSimpleHandler</node>
+    <node x="564.0" y="430.0">core.commands.Note</node>
+    <node x="219.0" y="662.0">core.CommanderTester.Messanger</node>
+    <node x="867.0" y="430.0">core.commands.Schedule</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="core.commands.QueueConsistentHandler" target="core.commands.QueueHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="891.5" y="138.0" />
+      <point x="572.0" y="138.0" />
+      <point x="50.0" y="14.5" />
+    </edge>
+    <edge source="core.modules.LinksDB" target="core.modules.SQLiteDB">
+      <point x="0.0" y="-14.5" />
+      <point x="1561.5" y="370.0" />
+      <point x="1411.375" y="370.0" />
+      <point x="36.375" y="14.5" />
+    </edge>
+    <edge source="core.commands.ScheduleRoom" target="core.commands.Command">
+      <point x="0.0" y="-14.5" />
+      <point x="480.0" y="410.0" />
+      <point x="535.25" y="410.0" />
+      <point x="-5.25" y="14.5" />
+    </edge>
+    <edge source="core.modules.QuestionDB" target="core.modules.SQLiteDB">
+      <point x="0.0" y="-14.5" />
+      <point x="1314.5" y="380.0" />
+      <point x="1362.875" y="380.0" />
+      <point x="-12.125" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.DatedQueue" target="core.modules.queue.SimpleQueue">
+      <point x="0.0" y="-14.5" />
+      <point x="1293.0" y="148.0" />
+      <point x="1263.2745833333336" y="148.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.commands.QueueFixedHandler" target="core.commands.QueueHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="348.0" y="148.0" />
+      <point x="497.00000000000006" y="148.0" />
+      <point x="-25.0" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.SimpleQueue" target="core.modules.queue.QueueReturnable">
+      <point x="23.799999999999955" y="-14.5" />
+      <point x="1287.0745833333335" y="59.0" />
+      <point x="1426.2279166666667" y="59.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.FixedQueue.NullPerson" target="core.modules.queue.FixedQueue">
+      <point x="35.33333333333326" y="-14.5" />
+      <point x="1071.2279166666667" y="222.0" />
+      <point x="1161.0" y="222.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.commands.Link" target="core.commands.Command">
+      <point x="0.0" y="-14.5" />
+      <point x="693.0" y="400.0" />
+      <point x="556.25" y="400.0" />
+      <point x="15.75" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.ShuffleQueue" target="core.modules.queue.Shuffleable">
+      <point x="30.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.modules.TeachersNotesDB" target="core.modules.SQLiteDB">
+      <point x="0.0" y="-14.5" />
+      <point x="1168.5" y="370.0" />
+      <point x="1338.625" y="370.0" />
+      <point x="-36.375" y="14.5" />
+    </edge>
+    <edge source="core.commands.QueueShuffleHandler" target="core.commands.QueueHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="171.0" y="138.0" />
+      <point x="472.00000000000006" y="138.0" />
+      <point x="-50.0" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.FixedQueue.NullPerson" target="core.modules.queue.Person">
+      <point x="0.0" y="-14.5" />
+      <point x="1035.8945833333335" y="222.0" />
+      <point x="1044.0" y="222.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.commands.Day" target="core.commands.Command">
+      <point x="0.0" y="-14.5" />
+      <point x="150.0" y="380.0" />
+      <point x="503.75" y="380.0" />
+      <point x="-36.75" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.SimpleQueue" target="core.modules.queue.StatReturnable">
+      <point x="47.59999999999991" y="-14.5" />
+      <point x="1310.8745833333335" y="69.0" />
+      <point x="1578.7279166666667" y="69.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.SimpleQueue" target="core.modules.queue.Queue">
+      <point x="-47.60000000000002" y="-14.5" />
+      <point x="1215.6745833333334" y="69.0" />
+      <point x="563.5" y="69.0" />
+      <point x="20.75" y="14.5" />
+    </edge>
+    <edge source="core.commands.Reg" target="core.commands.Command">
+      <point x="0.0" y="-14.5" />
+      <point x="362.0" y="400.0" />
+      <point x="524.75" y="400.0" />
+      <point x="-15.75" y="14.5" />
+    </edge>
+    <edge source="core.commands.Test" target="core.commands.Command">
+      <point x="0.0" y="-14.5" />
+      <point x="1018.0" y="370.0" />
+      <point x="587.75" y="370.0" />
+      <point x="47.25" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.ShuffleQueue" target="core.modules.queue.SimpleQueue">
+      <point x="-30.0" y="-14.5" />
+      <point x="1400.0" y="148.0" />
+      <point x="1302.9412500000003" y="148.0" />
+      <point x="39.66666666666674" y="14.5" />
+    </edge>
+    <edge source="core.modules.Time.Type" target="core.modules.Time">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.ConsistentQueue" target="core.modules.queue.DatedQueue">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.commands.QueueDatedHandler" target="core.commands.QueueHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.commands.Schedule" target="core.commands.Command">
+      <point x="0.0" y="-14.5" />
+      <point x="915.0" y="380.0" />
+      <point x="577.25" y="380.0" />
+      <point x="36.75" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.FixedQueue" target="core.modules.queue.SimpleQueue">
+      <point x="0.0" y="-14.5" />
+      <point x="1161.0" y="148.0" />
+      <point x="1223.6079166666668" y="148.0" />
+      <point x="-39.66666666666674" y="14.5" />
+    </edge>
+    <edge source="core.commands.RegSimple" target="core.commands.Command">
+      <point x="0.0" y="-14.5" />
+      <point x="256.0" y="390.0" />
+      <point x="514.25" y="390.0" />
+      <point x="-26.25" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.FixedQueue.NullPerson" target="core.common.Null">
+      <point x="-35.33333333333326" y="-14.5" />
+      <point x="1000.5612500000002" y="222.0" />
+      <point x="35.0" y="222.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.SimpleQueue" target="core.modules.queue.FormattedQueueReturnable">
+      <point x="0.0" y="-14.5" />
+      <point x="1263.2745833333336" y="49.0" />
+      <point x="1238.7279166666667" y="49.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.commands.Queue" target="core.commands.Command">
+      <point x="0.0" y="-14.5" />
+      <point x="54.5" y="370.0" />
+      <point x="493.25" y="370.0" />
+      <point x="-47.25" y="14.5" />
+    </edge>
+    <edge source="core.commands.Note" target="core.commands.Command">
+      <point x="0.0" y="-14.5" />
+      <point x="601.0" y="410.0" />
+      <point x="545.75" y="410.0" />
+      <point x="5.25" y="14.5" />
+    </edge>
+    <edge source="core.commands.QueueHandler" target="core.modules.queue.Queue">
+      <point x="0.0" y="-14.5" />
+      <point x="-20.75" y="14.5" />
+    </edge>
+    <edge source="core.CommanderTester.Messanger" target="core.CommanderTester">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.commands.Queue.QueueType" target="core.commands.Queue">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.CommanderTester2.Messanger" target="core.CommanderTester2">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.commands.Unknown" target="core.commands.Command">
+      <point x="0.0" y="-14.5" />
+      <point x="797.5" y="390.0" />
+      <point x="566.75" y="390.0" />
+      <point x="26.25" y="14.5" />
+    </edge>
+    <edge source="core.modules.queue.SimpleQueue" target="core.modules.queue.Swapable">
+      <point x="-23.799999999999955" y="-14.5" />
+      <point x="1239.4745833333336" y="59.0" />
+      <point x="955.7533333333333" y="59.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="core.commands.QueueSimpleHandler" target="core.commands.QueueHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="700.5" y="148.0" />
+      <point x="547.0" y="148.0" />
+      <point x="25.0" y="14.5" />
+    </edge>
+    <edge source="core.modules.UsersDB" target="core.modules.SQLiteDB">
+      <point x="0.0" y="-14.5" />
+      <point x="1435.5" y="380.0" />
+      <point x="1387.125" y="380.0" />
+      <point x="12.125" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="1071.5" y="264.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

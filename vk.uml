@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>vk</OriginalElement>
+  <nodes>
+    <node x="0.0" y="255.0">core.commands.Link</node>
+    <node x="528.0" y="645.0">vk.VKCore</node>
+    <node x="425.0" y="999.0">core.commands.enums.CommandEnum</node>
+    <node x="214.0" y="999.0">core.common.LocaleMath</node>
+    <node x="0.0" y="645.0">core.modules.Date</node>
+    <node x="0.0" y="395.0">core.modules.parser.ScheduleParser</node>
+    <node x="0.0" y="785.0">core.common.KeysReader</node>
+    <node x="833.0" y="0.0">core.modules.queue.Queue</node>
+    <node x="532.0" y="474.0">core.commands.exceptions.CommandHasNoCommandEnumException</node>
+    <node x="376.0" y="255.0">core.commands.Unknown</node>
+    <node x="0.0" y="903.0">core.commands.CommandManager</node>
+    <node x="610.0" y="903.0">core.Commander</node>
+    <node x="468.0" y="785.0">core.common.JSONReader</node>
+    <node x="270.0" y="0.0">core.commands.Command</node>
+    <node x="864.0" y="903.0">vk.VKServer</node>
+    <node x="323.0" y="903.0">core.commands.CommandDeterminant</node>
+    <node x="730.0" y="395.0">core.commands.exceptions.CommandException</node>
+    <node x="832.0" y="474.0">core.commands.exceptions.CommandHasNoNameException</node>
+    <node x="767.0" y="785.0">core.Messanger</node>
+    <node x="606.0" y="999.0">core.InputHandler</node>
+    <node x="562.8888888888889" y="236.33333333333334">core.commands.Queue</node>
+    <node x="278.0" y="645.0">vk.Messenger</node>
+    <node x="188.0" y="255.0">core.commands.Schedule</node>
+    <node x="0.0" y="999.0">core.CommanderTester</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="core.commands.Queue" target="core.commands.Command">
+      <point x="0.0" y="-58.5" />
+      <point x="676.0" y="203.0" />
+      <point x="438.0" y="203.0" />
+      <point x="72.0" y="91.5" />
+    </edge>
+    <edge source="core.commands.exceptions.CommandHasNoNameException" target="core.commands.exceptions.CommandException">
+      <point x="0.0" y="-14.5" />
+      <point x="944.0" y="449.0" />
+      <point x="847.0" y="449.0" />
+      <point x="39.0" y="14.5" />
+    </edge>
+    <edge source="core.commands.Schedule" target="core.commands.Command">
+      <point x="0.0" y="-36.5" />
+      <point x="272.0" y="213.0" />
+      <point x="342.0" y="213.0" />
+      <point x="-24.0" y="91.5" />
+    </edge>
+    <edge source="core.commands.Link" target="core.commands.Command">
+      <point x="0.0" y="-36.5" />
+      <point x="84.0" y="203.0" />
+      <point x="294.0" y="203.0" />
+      <point x="-72.0" y="91.5" />
+    </edge>
+    <edge source="core.commands.Unknown" target="core.commands.Command">
+      <point x="0.0" y="-36.5" />
+      <point x="460.0" y="213.0" />
+      <point x="390.0" y="213.0" />
+      <point x="24.0" y="91.5" />
+    </edge>
+    <edge source="core.commands.exceptions.CommandHasNoCommandEnumException" target="core.commands.exceptions.CommandException">
+      <point x="0.0" y="-14.5" />
+      <point x="672.0" y="449.0" />
+      <point x="769.0" y="449.0" />
+      <point x="-39.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9" x="533.8888888888889" y="378.77777777777777" />
+  <SelectedNodes>
+    <node>core.commands.Queue</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
