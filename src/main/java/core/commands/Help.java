@@ -54,19 +54,19 @@ public class Help extends Command implements VKCommand, Helpable {
             return sb.toString();
         } else {
             StringBuilder helpableCommands = new StringBuilder();
-            StringBuilder allCommands = new StringBuilder();
+            StringBuilder otherCommands = new StringBuilder();
             helpableCommands.append("Список команд поддерживающих документацию:\n");
-            allCommands.append("Список всех команд:\n");
+            otherCommands.append("Команды без документации:\n");
             for(Command command : CommandManager.getCommands()){
-                allCommands.append(command.getName()).append("\n");
+
                 if (command instanceof Helpable){
                     helpableCommands.append(command.getName())
                             .append(" -- ").append(((Helpable) command).getDescription())
                             .append("\n");
-                }
+                } else otherCommands.append(command.getName()).append("\n");
             }
 
-            helpableCommands.append("-------------\n").append(allCommands.toString());
+            helpableCommands.append("-------------\n").append(otherCommands.toString());
             return helpableCommands.toString();
         }
 
