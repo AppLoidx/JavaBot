@@ -33,7 +33,7 @@ public class CustomCLI {
         this.bcomp = new BasicComp(this.mp = mp);
         this.cpu = this.bcomp.getCPU();
         this.bcomp.addDestination(ControlSignal.MEMORY_WRITE, value -> {
-            int addr = CustomCLI.this.cpu.getRegValue(Reg.ADDR);
+            int addr = CustomCLI.this.cpu.getRegValue(CPU.Reg.ADDR);
             if (!CustomCLI.this.writelist.contains(addr)) {
                 CustomCLI.this.writelist.add(addr);
             }
@@ -89,7 +89,7 @@ public class CustomCLI {
         return "Доступные команды:\na[ddress]\t- Пультовая операция \"Ввод адреса\"\nw[rite]\t\t- Пультовая операция \"Запись\"\nr[ead]\t\t- Пультовая операция \"Чтение\"\ns[tart]\t\t- Пультовая операция \"Пуск\"\nc[continue]\t- Пультовая операция \"Продолжить\"\nru[n]\t\t- Переключение режима Работа/Останов\ncl[ock]\t\t- Переключение режима потактового выполнения\nma[ddress]\t- Переход на микрокоманду\nmw[rite]\t- Запись микрокоманды\nmr[ead]\t\t- Чтение микрокоманды\nio\t\t- Вывод состояния всех ВУ\nio addr\t\t- Вывод состояния указанного ВУ\nio addr value\t- Запись value в указанное ВУ\nflag addr\t- Установка флага готовности указанного ВУ\nasm\t\t- Ввод программы на ассемблере\nsleep value\t- Задержка между тактами при фоновом выполнении\n{exit|quit}\t- Выход из эмулятора\nvalue\t\t- Ввод шестнадцатеричного значения в клавишный регистр\nlabel\t\t- Ввод адреса метки в клавишный регистр";
     }
 
-    private String getReg(Reg reg) {
+    private String getReg(CPU.Reg reg) {
         return Utils.toHex(this.cpu.getRegValue(reg), this.cpu.getRegWidth(reg));
     }
 
@@ -123,7 +123,7 @@ public class CustomCLI {
     }
 
     private String getRegs() {
-        return this.getReg(Reg.IP) + " " + this.getReg(Reg.ADDR) + " " + this.getReg(Reg.INSTR) + " " + this.getReg(Reg.DATA) + " " + this.getReg(Reg.ACCUM) + " " + this.getFormattedState(0);
+        return this.getReg(CPU.Reg.IP) + " " + this.getReg(CPU.Reg.ADDR) + " " + this.getReg(CPU.Reg.INSTR) + " " + this.getReg(CPU.Reg.DATA) + " " + this.getReg(Reg.ACCUM) + " " + this.getFormattedState(0);
     }
 
     private void printRegs(String add) {
@@ -135,7 +135,7 @@ public class CustomCLI {
     }
 
     private int getIP() {
-        return this.cpu.getClockState() ? this.cpu.getRegValue(Reg.IP) : this.cpu.getRegValue(Reg.MIP);
+        return this.cpu.getClockState() ? this.cpu.getRegValue(CPU.Reg.IP) : this.cpu.getRegValue(Reg.MIP);
     }
 
     private boolean checkCmd(String cmd, String check) {
