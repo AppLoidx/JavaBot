@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Команда для настройки команд по расписанию
  * @author Arthur Kupriyanov
  */
 public class TimedCommand extends Command implements VKCommand, Helpable {

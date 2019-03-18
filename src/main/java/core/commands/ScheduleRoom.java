@@ -8,6 +8,8 @@ import core.modules.parser.itmo.schedule.ScheduleParser;
 import java.util.Map;
 
 /**
+ * Обработчик команды показа расписания по аудиториям
+ * Используется в паттерне Chains of responsibility вместе с Schedule
  * @author Arthur Kupriyanov
  */
 public class ScheduleRoom{

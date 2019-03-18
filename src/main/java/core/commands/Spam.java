@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
+ * Команда рассылки сообщений
  * @author Arthur Kupriyanov
  */
 public class Spam extends Command implements VKCommand {
@@ -36,8 +37,10 @@ public class Spam extends Command implements VKCommand {
             return "Укажите сообщение через ключ -m";
         }
 
-        UserXtrCounters user = new VKManager().getUserInfo(message.getUserId());
-        msg += "\nСообщение от: " + user.getFirstName() + " " + user.getLastName();
+        UserXtrCounters user = VKManager.getUserInfo(message.getUserId());
+        if (user != null) {
+            msg += "\nСообщение от: " + user.getFirstName() + " " + user.getLastName();
+        }
 
         UsersDB usersDB = new UsersDB();
         try {

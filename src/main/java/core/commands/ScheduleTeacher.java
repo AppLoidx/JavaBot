@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
+ * Обработчик команды показа расписаний для учитилей
+ * Используется в паттерне Chains of responsibility вместе с Schedule
+ * @see Schedule
  * @author Arthur Kupriyanov
  */
 public class ScheduleTeacher{
