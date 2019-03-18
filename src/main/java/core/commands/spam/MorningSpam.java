@@ -57,7 +57,7 @@ public class MorningSpam implements ServiceCommand {
                 new VKManager().getSendQuery()
                         .peerId(vkid)
                         .message(msg)
-                        .attachment(MenheraSprite.GOOD_MORNING_SPRITE)
+                        .attachment(MenheraSprite.MM_SPRITE)
                         .execute();
             } catch (ApiException | ClientException ignored) {
 
