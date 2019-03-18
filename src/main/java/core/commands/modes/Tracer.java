@@ -42,7 +42,9 @@ public class Tracer extends Command implements Mode, Helpable {
                     SessionManager.deleteSession(message.getUserId());
                     return "Вы закончили сессию трассировки";
                 }
-                return oldOutput + res;
+                //return oldOutput + res;
+                String resposne = oldOutput + res;
+                return resposne.replace(" ", "&#4448;");
             }
             try {
                 Thread.sleep(300);
@@ -84,12 +86,13 @@ public class Tracer extends Command implements Mode, Helpable {
 
     @Override
     public String getManual() {
+        String additional = "Базовый эмулятор БЭВМ, основанный эмуляторе ";
         return CustomCLI.getHelp();
 
     }
 
     @Override
     public String getDescription() {
-        return "БЭВМ";
+        return "Эмулятор БЭВМ";
     }
 }

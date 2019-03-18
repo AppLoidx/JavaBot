@@ -74,7 +74,7 @@ public class Session extends Command implements VKCommand, Helpable {
                     return "Вы переключились на режим " + mode.getName();
                 }
         }
-        return "Запращиваемый мод не найден";
+        return "Запрашиваемый мод не найден";
     }
 
     @Override

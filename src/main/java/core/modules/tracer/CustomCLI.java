@@ -99,7 +99,7 @@ public class CustomCLI {
 
     private void printRegsTitle() {
         if (this.printRegsTitle) {
-            outputStream.writeln(this.cpu.getClockState() ? "Адр Знчн  СК  РА  РК   РД    А  C Адр Знчн" : "Адр МК   СК  РА  РК   РД    А  C   БР  N Z СчМК");
+            outputStream.writeln(this.cpu.getClockState() ? "Адр Знчн СК РА  РК  РД  А  C Адр Знчн" : "Адр МК СК РА РК РД  А  C БР N Z СчМК");
             this.printRegsTitle = false;
         }
 
@@ -154,7 +154,7 @@ public class CustomCLI {
 
     public void cli(UserIOStream inputStream) {
         this.bcomp.startTimer();
-        outputStream.writeln("Эмулятор Базовой ЭВМ. Версия r" + ru.ifmo.cs.bcomp.ui.CLI.class.getPackage().getImplementationVersion() + "\n" + "Загружена " + this.cpu.getMicroProgramName() + " микропрограмма\n" + "Цикл прерывания начинается с адреса " + ru.ifmo.cs.bcomp.Utils.toHex(this.cpu.getIntrCycleStartAddr(), 8) + "\n" + "БЭВМ готова к работе.\n" + "Используйте ? или help для получения справки\n\n");
+        outputStream.writeln("Эмулятор Базовой ЭВМ." + "\n" + "Загружена " + this.cpu.getMicroProgramName() + " микропрограмма\n" + "Цикл прерывания начинается с адреса " + ru.ifmo.cs.bcomp.Utils.toHex(this.cpu.getIntrCycleStartAddr(), 8) + "\n" + "БЭВМ готова к работе.\n" + "Используйте ? или help для получения справки\n\n");
 
         while(true) {
             String line;
