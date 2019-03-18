@@ -41,8 +41,9 @@ public class EveningSpam implements ServiceCommand {
     }
 
     private void sendEvenSpam(int vkid, String group){
-        UserXtrCounters user_info = new VKManager().getUserInfo(vkid);
-        String user_name = user_info.getFirstName();
+        UserXtrCounters user_info = VKManager.getUserInfo(vkid);
+        String user_name = "печенька";
+        if (user_info!=null) user_name = user_info.getFirstName();
 
         String schedule = SpamDataGetter.getSchedule(group, 1);
 

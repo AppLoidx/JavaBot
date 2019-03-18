@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class MorningSpam implements ServiceCommand {
 
 
-    public void morningSpam(){
+    private void morningSpam(){
         UsersDB usersDB = new UsersDB();
         try {
             HashMap<Integer, String> users = usersDB.getVKIDListWithGroup();
@@ -36,8 +36,9 @@ public class MorningSpam implements ServiceCommand {
         }
     }
     private void sendMorningSpam(int vkid, String group){
-        UserXtrCounters user_info = new VKManager().getUserInfo(vkid);
-        String user_name = user_info.getFirstName();
+        UserXtrCounters user_info = VKManager.getUserInfo(vkid);
+        String user_name = "печенька";
+        if (user_info!=null) user_name = user_info.getFirstName();
 
         String weather = SpamDataGetter.getWeather();
 
@@ -51,6 +52,8 @@ public class MorningSpam implements ServiceCommand {
             String msg = "C добрым утром, " + user_name +
                     "\n\n" + weather + "\n\n" + "Вот расписание. Не забудь все проверить! " +
                     "Я ведь тоже могу ошибаться.\n\n" + scheduleAdditionalData + schedule + "\n\n" +
+                    "Еще меня попросили передать, что сегодня ближе к вечеру появятся " +
+                    "настройки, где можно будет отключить спам. Следите за группой!\n" +
                     "Удачи сегодня на парах!";
 
             try {
@@ -59,6 +62,7 @@ public class MorningSpam implements ServiceCommand {
                         .message(msg)
                         .attachment(MenheraSprite.MM_SPRITE)
                         .execute();
+
             } catch (ApiException | ClientException ignored) {
 
             }
