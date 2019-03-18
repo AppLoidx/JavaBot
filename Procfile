@@ -1,1 +1,1 @@
-worker:    java $JAVA_OPTS -jar src/jars/Bot.jar $PORT
+worker:    java $JAVA_OPTS -jar target/Bot-0.2.0.jar
