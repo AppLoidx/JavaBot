@@ -34,7 +34,7 @@ public class CommandManager {
         commands.add(new News());
         commands.add(new Session());
 
-        //SessionManager.addMode(new Tracer());
+        SessionManager.addMode(new Tracer());
 
     }
 

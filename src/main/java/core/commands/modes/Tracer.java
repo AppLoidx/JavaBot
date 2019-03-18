@@ -30,7 +30,6 @@ public class Tracer extends Command implements Mode, Helpable {
 
     @Override
     public String getResponse(Message message) {
-        new VKManager().sendMessage("getResposne called", message.getUserId());
         String oldOutput = "";
         if (output.available()){
             oldOutput = output.readString() + "\n";

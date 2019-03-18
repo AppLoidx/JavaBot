@@ -69,8 +69,8 @@ public class Session extends Command implements VKCommand, Helpable {
                     UserIOStream input = new UserIOStream();
                     UserIOStream output = new UserIOStream();
                     core.modules.session.Session session = new core.modules.session.Session(message.getUserId(), mode, input, output);
+                    session.run();
                     SessionManager.addSession(message.getUserId(), session);
-                    new Thread(session.getMode()).start();
                     return "Вы переключились на режим " + mode.getName();
                 }
         }

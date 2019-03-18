@@ -2,7 +2,6 @@ package core.modules.tracer;
 
 import core.modules.session.UserIOStream;
 import ru.ifmo.cs.bcomp.*;
-import ru.ifmo.cs.bcomp.CPU.Reg;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,12 +27,12 @@ public class CustomCLI {
     private UserIOStream outputStream;
     private boolean exitStatus = false;
 
-    public CustomCLI(MicroProgram mp, UserIOStream outputStream) throws Exception {
+    public CustomCLI(ru.ifmo.cs.bcomp.MicroProgram mp, UserIOStream outputStream) throws Exception {
         this.outputStream = outputStream;
-        this.bcomp = new BasicComp(this.mp = mp);
+        this.bcomp = new ru.ifmo.cs.bcomp.BasicComp(this.mp = mp);
         this.cpu = this.bcomp.getCPU();
-        this.bcomp.addDestination(ControlSignal.MEMORY_WRITE, value -> {
-            int addr = CustomCLI.this.cpu.getRegValue(CPU.Reg.ADDR);
+        this.bcomp.addDestination(ru.ifmo.cs.bcomp.ControlSignal.MEMORY_WRITE, value -> {
+            int addr = CustomCLI.this.cpu.getRegValue(ru.ifmo.cs.bcomp.CPU.Reg.ADDR);
             if (!CustomCLI.this.writelist.contains(addr)) {
                 CustomCLI.this.writelist.add(addr);
             }
@@ -81,20 +80,21 @@ public class CustomCLI {
 
             }
         });
-        this.asm = new Assembler(this.cpu.getInstructionSet());
+        this.asm = new ru.ifmo.cs.bcomp.Assembler(this.cpu.getInstructionSet());
         this.ioctrls = this.bcomp.getIOCtrls();
     }
+
 
     public static String getHelp() {
         return "Доступные команды:\na[ddress]\t- Пультовая операция \"Ввод адреса\"\nw[rite]\t\t- Пультовая операция \"Запись\"\nr[ead]\t\t- Пультовая операция \"Чтение\"\ns[tart]\t\t- Пультовая операция \"Пуск\"\nc[continue]\t- Пультовая операция \"Продолжить\"\nru[n]\t\t- Переключение режима Работа/Останов\ncl[ock]\t\t- Переключение режима потактового выполнения\nma[ddress]\t- Переход на микрокоманду\nmw[rite]\t- Запись микрокоманды\nmr[ead]\t\t- Чтение микрокоманды\nio\t\t- Вывод состояния всех ВУ\nio addr\t\t- Вывод состояния указанного ВУ\nio addr value\t- Запись value в указанное ВУ\nflag addr\t- Установка флага готовности указанного ВУ\nasm\t\t- Ввод программы на ассемблере\nsleep value\t- Задержка между тактами при фоновом выполнении\n{exit|quit}\t- Выход из эмулятора\nvalue\t\t- Ввод шестнадцатеричного значения в клавишный регистр\nlabel\t\t- Ввод адреса метки в клавишный регистр";
     }
 
-    private String getReg(CPU.Reg reg) {
-        return Utils.toHex(this.cpu.getRegValue(reg), this.cpu.getRegWidth(reg));
+    private String getReg(ru.ifmo.cs.bcomp.CPU.Reg reg) {
+        return ru.ifmo.cs.bcomp.Utils.toHex(this.cpu.getRegValue(reg), this.cpu.getRegWidth(reg));
     }
 
     private String getFormattedState(int flag) {
-        return Utils.toBinaryFlag(this.cpu.getStateValue(flag));
+        return ru.ifmo.cs.bcomp.Utils.toBinaryFlag(this.cpu.getStateValue(flag));
     }
 
     private void printRegsTitle() {
@@ -106,11 +106,11 @@ public class CustomCLI {
     }
 
     private String getMemory(int addr) {
-        return Utils.toHex(addr, 11) + " " + Utils.toHex(this.cpu.getMemoryValue(addr), 16);
+        return ru.ifmo.cs.bcomp.Utils.toHex(addr, 11) + " " + ru.ifmo.cs.bcomp.Utils.toHex(this.cpu.getMemoryValue(addr), 16);
     }
 
     private String getMicroMemory(int addr) {
-        return Utils.toHex(addr, 8) + " " + Utils.toHex(this.cpu.getMicroMemoryValue(addr), 16);
+        return ru.ifmo.cs.bcomp.Utils.toHex(addr, 8) + " " + ru.ifmo.cs.bcomp.Utils.toHex(this.cpu.getMicroMemoryValue(addr), 16);
     }
 
     private void printMicroMemory(int addr) {
@@ -123,19 +123,19 @@ public class CustomCLI {
     }
 
     private String getRegs() {
-        return this.getReg(CPU.Reg.IP) + " " + this.getReg(CPU.Reg.ADDR) + " " + this.getReg(CPU.Reg.INSTR) + " " + this.getReg(CPU.Reg.DATA) + " " + this.getReg(CPU.Reg.ACCUM) + " " + this.getFormattedState(0);
+        return this.getReg(ru.ifmo.cs.bcomp.CPU.Reg.IP) + " " + this.getReg(ru.ifmo.cs.bcomp.CPU.Reg.ADDR) + " " + this.getReg(ru.ifmo.cs.bcomp.CPU.Reg.INSTR) + " " + this.getReg(ru.ifmo.cs.bcomp.CPU.Reg.DATA) + " " + this.getReg(ru.ifmo.cs.bcomp.CPU.Reg.ACCUM) + " " + this.getFormattedState(0);
     }
 
     private void printRegs(String add) {
-        outputStream.writeln(this.cpu.getClockState() ? this.getMemory(this.addr) + " " + this.getRegs() + add : this.getMicroMemory(this.addr) + " " + this.getRegs() + " " + this.getReg(Reg.BUF) + " " + this.getFormattedState(2) + " " + this.getFormattedState(1) + "  " + this.getReg(Reg.MIP));
+        outputStream.writeln(this.cpu.getClockState() ? this.getMemory(this.addr) + " " + this.getRegs() + add : this.getMicroMemory(this.addr) + " " + this.getRegs() + " " + this.getReg(ru.ifmo.cs.bcomp.CPU.Reg.BUF) + " " + this.getFormattedState(2) + " " + this.getFormattedState(1) + "  " + this.getReg(ru.ifmo.cs.bcomp.CPU.Reg.MIP));
     }
 
     private void printIO(int ioaddr) {
-        outputStream.writeln("ВУ" + ioaddr + ": Флаг = " + Utils.toBinaryFlag(this.ioctrls[ioaddr].getFlag()) + " РДВУ = " + Utils.toHex(this.ioctrls[ioaddr].getData(), 8));
+        outputStream.writeln("ВУ" + ioaddr + ": Флаг = " + ru.ifmo.cs.bcomp.Utils.toBinaryFlag(this.ioctrls[ioaddr].getFlag()) + " РДВУ = " + ru.ifmo.cs.bcomp.Utils.toHex(this.ioctrls[ioaddr].getData(), 8));
     }
 
     private int getIP() {
-        return this.cpu.getClockState() ? this.cpu.getRegValue(CPU.Reg.IP) : this.cpu.getRegValue(Reg.MIP);
+        return this.cpu.getClockState() ? this.cpu.getRegValue(ru.ifmo.cs.bcomp.CPU.Reg.IP) : this.cpu.getRegValue(ru.ifmo.cs.bcomp.CPU.Reg.MIP);
     }
 
     private boolean checkCmd(String cmd, String check) {
@@ -154,7 +154,7 @@ public class CustomCLI {
 
     public void cli(UserIOStream inputStream) {
         this.bcomp.startTimer();
-        outputStream.writeln("Эмулятор Базовой ЭВМ. Версия r" + ru.ifmo.cs.bcomp.ui.CLI.class.getPackage().getImplementationVersion() + "\n" + "Загружена " + this.cpu.getMicroProgramName() + " микропрограмма\n" + "Цикл прерывания начинается с адреса " + Utils.toHex(this.cpu.getIntrCycleStartAddr(), 8) + "\n" + "БЭВМ готова к работе.\n" + "Используйте ? или help для получения справки\n\n");
+        outputStream.writeln("Эмулятор Базовой ЭВМ. Версия r" + ru.ifmo.cs.bcomp.ui.CLI.class.getPackage().getImplementationVersion() + "\n" + "Загружена " + this.cpu.getMicroProgramName() + " микропрограмма\n" + "Цикл прерывания начинается с адреса " + ru.ifmo.cs.bcomp.Utils.toHex(this.cpu.getIntrCycleStartAddr(), 8) + "\n" + "БЭВМ готова к работе.\n" + "Используйте ? или help для получения справки\n\n");
 
         while(true) {
             String line;
@@ -244,20 +244,20 @@ public class CustomCLI {
 
                             if (this.checkCmd(cmd, "maddress")) {
                                 this.checkResult(this.cpu.runSetMAddr());
-                                this.printMicroMemory(this.cpu.getRegValue(Reg.MIP));
+                                this.printMicroMemory(this.cpu.getRegValue(ru.ifmo.cs.bcomp.CPU.Reg.MIP));
                                 continue;
                             }
 
                             int ioaddr;
                             if (this.checkCmd(cmd, "mwrite")) {
-                                ioaddr = this.cpu.getRegValue(Reg.MIP);
+                                ioaddr = this.cpu.getRegValue(ru.ifmo.cs.bcomp.CPU.Reg.MIP);
                                 this.checkResult(this.cpu.runMWrite());
                                 this.printMicroMemory(ioaddr);
                                 continue;
                             }
 
                             if (this.checkCmd(cmd, "mread")) {
-                                ioaddr = this.cpu.getRegValue(Reg.MIP);
+                                ioaddr = this.cpu.getRegValue(ru.ifmo.cs.bcomp.CPU.Reg.MIP);
                                 this.checkResult(this.cpu.runMRead());
                                 this.printMicroMemory(ioaddr);
                                 continue;
@@ -317,11 +317,11 @@ public class CustomCLI {
                                         this.printOnStop = false;
                                         this.asm.compileProgram(code);
                                         this.asm.loadProgram(this.cpu);
-                                        outputStream.writeln("Программа начинается с адреса " + Utils.toHex(this.asm.getBeginAddr(), 11));
+                                        outputStream.writeln("Программа начинается с адреса " + ru.ifmo.cs.bcomp.Utils.toHex(this.asm.getBeginAddr(), 11));
                                         this.printOnStop = true;
 
                                         try {
-                                            outputStream.writeln("Результат по адресу " + Utils.toHex(this.asm.getLabelAddr("R"), 11));
+                                            outputStream.writeln("Результат по адресу " + ru.ifmo.cs.bcomp.Utils.toHex(this.asm.getLabelAddr("R"), 11));
                                         } catch (Exception var10) {
                                         }
                                         continue label214;
@@ -347,7 +347,7 @@ public class CustomCLI {
                         }
 
                         try {
-                            if (Utils.isHexNumeric(cmd)) {
+                            if (ru.ifmo.cs.bcomp.Utils.isHexNumeric(cmd)) {
                                 value = Integer.parseInt(cmd, 16);
                             } else {
                                 value = this.asm.getLabelAddr(cmd.toUpperCase());
@@ -362,6 +362,7 @@ public class CustomCLI {
                     }
                 }
             }
+            if (exitStatus) break;
         }
     }
 }

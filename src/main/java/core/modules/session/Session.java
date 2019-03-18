@@ -9,16 +9,21 @@ import core.commands.Mode;
 public class Session {
     private final int vkid;
     private final Mode mode;
+    private final Thread sessionThread;
 
     public Session(int vkid, Mode mode, UserIOStream input, UserIOStream output){
         this.vkid = vkid;
         this.mode = mode;
         this.mode.setInput(input);
         this.mode.setOutput(output);
+        this.sessionThread = new Thread(mode);
+        this.sessionThread.setName("Thread-" + mode.getName() + "-vkid-" + vkid);
     }
+
     public Mode getMode(){
         return this.mode;
     }
+
     public String newInput(String input){
         return mode.getResponse(input);
     }
@@ -37,5 +42,17 @@ public class Session {
 
     public int getVkid(){
         return vkid;
+    }
+
+    void destoryThread(){
+        this.sessionThread.interrupt();
+    }
+
+    public void run(){
+        this.sessionThread.start();
+    }
+
+    public Thread getThread(){
+        return sessionThread;
     }
 }

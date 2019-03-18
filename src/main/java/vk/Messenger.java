@@ -7,6 +7,7 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import core.Commander;
+import core.modules.session.SessionInputHandler;
 import core.modules.session.SessionManager;
 import core.modules.session.UserIOStream;
 
@@ -41,9 +42,9 @@ public class Messenger implements Runnable{
     private String getResponse(){
 
         if (SessionManager.checkExist(message.getUserId())){
-            return SessionManager.getSession(message.getUserId()).newInput(message);
-
+            return new SessionInputHandler(message.getUserId()).input(message).get();
         }
+
         String vkResponse =  Commander.getResponse(message);
         if (vkResponse != null ){
             if (vkResponse.equals("")){
