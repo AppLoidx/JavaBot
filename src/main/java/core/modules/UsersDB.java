@@ -8,7 +8,7 @@ import java.util.HashMap;
 /**
  * @author Arthur Kupriyanov
  */
-@SuppressWarnings("Duplicates")
+//@SuppressWarnings("Duplicates")
 public class UsersDB implements AutoCloseable{
 
     // ИМЕНА КОЛОНОК
