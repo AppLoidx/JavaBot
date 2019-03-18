@@ -1,6 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import core.modules.notice.Notification;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class Attachment {
         Attachment a = new Attachment();
         Notification note = new Notification("45",1,1,"21");
         a.addAttachment(new Notification("12",1,1,"23"));
-        Gson gson = new Gson().newBuilder().create();
+        Gson gson = new GsonBuilder().create();
 
         String json = gson.toJson(a);
         System.out.println(json);

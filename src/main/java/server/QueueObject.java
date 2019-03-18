@@ -1,6 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import core.modules.queue.Person;
 import core.modules.queue.Queue;
@@ -67,6 +68,6 @@ public class QueueObject {
     }
 
     public static String convertQueueToJSON(Queue queue){
-        return new Gson().newBuilder().create().toJson(queue);
+        return new GsonBuilder().create().toJson(queue);
     }
 }

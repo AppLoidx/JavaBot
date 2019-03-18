@@ -1,6 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import core.modules.notice.Notification;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class Request {
     }
 
     public static void main(String[] args) {
-        Gson gson = new Gson().newBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         Request r = new Request();
         r.setCommand("note")
