@@ -56,13 +56,19 @@ public class VKCore {
         MessagesGetLongPollHistoryQuery eventsQuery = vk.messages()
                 .getLongPollHistory(actor)
                 .ts(ts);
-        if (maxMsgId > 0){
-            eventsQuery.maxMsgId(maxMsgId);
+        List<Message> messages;
+        if (maxMsgId > 0) {
+            messages = eventsQuery
+                    .maxMsgId(maxMsgId)
+                    .execute()
+                    .getMessages()
+                    .getMessages();
+        } else {
+            messages = eventsQuery
+                    .execute()
+                    .getMessages()
+                    .getMessages();
         }
-        List<Message> messages = eventsQuery
-                .execute()
-                .getMessages()
-                .getMessages();
 
         if (!messages.isEmpty()){
             try {
