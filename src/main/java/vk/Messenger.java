@@ -7,9 +7,9 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import core.Commander;
+import core.commands.NaturalLanguage;
 import core.modules.session.SessionInputHandler;
 import core.modules.session.SessionManager;
-import core.modules.session.UserIOStream;
 
 public class Messenger implements Runnable{
     private GroupActor actor;
@@ -43,6 +43,10 @@ public class Messenger implements Runnable{
 
         if (SessionManager.checkExist(message.getUserId())){
             return new SessionInputHandler(message.getUserId()).input(message).get();
+        }
+        String naturalRes;
+        if ((naturalRes = NaturalLanguage.getNaturalResponse(message)) != null){
+            return naturalRes;
         }
 
         String vkResponse =  Commander.getResponse(message);
