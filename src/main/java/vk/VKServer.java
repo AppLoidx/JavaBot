@@ -1,6 +1,7 @@
 package vk;
 
 import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ApiServerException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
 import core.commands.spam.EveningSpam;
@@ -46,6 +47,15 @@ public class VKServer {
                 System.out.println("Повторное соединение через " + RECONNECT_TIME / 1000 + " секунд");
                 Thread.sleep(RECONNECT_TIME);
 
+            } catch (ApiServerException e){
+                System.out.println("Ошибка API. Скорее всего из-за ts и max_msg_id");
+                e.printStackTrace();
+                System.out.println("Переопределяем VKCore...");
+                try {
+                    vkCore = new VKCore();
+                } catch (ClientException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     }
