@@ -21,9 +21,10 @@ public class Version extends Command implements Helpable{
 
         if (keyMap.containsKey("-i")){
             String ver = "";
-            ver += "Добавлена команда timed-command\n";
-            ver += "Добавлена команда news\n";
-            ver += "Добавлены документации к некоторым командам";
+            ver += "Добавлена команда tess\n";
+            ver += "Добавлена обработка натурального языка\n";
+            ver += "Добавлена команда session\n";
+            ver += "Добавлена режим tracer - эмулятор БЭВМ";
 
             return ver;
         }
@@ -33,7 +34,7 @@ public class Version extends Command implements Helpable{
     @Override
     public String getManual() {
         return "По умолчанию возвращает дату деплоя\n" +
-                "С ключом -i возвращает краткое описание изменений";
+                "С ключом -i возвращает краткое описание последних изменений";
     }
 
     @Override
