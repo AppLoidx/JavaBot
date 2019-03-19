@@ -33,6 +33,7 @@ public class CommandManager {
         commands.add(new TimedCommand());
         commands.add(new News());
         commands.add(new Session());
+        commands.add(new Tess());
 
         SessionManager.addMode(new Tracer());
 
