@@ -25,6 +25,10 @@ public class VKPhotoSaver {
                 conn.setDoInput(true);
 
                 BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
+                File folder = new File(path);
+                if (!folder.exists()){
+                    folder.mkdir();
+                }
                 FileOutputStream fos = new FileOutputStream(new File(path + "/"+name+".jpg"));
 
                 int ch;
