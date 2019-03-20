@@ -95,7 +95,8 @@ public class Session extends Command implements VKCommand, Helpable {
                 "\n" +
                 "Чтобы перейти к работе с сессией введите команду:\n" +
                 "session имя_сессии\n\n" +
-                "Данная команда еще разрабатывается и возможно изменения в синтаксисе. Следите за мануалом.";
+                "Данная команда еще разрабатывается и возможно изменения в синтаксисе. Следите за мануалом." +
+                "\nСтатья в вики: https://github.com/AppLoidx/JavaBot/wiki/Session";
     }
 
     @Override

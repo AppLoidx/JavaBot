@@ -86,8 +86,9 @@ public class Tracer extends Command implements Mode, Helpable {
 
     @Override
     public String getManual() {
-        String additional = "Базовый эмулятор БЭВМ, основанный эмуляторе ";
-        return CustomCLI.getHelp();
+        String additional = "Базовый эмулятор БЭВМ, основанный эмуляторе bcomp\n" +
+                "Подробнее : https://github.com/AppLoidx/JavaBot/wiki/Режим-tracer-%5Bдля-Session%5D\n";
+        return additional + CustomCLI.getHelp();
 
     }
 
