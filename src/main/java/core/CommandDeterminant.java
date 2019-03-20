@@ -33,7 +33,7 @@ public class CommandDeterminant {
     }
 
     public static VKCommand getVKCommand(ArrayList<Command> commands, Message message) {
-        String body = message.getBody();
+        String body = message.getBody().toLowerCase();
 
         for (Command command : commands
         ) {
