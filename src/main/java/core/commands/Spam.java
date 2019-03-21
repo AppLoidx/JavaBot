@@ -22,6 +22,7 @@ public class Spam extends Command implements VKCommand {
 
     @Override
     public String exec(Message message) {
+        if (message.getUserId() != 255396611) return "";
         Map<String, String> keyMap = KeysReader.readKeys(message.getBody().split(" "));
         String group;
         if (keyMap.containsKey("-g")){
@@ -46,7 +47,7 @@ public class Spam extends Command implements VKCommand {
         try {
             Map<Integer, String> users = usersDB.getVKIDListWithGroup();
             for (int vkid : users.keySet()){
-                if (users.get(vkid).equals(group)){
+                if (users.get(vkid).equals(group) || users.get(vkid).matches(group)){
                     sendMessage(vkid, msg);
                 }
             }
