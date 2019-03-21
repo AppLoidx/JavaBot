@@ -22,6 +22,7 @@ public class CustomEvent implements Runnable {
                     HashMap<Integer, CommandList> list = customCommandDB.getAll();
                     for (int vkid : list.keySet()) {
                         CommandList cl = list.get(vkid);
+                        if (cl==null) continue;
                         for (String time : cl.getList().keySet()) {
                             if (Date.getTimeNow().equals(time) && !isTimeLocked(Date.getTimeNow())) {
                                 MessageConverter mc = new MessageConverter();
