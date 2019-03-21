@@ -26,9 +26,9 @@ public class KeysReader {
         StringBuilder value = new StringBuilder();
 
         boolean firstWord = true;
-        boolean isOneWord = true;
-        boolean multiWord = false;
-        boolean firstMultiIdent = true;
+        boolean isOneWord = true;   // регистр одиночного слова
+        boolean multiWord = false;  // регистр блокировки спецсимволов внутри %
+        boolean firstMultiIdent = true; // регистр окончания блокировки спецсимволов
 
         String multiWordValue = "";
 
@@ -175,12 +175,6 @@ public class KeysReader {
             }
         }
         return response;
-    }
-
-    public static void main(String[] args) {
-        String s = "schedule -c -p %goru -t 3 -h 5 -d 4 % -h 56 -e % rttt -x 4 -n 1 % -w % gwewef -t -y 3%";
-
-        System.out.println(KeysReader.readKeys(s));
     }
 
 }

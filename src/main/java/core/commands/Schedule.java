@@ -185,7 +185,8 @@ public class Schedule extends Command implements Helpable{
                 "Вместо указания группы с ключом -g укажите номер ИСУ:\n" +
                 "\"reg -g [номер_ису]\"\n" +
                 "Таким образом, можно получить расписание преподавателя.\n" +
-                "Остальные ключи также валидны.";
+                "Остальные ключи также валидны.\n" +
+                "Подробнее в вики:\nhttps://github.com/AppLoidx/JavaBot/wiki/команда-Schedule";
     }
 
     @Override
