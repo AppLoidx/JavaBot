@@ -67,6 +67,8 @@ public class Help extends Command implements VKCommand, Helpable {
             }
 
             helpableCommands.append("-------------\n").append(otherCommands.toString());
+            helpableCommands.append("\n\n").append("Также доступна команда help help");
+
             return helpableCommands.toString();
         }
 
