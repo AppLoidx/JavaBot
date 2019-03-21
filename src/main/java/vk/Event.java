@@ -21,10 +21,10 @@ public class Event {
         for(String time : timedCommands.keySet()) {
             if (!isTimeLocked(time)) {
                 if (Date.getTimeNow().equals(time)) {
+                    lockTime(time);
                     for (ServiceCommand cmd : timedCommands.get(time)) {
                         cmd.service();
                     }
-                    lockTime(time);
                 }
             }
         }
