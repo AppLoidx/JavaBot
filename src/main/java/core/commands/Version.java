@@ -24,7 +24,8 @@ public class Version extends Command implements Helpable{
             ver += "Добавлена команда tess\n";
             ver += "Добавлена обработка натурального языка\n";
             ver += "Добавлена команда session\n";
-            ver += "Добавлена режим tracer - эмулятор БЭВМ";
+            ver += "Добавлена режим tracer - эмулятор БЭВМ\n";
+            ver += "Добавлена команда config";
 
             return ver;
         }
