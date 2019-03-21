@@ -62,7 +62,6 @@ public class ConfigDB extends Database {
                 ResultSet rs = stmt.executeQuery("SELECT settings FROM user_configs WHERE vkid="+vkid);
                 rs.next();
                 String settings = rs.getString("settings");
-                System.out.println(settings);
                 if (settings==null){
                     setDefaultSettings(vkid);
                     return getSettings(vkid);
