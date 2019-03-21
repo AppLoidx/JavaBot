@@ -28,7 +28,7 @@ public class Config extends Command implements VKCommand, Helpable {
                 String img = settings.isImages() ? "да":"нет";
 
                 sb.append("Утренний спам [ms]: ").append(ms).append("\n");
-                sb.append("Ночной спам [es]: ").append(es).append("\n");
+                sb.append("Вечерний спам [es]: ").append(es).append("\n");
                 sb.append("Доступ приложениям [app]: ").append(appAccess).append("\n");
                 sb.append("Картинки [img]: ").append(img).append("\n");
 
