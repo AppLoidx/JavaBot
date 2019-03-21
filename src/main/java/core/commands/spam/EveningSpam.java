@@ -5,6 +5,9 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import core.commands.ServiceCommand;
 import core.modules.UsersDB;
+import core.modules.config.ConfigDB;
+import core.modules.config.Configuration;
+import core.modules.config.Settings;
 import core.modules.parser.itmo.schedule.ScheduleParser;
 import core.modules.res.MenheraSprite;
 import vk.VKManager;
@@ -40,7 +43,17 @@ public class EveningSpam implements ServiceCommand {
             }
     }
 
+    public static void main(String[] args){
+        EveningSpam e = new EveningSpam();
+        e.sendEvenSpam(255396611, "P3112");
+
+    }
+
     private void sendEvenSpam(int vkid, String group){
+
+        Settings settings = Configuration.getSettings(vkid);
+        if (!settings.isEveningSpam()) return;
+
         UserXtrCounters user_info = VKManager.getUserInfo(vkid);
         String user_name = "печенька";
         if (user_info!=null) user_name = user_info.getFirstName();
@@ -52,7 +65,7 @@ public class EveningSpam implements ServiceCommand {
         scheduleAdditionalData = "Группа: " + group + "\n" +
                 "Четность: " + parity + "\n";
 
-        String msg = "Добрейший вечерочек, " + user_name;
+        String msg = "Хэй , " + user_name;
         if (!schedule.equals("")) {
             msg +=
                     "\n\n" + "Вот расписание на завтра. Не забудь все проверить! " +
@@ -68,7 +81,7 @@ public class EveningSpam implements ServiceCommand {
             new VKManager().getSendQuery()
                     .peerId(vkid)
                     .message(msg)
-                    .attachment(MenheraSprite.CHILL_SPRITE)
+                    .attachment(MenheraSprite.GO_SLEEP)
                     .execute();}
             else {
                 new VKManager().getSendQuery()
@@ -77,10 +90,5 @@ public class EveningSpam implements ServiceCommand {
                         .attachment(MenheraSprite.GO_SLEEP)
                         .execute();}
             } catch (ApiException | ClientException ignored){}
-    }
-
-    public static void main(String[] args) {
-        EveningSpam e = new EveningSpam();
-        e.evenSpam();
     }
 }

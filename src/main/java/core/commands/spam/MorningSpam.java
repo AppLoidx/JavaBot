@@ -5,6 +5,8 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import core.commands.ServiceCommand;
 import core.modules.UsersDB;
+import core.modules.config.Configuration;
+import core.modules.config.Settings;
 import core.modules.parser.itmo.schedule.ScheduleParser;
 import core.modules.res.MenheraSprite;
 import vk.VKManager;
@@ -36,6 +38,10 @@ public class MorningSpam implements ServiceCommand {
         }
     }
     private void sendMorningSpam(int vkid, String group){
+
+        Settings settings = Configuration.getSettings(vkid);
+        if (!settings.isEveningSpam()) return;
+
         UserXtrCounters user_info = VKManager.getUserInfo(vkid);
         String user_name = "печенька";
         if (user_info!=null) user_name = user_info.getFirstName();
@@ -52,8 +58,6 @@ public class MorningSpam implements ServiceCommand {
             String msg = "C добрым утром, " + user_name +
                     "\n\n" + weather + "\n\n" + "Вот расписание. Не забудь все проверить! " +
                     "Я ведь тоже могу ошибаться.\n\n" + scheduleAdditionalData + schedule + "\n\n" +
-                    "Еще меня попросили передать, что сегодня ближе к вечеру появятся " +
-                    "настройки, где можно будет отключить спам. Следите за группой!\n" +
                     "Удачи сегодня на парах!";
 
             try {
