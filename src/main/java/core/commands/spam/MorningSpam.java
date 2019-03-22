@@ -40,7 +40,7 @@ public class MorningSpam implements ServiceCommand {
     private void sendMorningSpam(int vkid, String group){
 
         Settings settings = Configuration.getSettings(vkid);
-        if (!settings.isEveningSpam()) return;
+        if (!settings.isMorningSpam()) return;
 
         UserXtrCounters user_info = VKManager.getUserInfo(vkid);
         String user_name = "печенька";
