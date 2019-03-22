@@ -1,39 +1,43 @@
-package core.modules;
+package core.modules.quest;
+
+import core.modules.Database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Arthur Kupriyanov
  */
 public class QuestionsDB extends Database {
-    Connection connection;
+    private Connection connection;
     public QuestionsDB(){
         connection = new Database().getConnection();
     }
 
-    public ArrayList<String> getQuestions() throws SQLException {
+    public Map<Integer, String> getQuestions() throws SQLException {
         Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT question FROM questions");
+        ResultSet rs = stmt.executeQuery("SELECT question,id FROM questions");
 
-        ArrayList<String> quest = new ArrayList<>();
+        HashMap<Integer, String> quest = new HashMap<>();
 
         while(rs.next()){
-            quest.add(rs.getString("question"));
+            quest.put(rs.getInt("id"),rs.getString("question"));
         }
 
         return quest;
     }
 
-    public ArrayList<String> getQuestions(String tag) throws SQLException {
-        PreparedStatement stmt = connection.prepareStatement("SELECT question FROM questions WHERE quest_tag=?");
+    public Map<Integer, String> getQuestions(String tag) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement("SELECT question, id FROM questions WHERE quest_tag=?");
         stmt.setString(1, tag);
         ResultSet rs = stmt.executeQuery();
 
-        ArrayList<String> quest = new ArrayList<>();
+        HashMap<Integer, String> quest = new HashMap<>();
 
         while(rs.next()){
-            quest.add(rs.getString("question"));
+            quest.put(rs.getInt("id"),rs.getString("question"));
         }
 
         return quest;
