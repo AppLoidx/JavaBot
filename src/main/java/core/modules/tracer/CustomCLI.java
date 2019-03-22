@@ -4,7 +4,6 @@ import core.modules.session.UserIOStream;
 import ru.ifmo.cs.bcomp.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Custom CLI from original bcomp by se.ifmo
@@ -46,39 +45,33 @@ public class CustomCLI {
             }
 
         });
-        this.cpu.setCPUStopListener(new Runnable() {
-            public void run() {
-                CustomCLI.this.sleep = 0;
-                if (CustomCLI.this.printOnStop) {
-                    String add;
-                    if (CustomCLI.this.writelist.isEmpty()) {
-                        add = "";
-                    } else {
-                        add = " " + CustomCLI.this.getMemory((Integer) CustomCLI.this.writelist.get(0));
-                        CustomCLI.this.writelist.remove(0);
-                    }
-
-                    CustomCLI.this.printRegs(add);
-                    Iterator i$ = CustomCLI.this.writelist.iterator();
-
-                    while(i$.hasNext()) {
-                        Integer wraddr = (Integer)i$.next();
-                        outputStream.writeln(String.format("%1$34s", " ") + CustomCLI.this.getMemory(wraddr));
-                    }
+        this.cpu.setCPUStopListener(() -> {
+            CustomCLI.this.sleep = 0;
+            if (CustomCLI.this.printOnStop) {
+                String add;
+                if (CustomCLI.this.writelist.isEmpty()) {
+                    add = "";
+                } else {
+                    add = " " + CustomCLI.this.getMemory(CustomCLI.this.writelist.get(0));
+                    CustomCLI.this.writelist.remove(0);
                 }
 
+                CustomCLI.this.printRegs(add);
+
+                for (Integer wraddr : CustomCLI.this.writelist) {
+                    outputStream.writeln(String.format("%1$34s", " ") + CustomCLI.this.getMemory(wraddr));
+                }
             }
+
         });
-        this.cpu.setTickFinishListener(new Runnable() {
-            public void run() {
-                if (CustomCLI.this.sleep > 0) {
-                    try {
-                        Thread.sleep((long) CustomCLI.this.sleep);
-                    } catch (InterruptedException var2) {
-                    }
+        this.cpu.setTickFinishListener(() -> {
+            if (CustomCLI.this.sleep > 0) {
+                try {
+                    Thread.sleep((long) CustomCLI.this.sleep);
+                } catch (InterruptedException ignored) {
                 }
-
             }
+
         });
         this.asm = new ru.ifmo.cs.bcomp.Assembler(this.cpu.getInstructionSet());
         this.ioctrls = this.bcomp.getIOCtrls();
@@ -156,13 +149,13 @@ public class CustomCLI {
         this.bcomp.startTimer();
         outputStream.writeln("Эмулятор Базовой ЭВМ." + "\n" + "Загружена " + this.cpu.getMicroProgramName() + " микропрограмма\n" + "Цикл прерывания начинается с адреса " + ru.ifmo.cs.bcomp.Utils.toHex(this.cpu.getIntrCycleStartAddr(), 8) + "\n" + "БЭВМ готова к работе.\n" + "Используйте ? или help для получения справки\n\n");
 
-        while(true) {
+        do {
             String line;
             String[] cmds;
             do {
                 try {
-                    while (true){
-                        if (inputStream.available()){
+                    while (true) {
+                        if (inputStream.available()) {
                             line = inputStream.readString();
                             break;
                         }
@@ -175,12 +168,12 @@ public class CustomCLI {
                 }
                 outputStream.writeln("");
                 cmds = line.split("[ \t]+");
-            } while(cmds.length == 0);
+            } while (cmds.length == 0);
 
             int i = 0;
 
             label214:
-            for(this.printRegsTitle = this.printMicroTitle = true; i < cmds.length; ++i) {
+            for (this.printRegsTitle = this.printMicroTitle = true; i < cmds.length; ++i) {
                 String cmd = cmds[i];
                 if (!cmd.equals("")) {
                     if (cmd.charAt(0) == '#') {
@@ -190,7 +183,7 @@ public class CustomCLI {
                     if (this.checkCmd(cmd, "exit") || this.checkCmd(cmd, "quit")) {
                         exitStatus = true;
                         outputStream.writeln("exit");
-                        break ;
+                        break;
                     }
 
                     if (!this.checkCmd(cmd, "?") && !this.checkCmd(cmd, "help")) {
@@ -244,20 +237,20 @@ public class CustomCLI {
 
                             if (this.checkCmd(cmd, "maddress")) {
                                 this.checkResult(this.cpu.runSetMAddr());
-                                this.printMicroMemory(this.cpu.getRegValue(ru.ifmo.cs.bcomp.CPU.Reg.MIP));
+                                this.printMicroMemory(this.cpu.getRegValue(CPU.Reg.MIP));
                                 continue;
                             }
 
                             int ioaddr;
                             if (this.checkCmd(cmd, "mwrite")) {
-                                ioaddr = this.cpu.getRegValue(ru.ifmo.cs.bcomp.CPU.Reg.MIP);
+                                ioaddr = this.cpu.getRegValue(CPU.Reg.MIP);
                                 this.checkResult(this.cpu.runMWrite());
                                 this.printMicroMemory(ioaddr);
                                 continue;
                             }
 
                             if (this.checkCmd(cmd, "mread")) {
-                                ioaddr = this.cpu.getRegValue(ru.ifmo.cs.bcomp.CPU.Reg.MIP);
+                                ioaddr = this.cpu.getRegValue(CPU.Reg.MIP);
                                 this.checkResult(this.cpu.runMRead());
                                 this.printMicroMemory(ioaddr);
                                 continue;
@@ -267,7 +260,7 @@ public class CustomCLI {
                                 if (i == cmds.length - 1) {
                                     ioaddr = 0;
 
-                                    while(true) {
+                                    while (true) {
                                         if (ioaddr >= 4) {
                                             continue label214;
                                         }
@@ -305,9 +298,9 @@ public class CustomCLI {
                                 String code = "";
                                 outputStream.writeln("Введите текст программы. Для окончания введите END");
 
-                                while(true) {
-                                    while( true){
-                                        if (inputStream.available()){
+                                while (true) {
+                                    while (true) {
+                                        if (inputStream.available()) {
                                             line = inputStream.readString();
                                             break;
                                         }
@@ -317,12 +310,12 @@ public class CustomCLI {
                                         this.printOnStop = false;
                                         this.asm.compileProgram(code);
                                         this.asm.loadProgram(this.cpu);
-                                        outputStream.writeln("Программа начинается с адреса " + ru.ifmo.cs.bcomp.Utils.toHex(this.asm.getBeginAddr(), 11));
+                                        outputStream.writeln("Программа начинается с адреса " + Utils.toHex(this.asm.getBeginAddr(), 11));
                                         this.printOnStop = true;
 
                                         try {
-                                            outputStream.writeln("Результат по адресу " + ru.ifmo.cs.bcomp.Utils.toHex(this.asm.getLabelAddr("R"), 11));
-                                        } catch (Exception var10) {
+                                            outputStream.writeln("Результат по адресу " + Utils.toHex(this.asm.getLabelAddr("R"), 11));
+                                        } catch (Exception ignored) {
                                         }
                                         continue label214;
                                     }
@@ -347,7 +340,7 @@ public class CustomCLI {
                         }
 
                         try {
-                            if (ru.ifmo.cs.bcomp.Utils.isHexNumeric(cmd)) {
+                            if (Utils.isHexNumeric(cmd)) {
                                 value = Integer.parseInt(cmd, 16);
                             } else {
                                 value = this.asm.getLabelAddr(cmd.toUpperCase());
@@ -362,7 +355,6 @@ public class CustomCLI {
                     }
                 }
             }
-            if (exitStatus) break;
-        }
+        } while (!exitStatus);
     }
 }
