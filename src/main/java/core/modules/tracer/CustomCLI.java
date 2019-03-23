@@ -157,9 +157,14 @@ public class CustomCLI {
                     while (true) {
                         if (inputStream.available()) {
                             line = inputStream.readString();
+                            if (line.matches(".*@.*")){
+
+                                line = CLIInterpretator.interpret(line);
+
+                            }
                             break;
                         }
-                        Thread.sleep(300);
+                        Thread.sleep(100);
                     }
 
                 } catch (Exception var11) {
@@ -179,6 +184,7 @@ public class CustomCLI {
                     if (cmd.charAt(0) == '#') {
                         break;
                     }
+
 
                     if (this.checkCmd(cmd, "exit") || this.checkCmd(cmd, "quit")) {
                         exitStatus = true;
@@ -357,4 +363,6 @@ public class CustomCLI {
             }
         } while (!exitStatus);
     }
+
+
 }
