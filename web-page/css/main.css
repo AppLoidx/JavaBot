@@ -99,7 +99,7 @@ ul#header-menu > li {
     background-color: aqua;
     transition: all 600ms;
     float: left;
-    width: 27%;
+    width: 25%;
     height: 300px;
     margin-left: 20px;
     overflow: auto;
@@ -114,7 +114,7 @@ ul#header-menu > li {
 }
 .card > * {
     padding-left: 3%;
-    padding-right: 2%;
+    padding-right: 3%;
     padding-top: 3%;
 
 }
