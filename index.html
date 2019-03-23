@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ITMO-XCORE</title>
+    <link href="web-page/css/main.css" media="screen" rel="stylesheet">
+</head>
+<body>
+<script src="web-page/js/jquery.smooth-scroll.js"></script>
+<script type="text/javascript" src="https://vk.com/js/api/openapi.js?160"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+ <!--VK Widget-->
+<div id="vk_community_messages"></div>
+<script type="text/javascript">
+    VK.Widgets.CommunityMessages("vk_community_messages", 172998024, {expandTimeout: "8000",tooltipButtonText: "Привет-привет!"});
+</script>
+
+<ul id="header-menu">
+    <li><a href="#get-start">Getting started</a></li>
+    <li><a href="#command-list">Список команд</a></li>
+    <li><a href="#possibles">Возможности</a></li>
+    <li><a href="#for-developers">Разработчикам</a></li>
+    <li><a href="#about-author">Об авторе</a></li>
+    <div id="logo">
+        <img src="web-page/img/menhera-name-logo.png" width=210 height=35>
+    </div>
+</ul>
+
+<div id="first-page">
+
+    <div class="container"></div>
+</div>
+<p><a name="get-start"></a></p>
+<div class="contents">
+
+    <div class="content" id="get-start">
+
+    <h1 align="center">Getting Started</h1>
+
+    <div class="cards clearfix">
+        <div class="card" id="reg-card">
+            <h3>Регистрация</h3>
+            Для начала работы вам необходимо зарегистрироваться в системе. Это нужно чтобы
+            получить о вас персональные данные. В данный момент это логин и номер группы.
+            <br>
+            <div class="aqua-code" id="reg-example">
+                <p>reg -g номер_группы</p>
+
+            </div>
+
+            <div class="aqua-code">
+                <p>Например, reg -g P3112</p>
+            </div>
+        </div>
+        <div class="card" id="help-card">
+            <h3>Help</h3>
+            Чтобы быстрее начать работу с ботом ознакомьтесь с его командами и их описанием.
+            Для этого используйте:
+            <br>
+            <div class="aqua-code" id="help-example">
+                <p>help help</p>
+
+            </div>
+            Или же можно получить список команд:
+            <div class="aqua-code">
+                <p>help</p>
+            </div>
+        </div>
+
+        <div class="card" id="config-card">
+            <h3>Config</h3>
+            Настройте начальные настройки под себя. Вы можете настроить утреннюю и вечернюю
+            рассылки, а также доступ других приложений к вашим данным.<br>
+            <br>
+            Чтобы посмотреть свои настройки, введите:
+            <br>
+            <div class="aqua-code" id="config-example">
+                <p>config show</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <p><a name="command-list"></a></p>
+    <div class="content" id="command-list">
+        <h1 align="center">Список Команд</h1>
+        <ul id="commands-li">
+            <li><a href="https://github.com/AppLoidx/JavaBot/wiki/команда-Reg">Reg</a></li>
+            <li><a href="https://github.com/AppLoidx/JavaBot/wiki/команда-Help">Help</a></li>
+            <li><a href="https://github.com/AppLoidx/JavaBot/wiki/команда-Config">Config</a></li>
+            <li><a href="https://github.com/AppLoidx/JavaBot/wiki/команда-timed-command">timed command</a></li>
+            <li><a href="https://github.com/AppLoidx/JavaBot/wiki/команда-Schedule">Schedule</a></li>
+            <li><a href="https://github.com/AppLoidx/JavaBot/wiki/команда-Tess">Tess</a></li>
+            <li><a href="https://github.com/AppLoidx/JavaBot/wiki/команда-Session">Session</a></li>
+            <li><a href="https://github.com/AppLoidx/JavaBot/wiki/Режим-tracer"> режим tracer</a></li>
+        </ul>
+    </div>
+
+    <p><a name="possibles"></a></p>
+    <div class="content" id="possibles">
+        <h1 align="center">Возможности</h1>
+    </div>
+
+    <p><a name="for-developers"></a></p>
+    <div class="content" id="for-developers">
+        <h1 align="center">Разработчикам</h1>
+    </div>
+
+    <p><a name="about-author"></a></p>
+    <div class="content" id="about-author">
+        <h1 align="center">Об авторе</h1>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#header-menu").on("click","a", function (event) {
+            event.preventDefault();
+            var id  = $(this).attr('href'),
+                top = $(id).offset().top;
+            $('body,html').animate({scrollTop: top}, 1500);
+        });
+    });
+</script>
+</body>
+</html>
