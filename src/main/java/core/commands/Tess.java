@@ -24,6 +24,9 @@ public class Tess extends Command implements VKCommand, Helpable {
 
     @Override
     public String exec(Message message) {
+        if (message.getUserId() != 255396611){
+            return "Эта команда пока не доступна";
+        }
         final String IMG_PATH = "src/main/resources/img";
         List<MessageAttachment> attachments = message.getAttachments();
         if (attachments==null || attachments.isEmpty()){
