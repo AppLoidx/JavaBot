@@ -4,15 +4,11 @@ import com.vk.api.sdk.objects.messages.Message;
 import core.commands.Command;
 import core.commands.Helpable;
 import core.commands.Mode;
-import core.modules.Time;
 import core.modules.session.SessionManager;
 import core.modules.session.UserIOStream;
 import core.modules.tracer.CustomCLI;
 import ru.ifmo.cs.bcomp.MicroPrograms;
-import vk.VKManager;
 
-import java.util.Calendar;
-import java.util.regex.Pattern;
 
 /**
  * @author Arthur Kupriyanov
