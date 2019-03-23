@@ -165,7 +165,7 @@
             <version>1.0</version>
         </dependency>
 
-         https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j
+         <!--https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j-->
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
             <artifactId>tess4j</artifactId>
