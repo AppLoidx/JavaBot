@@ -29,12 +29,12 @@ public class CommandManager {
         commands.add(new Spam());
         commands.add(new Comment());
         commands.add(new Test());
-        commands.add(new Quest());
         commands.add(new TimedCommand());
         commands.add(new News());
         commands.add(new Session());
         commands.add(new Config());
         commands.add(new Tess());
+        commands.add(new Link());
 
         SessionManager.addMode(new Tracer());
         SessionManager.addMode(new core.commands.modes.Quest());
