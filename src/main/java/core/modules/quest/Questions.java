@@ -235,7 +235,7 @@ public class Questions {
                 }
                 if (key >= lastId){
                     outputStream.writeln(key+". "+questions.get(prevKey));
-                    lastId = key;
+                    lastId = prevKey;
                     break;
                 } else {
                     prevKey = key;
