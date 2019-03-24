@@ -90,7 +90,7 @@ public class Questions {
                 }
                 switch (input){
                     case "help":
-                        defaultCall();
+                        help();
                         break;
                     case "next":
                     case "n":
@@ -255,6 +255,12 @@ public class Questions {
             }
             outputStream.writeln("Чтобы перейти к какой-нибудь тематике, используйте :\n:cm имя_темы\n\n" +
                     "На данный момент доступны:\n\n" + list);
+        }
+
+        private void help(){
+            outputStream.writeln("Используйте команды-переходы:\nprevious\nnext\nrandom" +
+                    "\nbr\n\nСохраняйте и просматривайте через команды:\n" +
+                    ":save\n:my\nПодробнее:\nhttps://github.com/AppLoidx/JavaBot/wiki/Режим-quest");
         }
         private void previousCollections(){
             defaultPrevious();
