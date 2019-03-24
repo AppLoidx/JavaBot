@@ -165,7 +165,9 @@ public class Quest implements Mode{
                     "previous[или p]\n" +
                     "random[или r]\n" +
                     "\nСохраняйте вопросы командой:\n" +
-                    ":save - она сохранит последний заданный вопрос";
+                    ":save - она сохранит последний заданный вопрос" +
+                    "Подробнее в Wiki:\n" +
+                    "https://github.com/AppLoidx/JavaBot/wiki/Режим-quest";
         }
         if (message.getBody().matches("e|exit|:exit")){
             SessionManager.deleteSession(message.getUserId());
