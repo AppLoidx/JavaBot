@@ -91,6 +91,7 @@ public class Questions {
                 switch (input){
                     case "help":
                         defaultCall();
+                        break;
                     case "next":
                     case "n":
                         next();
@@ -131,7 +132,10 @@ public class Questions {
 
         private void changeMode(String input){
             QuestMode mode = QuestMode.getMode(input.split(" ")[1]);
-            if (mode == QuestMode.UNKNOWN) outputStream.writeln("Неизвестный режим");
+            if (mode == QuestMode.UNKNOWN){
+                outputStream.writeln("Неизвестный режим");
+                return;
+            }
             this.mode = mode;
             loadData();
             outputStream.writeln("Вы перешли на тему: " + mode.getValue() +
