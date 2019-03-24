@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 body, html {
     padding: 0;
+    overflow-x: hidden;
     margin: 0;
     font-size: medium;
     font-family: 'Open Sans', sans-serif;;
@@ -13,8 +14,11 @@ body, html {
 #logo{
     padding-top: 4px;
     float:right;
-    padding-right: 10px;
+    /*padding-right: 10px;*/
     color: white;
+}
+div.content > h1{
+    padding-right: 10%;
 }
 #first-page{
     height:700px;
@@ -75,7 +79,7 @@ ul#header-menu > li {
     border-width: 52.5px;
 }
 .aqua-code{
-    background: #09d5d7;
+    /*background: #747474;*/
     text-align: center;
     align-content: center;
     vertical-align: middle;
@@ -87,16 +91,18 @@ ul#header-menu > li {
     margin-top: 0;
     vertical-align: middle;
     text-align: center;
+    font-weight: bold;
 }
 .aqua-code:hover {
-    background-color: #2fcdd7;
+    background-color: #747474;
 }
 
 .card {
     border-color: white;
     border-width: 50px;
     border-radius: 10px;
-    background-color: aqua;
+    background-color: #3b3b3b;
+    color:white;
     transition: all 600ms;
     float: left;
     width: 25%;
@@ -133,9 +139,12 @@ ul#commands-li > li{
     color: white;
     transition: all 300ms;
     cursor: pointer;
-    padding-right: 10%;
+    padding-right: 15%;
 }
 ul#commands-li > li:hover{
     transform: scale(1.03);
     color: orange;
+}
+.right-float{
+    float: right;
 }
