@@ -147,4 +147,36 @@ ul#commands-li > li:hover{
 }
 .right-float{
     float: right;
+
+}
+
+.possibles > *{
+    float: left;
+    width: 40%;
+    height: 500px;
+}
+#note-img {
+    width: 700px;
+}
+.possibles > img{
+    transform: scale(0.8);
+    border-radius: 30px;
+    transition: all 1s;
+}
+.possibles-text-block{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 35px;
+    font-weight: bold;
+    color: whitesmoke;
+}
+.possibles > img:hover{
+    transform: scale(0.81);
+    border-radius: 30px;
+}
+.possibles{
+    padding: 20px 20px 20px 20px;
 }
