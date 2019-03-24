@@ -37,6 +37,7 @@ public class CommandManager {
         commands.add(new Tess());
 
         SessionManager.addMode(new Tracer());
+        SessionManager.addMode(new core.commands.modes.Quest());
 
     }
 

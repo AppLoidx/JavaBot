@@ -1,9 +1,12 @@
 package core.modules.quest;
 
+import core.common.LocaleMath;
 import core.modules.session.UserIOStream;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Системный вызов начинается с спецсимвола <code>:</code>
@@ -21,9 +24,22 @@ import java.util.Map;
 public class Questions {
         private static QuestionsDB db = new QuestionsDB();  // база данных
         private UserIOStream outputStream;                  // поток вывода
-        private boolean exitStatus = false;                 // флаг выхода
-        private QuestMode mode = QuestMode.DEFAULT;         // регистр мода
-        private int lastId;                                 // номер последнего вопроса
+
+    private boolean exitStatus = false;                 // флаг выхода
+    private QuestMode mode = QuestMode.DEFAULT;         // регистр мода
+    private int lastId;                                 // номер последнего вопроса
+
+    public boolean getStatus() {
+        return exitStatus;
+    }
+
+    public QuestMode getMode() {
+        return mode;
+    }
+
+    public int getLastId() {
+        return lastId;
+    }
 
         private Map<Integer, String> questions;
 
@@ -40,7 +56,7 @@ public class Questions {
             }
         }
 
-        public void drop(){
+        private void drop(){
             exitStatus = true;
         }
 
@@ -50,7 +66,7 @@ public class Questions {
 
         private void systemCall(String input){
             // TODO: Обработка систесных вызовов [дополнить]
-            if (input.matches(":cm .*")){
+            if (input.matches(":cm [a-zA-Z0-9]*")){
                 changeMode(input);
             }
             if (input.equals(":exit")){
@@ -64,16 +80,17 @@ public class Questions {
 
         public void init(UserIOStream inputStream){
             do {
-                String input;
-                while(true){
-                    if (inputStream.available()){
-                        input = inputStream.readString();
-                        break;
-                    }
+                String input = read(inputStream);
+                if (isSystemCall(input)){
+                    systemCall(input);
+                    continue;
                 }
-                if (isSystemCall(input)) systemCall(input);
-
+                if (input.equals("exit") || input.equals("e")){
+                    drop();
+                }
                 switch (input){
+                    case "help":
+                        defaultCall();
                     case "next":
                     case "n":
                         next();
@@ -86,18 +103,39 @@ public class Questions {
                     case "r":
                         random();
                         break;
-                    case "br":
-                        branch();
-                        break;
+                    default:
+                        if (input.matches("br [0-9]*")){
+                            int key = Integer.parseInt(input.split(" ")[1]);
+                            if (mode==QuestMode.DEFAULT){
+                                try {
+                                    questions = db.getAllQuestions();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (questions!=null) {
+                                if (questions.containsKey(key)) {
+                                    outputStream.writeln(key + ". " + questions.get(key));
+                                    lastId = key;
+                                } else outputStream.writeln("Вопроса с номером " + key +
+                                        " не существует!");
+                            }else {
+                                outputStream.writeln("Вопросов нет");
+                            }
+
+                            if (mode==QuestMode.DEFAULT) questions=null;
+                        } else outputStream.writeln("Неизвестная команда " + input);
                 }
             } while (!exitStatus);
         }
 
         private void changeMode(String input){
-            QuestMode mode = QuestMode.getMode(input);
+            QuestMode mode = QuestMode.getMode(input.split(" ")[1]);
             if (mode == QuestMode.UNKNOWN) outputStream.writeln("Неизвестный режим");
-            loadData();
             this.mode = mode;
+            loadData();
+            outputStream.writeln("Вы перешли на тему: " + mode.getValue() +
+                    "\n Загружено: " + this.questions.keySet().size() + " вопросов");
             this.lastId = 0;
         }
 
@@ -105,8 +143,10 @@ public class Questions {
             switch (mode){
                 case GENERICS:
                     nextGenerics();
+                    break;
                 case COLLECTIONS:
                     nextCollections();
+                    break;
                 case DEFAULT:
                     defaultCall();
             }
@@ -115,30 +155,120 @@ public class Questions {
         private void previous(){
             switch (mode){
                 case GENERICS:
-                    nextGenerics();
+                    previousGenerics();
+                    break;
                 case COLLECTIONS:
-                    nextCollections();
+                    previousCollections();
+                    break;
                 case DEFAULT:
                     defaultCall();
             }
         }
 
         private void random(){
-            // TODO: write random
+            if (mode==QuestMode.DEFAULT){
+                try {
+                    questions = db.getAllQuestions();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (questions==null){
+                outputStream.writeln("Вопросов нет");
+            }
+            Set<Integer> keySet = questions.keySet();
+            int r = LocaleMath.randInt(0, keySet.size());
+            Iterator<Integer> iter = questions.keySet().iterator();
+            int count = 0;
+            while (iter.hasNext()){
+                int key = iter.next();
+                if (count == r){
+                    outputStream.writeln(key+". "+questions.get(key));
+                    lastId = key;
+                    break;
+                } else {
+                    count++;
+                }
+            }
+
+            if (mode==QuestMode.DEFAULT) questions = null;
         }
 
-        private void branch(){
-            // TODO: write branch
-        }
         private void nextGenerics(){
-            // TODO: write next generics
+            defaultNext();
         }
 
         private void nextCollections(){
-            // TODO: write next collections
+            defaultNext();
+
         }
 
+        private void defaultNext(){
+            boolean sended = false;
+            for (int key : questions.keySet()){
+                if (key > lastId){
+                    outputStream.writeln(key+". "+questions.get(key));
+                    lastId = key;
+                    sended = true;
+                    break;
+                }
+            }
+            if (!sended){
+                if (questions.isEmpty()){
+                    outputStream.writeln("Вопросы с таким тегом еще не добавлены");
+                    return;
+                }
+                lastId = questions.keySet().iterator().next();
+                outputStream.writeln(questions.get(lastId));
+            }
+        }
+
+        private void defaultPrevious(){
+            Iterator<Integer> iterator = questions.keySet().iterator();
+            boolean first = true;
+            int prevKey = 0;
+            while(iterator.hasNext()){
+                int key=iterator.next();
+                if (first){
+                    prevKey = key;
+                    first = false;
+                }
+                if (key >= lastId){
+                    outputStream.writeln(key+". "+questions.get(prevKey));
+                    lastId = key;
+                    break;
+                } else {
+                    prevKey = key;
+                }
+            }
+
+        }
         private void defaultCall(){
-            // TODO: write default
+            String list = "";
+            for (QuestMode mode : QuestMode.values()){
+                if (mode == QuestMode.UNKNOWN || mode==QuestMode.DEFAULT) continue;
+                list += mode.getValue() + "\n";
+            }
+            outputStream.writeln("Чтобы перейти к какой-нибудь тематике, используйте :\n:cm имя_темы\n\n" +
+                    "На данный момент доступны:\n\n" + list);
+        }
+        private void previousCollections(){
+            defaultPrevious();
+        }
+        private void previousGenerics(){
+            defaultPrevious();
+        }
+
+        private String read(UserIOStream stream){
+            while(true){
+                if (stream.available()){
+                    return stream.readString();
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 }
