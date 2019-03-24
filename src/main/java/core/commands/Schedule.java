@@ -19,7 +19,7 @@ public class Schedule extends Command implements Helpable{
 
     @Override
     protected void setConfig() {
-        commandName = "sch";
+        commandName = "schedule";
     }
 
     private ScheduleParser p = new ScheduleParser();
