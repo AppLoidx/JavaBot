@@ -52,11 +52,17 @@ public class SavedQuestions {
      * @param id номер вопроса
      */
     public void deleteQuest(int id){
+        ArrayList<String> removableTags = new ArrayList<>();
         for (String tag : data.keySet()){
             Set<Integer> value = data.get(tag);
             value.remove(id);
-            if (value.isEmpty()) data.remove(tag);
+            if (value.isEmpty()){
+                removableTags.add(tag);
+            }
             else data.replace(tag, value);
+        }
+        for (String key: removableTags){
+            data.remove(key);
         }
     }
 
