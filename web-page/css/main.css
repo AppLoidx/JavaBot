@@ -1,5 +1,8 @@
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@media screen and (max-width: 1280px) { div.contentblock {width: 1200px;} }
+@media screen and (max-width: 1140px) { div.contentblock {width: 1024px;} }
+
 body, html {
     padding: 0;
     overflow-x: hidden;
@@ -106,7 +109,7 @@ ul#header-menu > li {
     transition: all 600ms;
     float: left;
     width: 25%;
-    height: 300px;
+    height: 320px;
     margin-left: 20px;
     overflow: auto;
     padding-left: 1.3%;
