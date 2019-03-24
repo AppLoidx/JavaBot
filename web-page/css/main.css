@@ -157,6 +157,7 @@ ul#commands-li > li:hover{
 }
 #note-img {
     width: 700px;
+    /*transform: scale(0.8);*/
 }
 .possibles > img{
     transform: scale(0.8);
@@ -179,4 +180,24 @@ ul#commands-li > li:hover{
 }
 .possibles{
     padding: 20px 20px 20px 20px;
+}
+#author{
+    padding-left: 60px;
+    border-radius: 20px;
+    transform: scale(0.8);
+}
+#author > img{
+    transform: scale(0.7);
+}
+
+#author > div{
+    text-align: left;
+    font-size: 20px;
+    list-style: none; /*убираем маркеры списка*/
+}
+
+#author > div > ul{
+    list-style: none; /*убираем маркеры списка*/
+    margin: 0; /*убираем отступы*/
+    padding-left: 0; /*убираем отступы*/
 }
