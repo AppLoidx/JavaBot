@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Help extends Command implements VKCommand, Helpable {
     @Override
     protected void setConfig() {
-        commandName = "help";
+        commandName = "help|man";
     }
 
     @Override

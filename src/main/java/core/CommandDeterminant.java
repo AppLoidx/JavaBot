@@ -24,7 +24,7 @@ public class CommandDeterminant {
         userInput = userInput.split(" ")[0];
         for (Command command: commands
              ) {
-            if (command.getName().equals(userInput)){
+            if (userInput.matches(command.getName())){
                 return command;
             }
         }
@@ -38,7 +38,7 @@ public class CommandDeterminant {
         for (Command command : commands
         ) {
             if (command instanceof VKCommand) {
-                if (command.getName().equals(body.split(" ")[0])) {
+                if (body.split(" ")[0].matches(command.getName())) {
                     return (VKCommand) command;
                 }
             }
@@ -52,7 +52,7 @@ public class CommandDeterminant {
         for (Command command : commands
         ) {
             if (command instanceof ProgramSpecification) {
-                if (command.getName().equals(message.split(" ")[0])) {
+                if (message.split(" ")[0].matches(command.getName())) {
                     return (ProgramSpecification) command;
                 }
             }

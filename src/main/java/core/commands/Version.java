@@ -12,7 +12,7 @@ public class Version extends Command implements Helpable{
     private static String date = Date.getDate();
     @Override
     protected void setConfig() {
-        commandName = "ver";
+        commandName = "version|ver";
     }
 
     @Override
