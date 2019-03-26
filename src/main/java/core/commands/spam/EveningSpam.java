@@ -45,7 +45,7 @@ public class EveningSpam implements ServiceCommand {
 
     public static void main(String[] args){
         EveningSpam e = new EveningSpam();
-        e.sendEvenSpam(255396611, "P3112");
+        e.service();
 
     }
 

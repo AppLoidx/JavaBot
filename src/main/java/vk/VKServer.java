@@ -31,9 +31,11 @@ public class VKServer {
         System.out.println("Running server...");
         while (true) {
             Thread.sleep(300);
-
-            new Event().handlePerDay();
-
+            try {
+                new Event().handlePerDay();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             try {
                 Message message = vkCore.getMessage();
             if (message != null) {

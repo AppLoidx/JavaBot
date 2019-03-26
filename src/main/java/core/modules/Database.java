@@ -14,8 +14,9 @@ import java.util.Properties;
  * @author Arthur Kupriyanov
  */
 public class Database {
-    private Connection connection;
-    {
+    private static Connection connection;
+
+    static {
         Properties dbConfig = new Properties();
         String dbUrl;
         try {
@@ -36,7 +37,7 @@ public class Database {
         }
     }
 
-    public Connection getConnection(){
+    public static Connection getConnection(){
         return connection;
     }
 

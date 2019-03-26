@@ -1,6 +1,5 @@
 package core.modules.config;
 
-import core.commands.Config;
 import core.modules.Database;
 
 import java.sql.*;
@@ -9,10 +8,7 @@ import java.sql.*;
  * @author Arthur Kupriyanov
  */
 public class ConfigDB extends Database {
-    private final Connection connection;
-    public ConfigDB(){
-        this.connection = new Database().getConnection();
-    }
+    private static final Connection connection = getConnection();
 
     public boolean saveSettings(int vkid, String json){
         PreparedStatement ps;
