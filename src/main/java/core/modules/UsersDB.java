@@ -9,7 +9,7 @@ import java.util.HashMap;
  * @author Arthur Kupriyanov
  */
 //@SuppressWarnings("Duplicates")
-public class UsersDB implements AutoCloseable{
+public class UsersDB{
 
     // ИМЕНА КОЛОНОК
 
@@ -23,14 +23,8 @@ public class UsersDB implements AutoCloseable{
     private Connection connection;
 
     public UsersDB(){
-        Database database = new Database();
-        this.connection = database.getConnection();
+        this.connection = Database.getConnection();
     }
-
-    public void closeConnection() throws SQLException {
-        connection.close();
-    }
-
 
     // ******************** GETTERS *****************************
 
@@ -382,12 +376,6 @@ public class UsersDB implements AutoCloseable{
         if (usersDB.checkPassword("marshall")) {
             System.out.println(usersDB.getUserPassword("marshall"));
         }
-        usersDB.closeConnection();
 
-    }
-
-    @Override
-    public void close() throws Exception {
-        closeConnection();
     }
 }

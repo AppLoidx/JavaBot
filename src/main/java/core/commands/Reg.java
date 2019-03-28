@@ -74,7 +74,6 @@ public class Reg extends Command implements VKCommand , Helpable{
                     e.printStackTrace();
                 }
 
-                usersDB.closeConnection();
             } else {
                 if (keyMap.containsKey("-l")){
                     String login = keyMap.get("-l");
@@ -88,7 +87,6 @@ public class Reg extends Command implements VKCommand , Helpable{
                         ms.sendMessage("Введите логин вместе с ключом -l", message.getUserId());
                     }
                 } else return "Вы уже зарегестрированы";
-                usersDB.closeConnection();
                 return "";
             }
 

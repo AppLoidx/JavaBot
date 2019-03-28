@@ -19,7 +19,7 @@ public class Auth {
         String password = usersDB.generateUserPassword(login);
         String message = description + "\n" + password;
         new VKManager().sendMessage(message, vkid);
-        usersDB.closeConnection();
+
         return true; // Successful
     }
 
@@ -27,14 +27,14 @@ public class Auth {
 
         UsersDB usersDB = new UsersDB();
         if (!usersDB.checkUserExist(login) || !usersDB.checkPassword(login)) {
-            usersDB.closeConnection();
+
             return false;
         }
         if (usersDB.getUserPassword(login).equals(password)) {
-            usersDB.closeConnection();
+
             return true;
         }
-        usersDB.closeConnection();
+
         return false;
     }
 

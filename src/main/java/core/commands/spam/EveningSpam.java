@@ -36,11 +36,7 @@ public class EveningSpam implements ServiceCommand {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            try {
-                usersDB.closeConnection();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
     }
 
     public static void main(String[] args){

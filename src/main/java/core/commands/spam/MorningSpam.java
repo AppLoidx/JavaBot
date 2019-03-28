@@ -31,11 +31,6 @@ public class MorningSpam implements ServiceCommand {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try {
-            usersDB.closeConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
     private void sendMorningSpam(int vkid, String group){
 
