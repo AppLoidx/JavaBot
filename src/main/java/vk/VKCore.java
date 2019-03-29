@@ -19,6 +19,7 @@ public class VKCore {
     private static int ts;
     private GroupActor actor;
     private static int maxMsgId = -1;
+    private static int lastMsgId = 0;
 
     public VKCore() throws ClientException, ApiException {
 
@@ -91,8 +92,10 @@ public class VKCore {
             if (messageId > maxMsgId){
                 maxMsgId = messageId;
             }
-
-            return messages.get(0);
+            if (messages.get(0).getId() != VKCore.lastMsgId) {
+                lastMsgId = messages.get(0).getId();
+                return messages.get(0);
+            }
         }
         return null;
     }
