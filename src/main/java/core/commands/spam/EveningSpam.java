@@ -77,7 +77,7 @@ public class EveningSpam implements ServiceCommand {
             new VKManager().getSendQuery()
                     .peerId(vkid)
                     .message(msg)
-                    .attachment(MenheraSprite.GO_SLEEP)
+                    .attachment(MenheraSprite.EATING)
                     .execute();}
             else {
                 new VKManager().getSendQuery()

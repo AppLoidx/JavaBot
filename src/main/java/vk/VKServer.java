@@ -30,7 +30,7 @@ public class VKServer {
 
         System.out.println("Running server...");
         while (true) {
-            Thread.sleep(300);
+            Thread.sleep(400);
             try {
                 new Event().handlePerDay();
             }catch (Exception e){

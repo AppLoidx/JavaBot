@@ -10,7 +10,9 @@ public class NaturalLanguage implements VKCommand, ServiceCommand {
         if (msgStr.matches("спасиб.*") || msgStr.equals("спс")){
             return "Всегда пожалуйста!";
         }
-        if (msgStr.equals("да")) return "Хорошо!";
+        if (msgStr.matches("да|ага|ye[ps]")) return "Хорошо!";
+        if (msgStr.matches("не[та]|no")) return "Окей";
+
 
         return null;
     }
