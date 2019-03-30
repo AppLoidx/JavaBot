@@ -1,6 +1,7 @@
-package core.modules.tracer;
+package core.modules.tracer.cli;
 
 import core.modules.session.UserIOStream;
+import core.modules.tracer.cli.interpretator.CLIInterpreter;
 import ru.ifmo.cs.bcomp.*;
 
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public class CustomCLI {
 
 
     public static String getHelp() {
-        return "Доступные команды:\na[ddress]\t- Пультовая операция \"Ввод адреса\"\nw[rite]\t\t- Пультовая операция \"Запись\"\nr[ead]\t\t- Пультовая операция \"Чтение\"\ns[tart]\t\t- Пультовая операция \"Пуск\"\nc[continue]\t- Пультовая операция \"Продолжить\"\nru[n]\t\t- Переключение режима Работа/Останов\ncl[ock]\t\t- Переключение режима потактового выполнения\nma[ddress]\t- Переход на микрокоманду\nmw[rite]\t- Запись микрокоманды\nmr[ead]\t\t- Чтение микрокоманды\nio\t\t- Вывод состояния всех ВУ\nio addr\t\t- Вывод состояния указанного ВУ\nio addr value\t- Запись value в указанное ВУ\nflag addr\t- Установка флага готовности указанного ВУ\nasm\t\t- Ввод программы на ассемблере\nsleep value\t- Задержка между тактами при фоновом выполнении\n{exit|quit}\t- Выход из эмулятора\nvalue\t\t- Ввод шестнадцатеричного значения в клавишный регистр\nlabel\t\t- Ввод адреса метки в клавишный регистр";
+        return "Доступные команды:\nfirst[ddress]\t- Пультовая операция \"Ввод адреса\"\nw[rite]\t\t- Пультовая операция \"Запись\"\nr[ead]\t\t- Пультовая операция \"Чтение\"\ns[tart]\t\t- Пультовая операция \"Пуск\"\nc[continue]\t- Пультовая операция \"Продолжить\"\nru[n]\t\t- Переключение режима Работа/Останов\ncl[ock]\t\t- Переключение режима потактового выполнения\nma[ddress]\t- Переход на микрокоманду\nmw[rite]\t- Запись микрокоманды\nmr[ead]\t\t- Чтение микрокоманды\nio\t\t- Вывод состояния всех ВУ\nio addr\t\t- Вывод состояния указанного ВУ\nio addr value\t- Запись value в указанное ВУ\nflag addr\t- Установка флага готовности указанного ВУ\nasm\t\t- Ввод программы на ассемблере\nsleep value\t- Задержка между тактами при фоновом выполнении\n{exit|quit}\t- Выход из эмулятора\nvalue\t\t- Ввод шестнадцатеричного значения в клавишный регистр\nlabel\t\t- Ввод адреса метки в клавишный регистр";
     }
 
     private String getReg(ru.ifmo.cs.bcomp.CPU.Reg reg) {
@@ -159,7 +160,7 @@ public class CustomCLI {
                             line = inputStream.readString();
                             if (line.matches(".*@.*")){
 
-                                line = CLIInterpretator.interpret(line);
+                                line = CLIInterpreter.interpret(line).first;
 
                             }
                             break;
