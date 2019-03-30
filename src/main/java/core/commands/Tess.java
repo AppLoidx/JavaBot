@@ -1,6 +1,6 @@
 package core.commands;
 
-import com.vk.api.sdk.objects.base.Link;
+
 import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.messages.MessageAttachment;
 import com.vk.api.sdk.objects.messages.MessageAttachmentType;
@@ -8,7 +8,7 @@ import com.vk.api.sdk.objects.photos.Photo;
 import core.commands.VKCommands.VKCommand;
 import core.modules.VKPhotoSaver;
 import core.modules.tesseract.Tesseract;
-import core.modules.tracer.StringBcompProgrammReader;
+
 
 import java.io.File;
 import java.util.List;
@@ -36,8 +36,6 @@ public class Tess extends Command implements VKCommand, Helpable {
             MessageAttachmentType type = attach.getType();
             if (type == MessageAttachmentType.PHOTO){
                 Photo photo = attach.getPhoto();
-                //if (link.)
-                //System.out.println(link.getUrl());
                 VKPhotoSaver.savePhoto(photo, IMG_PATH, message.getUserId().toString());
                 String filePath = IMG_PATH + "/" + message.getUserId() + ".jpg";
                 File file = new File(filePath);
