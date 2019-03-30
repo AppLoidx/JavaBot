@@ -77,13 +77,13 @@ public class EveningSpam implements ServiceCommand {
             new VKManager().getSendQuery()
                     .peerId(vkid)
                     .message(msg)
-                    .attachment(MenheraSprite.EATING)
+                    .attachment(MenheraSprite.GO_SLEEP)
                     .execute();}
             else {
                 new VKManager().getSendQuery()
                         .peerId(vkid)
                         .message(msg)
-                        .attachment(MenheraSprite.GO_SLEEP)
+                        .attachment(MenheraSprite.EATING)
                         .execute();}
             } catch (ApiException | ClientException ignored){}
     }
