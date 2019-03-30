@@ -3,7 +3,7 @@ package core;
 
 import core.commands.*;
 import core.commands.modes.Session;
-import core.commands.modes.Tracer;
+import core.commands.modes.tracer.Tracer;
 import core.commands.queue.Queue;
 import core.modules.session.SessionManager;
 
