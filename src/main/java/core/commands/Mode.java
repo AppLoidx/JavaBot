@@ -12,6 +12,7 @@ public interface Mode extends Runnable {
     String getResponse(String input);
     String getResponse(Message message);
 
+    default void onExit(){}
     void setOutput(UserIOStream output);
     void setInput(UserIOStream input);
 
