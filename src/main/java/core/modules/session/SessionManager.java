@@ -23,6 +23,7 @@ public class SessionManager {
     }
 
     public static void deleteSession(int vkid){
+        getSession(vkid).getMode().onExit();
         sessionMap.remove(vkid);
     }
 
