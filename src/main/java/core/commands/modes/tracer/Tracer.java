@@ -63,7 +63,7 @@ public class Tracer extends Command implements Mode, Helpable {
         while(true){
             if (output.available()){
                 String res = output.readString();
-                if (res.replace("\n", "").equals("exit")){
+                if (res.replace("\n", "").matches(".*!exit.*")){
                     SessionManager.deleteSession(message.getUserId());
                     onExit();
                     return "Вы закончили сессию трассировки";

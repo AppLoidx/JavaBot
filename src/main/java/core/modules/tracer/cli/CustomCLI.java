@@ -189,7 +189,7 @@ public class CustomCLI {
 
                     if (this.checkCmd(cmd, "exit") || this.checkCmd(cmd, "quit")) {
                         exitStatus = true;
-                        outputStream.writeln("exit");
+                        outputStream.writeln("!exit");
                         break;
                     }
 
