@@ -74,13 +74,12 @@ public class Tracer extends Command implements Mode, Helpable {
                     for (String line : res.split("\n")){
                         String[] regs = line.split(" ");
                         if (regs.length > 1){
-                            if (regs[1].equals("F000")){
+                            if (regs[1].equals("F000") && !doubleCut){
                                 response.append("\n").append(line);
-                                if (doubleCut){
-                                    doubleCut = false;
-                                    continue;
-                                }
                                 break;
+                            } else if (regs[1].equals("F000")){
+                                doubleCut = false;
+                                response.append("\n").append(line);
                             }
                             else {
                                 response.append("\n").append(line);
@@ -196,11 +195,14 @@ public class Tracer extends Command implements Mode, Helpable {
             msg = msg.replace(m.group(), "");
         }
 
-        m = Pattern.compile("@[a-zA-Z0-9]*").matcher(msg);
+        m = Pattern.compile("@cut[|2]").matcher(msg);
         while (m.find()){
             msg = msg.replace(m.group(),"");
         }
-
+        m = Pattern.compile("@generate").matcher(msg);
+        while (m.find()){
+            msg = msg.replace(m.group(),"");
+        }
         return msg;
     }
 
