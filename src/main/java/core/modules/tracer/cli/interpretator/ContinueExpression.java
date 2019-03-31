@@ -21,9 +21,7 @@ class ContinueExpression extends CLIExpression {
 
     @Override
     DoubleTuple<String, String> interpret(String context, DoubleTuple<String, String> dt) {
-        System.out.println("here " + context);
         if (context.matches(".*@c[*][0-9]{1,2}.*")){
-            System.out.println("called!");
             String[] strings = context.split("@");
             StringBuilder sb = new StringBuilder();
             boolean first = true;
@@ -37,7 +35,6 @@ class ContinueExpression extends CLIExpression {
                 Matcher m = p.matcher(sample);
 
                 while (m.find()) {
-                    System.out.println("found!" + m.group());
                     added = true;
                     sb.append(replaceSub(sample, compileToContinueCmd(m.group()),m.start(), m.end()));
                 }

@@ -12,6 +12,7 @@ import core.modules.VKDocUploader;
 import core.modules.session.SessionManager;
 import core.modules.session.UserIOStream;
 import core.modules.tracer.cli.CustomCLI;
+import core.modules.tracer.cli.MnemonicInterpreter;
 import ru.ifmo.cs.bcomp.MicroPrograms;
 import vk.VKManager;
 
@@ -43,6 +44,8 @@ public class Tracer extends Command implements Mode, Helpable {
 
         String userInput = message.getBody();
 
+        checkExit(message);
+
         // регистр срезки после команды HLT
         boolean cut = checkCut(userInput);
 
@@ -51,6 +54,9 @@ public class Tracer extends Command implements Mode, Helpable {
 
         // регистр генерации xls-файла
         boolean generate = checkGenerate(userInput);
+
+        // регистр печати мнемоники
+        boolean mnemonic = checkMnemonic(userInput);
 
         String oldOutput = "";
         if (output.available()){
@@ -64,57 +70,20 @@ public class Tracer extends Command implements Mode, Helpable {
             if (output.available()){
                 String res = output.readString();
                 if (res.replace("\n", "").matches(".*!exit.*")){
-                    SessionManager.deleteSession(message.getUserId());
-                    onExit();
+                    exit(message.getUserId());
                     return "Вы закончили сессию трассировки";
                 }
 
                 StringBuilder response = new StringBuilder();
                 if (cut){
-                    for (String line : res.split("\n")){
-                        String[] regs = line.split(" ");
-                        if (regs.length > 1){
-                            if (regs[1].equals("F000") && !doubleCut){
-                                response.append("\n").append(line);
-                                break;
-                            } else if (regs[1].equals("F000")){
-                                doubleCut = false;
-                                response.append("\n").append(line);
-                            }
-                            else {
-                                response.append("\n").append(line);
-                            }
-                        }
-                    }
+                    cut(response, res, doubleCut);
                 } else response.append(res);
 
+//                if (mnemonic) response = insertMnemonic(response.toString());
 
                 if (generate){
-                    boolean fail = false;
-                    String failMessage = "ошибок не найдено";
-                    File file = new TraceGenerator().generate(response.toString(), String.valueOf(message.getUserId()));
-                    if (file == null){
-                        failMessage = "Ошибка сервера при отправке файла: не найден целевой файл";
-                        fail = true;
-                    }
-                    try {
-                        if (!fail) {
-                            Doc doc = VKDocUploader.upload(message.getUserId(), file, DocsGetMessagesUploadServerType.DOC);
-                            file.deleteOnExit();
-                            if (doc == null) {
-                                failMessage = "Не удалось загрузить файл на сервер вк";
-                                fail = true;
-                            }else new VKManager().sendMessage(doc.getUrl(), message.getUserId());
-                        }
-                    } catch (ClientException | ApiException e) {
-                        failMessage = e.getMessage();
-                        fail = true;
-                        e.printStackTrace();
-                    }
-                    if (fail) {
-                        new VKManager().sendMessage(failMessage, message.getUserId());
-                    }
-                    if (!fail) file.delete();
+                    if (mnemonic) generateDoc(message, insertMnemonic(response.toString()).toString());
+                    else generateDoc(message, response.toString());
                 }
                 return oldOutput + "\n" + response.toString().replace(" ", "&#4448;");
             }
@@ -203,7 +172,89 @@ public class Tracer extends Command implements Mode, Helpable {
         while (m.find()){
             msg = msg.replace(m.group(),"");
         }
+        m = Pattern.compile("@mnemonic").matcher(msg);
+        while (m.find()){
+            msg = msg.replace(m.group(),"");
+        }
         return msg;
     }
 
+    private void generateDoc(Message message, String response){
+        boolean fail = false;
+        String failMessage = "ошибок не найдено";
+        File file = new TraceGenerator().generate(response, String.valueOf(message.getUserId()));
+        if (file == null){
+            failMessage = "Ошибка сервера при отправке файла: не найден целевой файл";
+            fail = true;
+        }
+        try {
+            if (!fail) {
+                Doc doc = VKDocUploader.upload(message.getUserId(), file, DocsGetMessagesUploadServerType.DOC);
+                file.deleteOnExit();
+                if (doc == null) {
+                    failMessage = "Не удалось загрузить файл на сервер вк";
+                    fail = true;
+                }else new VKManager().sendMessage(doc.getUrl(), message.getUserId());
+            }
+        } catch (ClientException | ApiException e) {
+            failMessage = e.getMessage();
+            fail = true;
+            e.printStackTrace();
+        }
+        if (fail) {
+            new VKManager().sendMessage(failMessage, message.getUserId());
+        }
+        if (!fail) file.delete();
+    }
+
+    private void cut(StringBuilder response, String res, boolean doubleCut){
+        for (String line : res.split("\n")){
+            String[] regs = line.split(" ");
+            if (regs.length > 1){
+                if (regs[1].equals("F000") && !doubleCut){
+                    response.append("\n").append(line);
+                    break;
+                } else if (regs[1].equals("F000")){
+                    doubleCut = false;
+                    response.append("\n").append(line);
+                }
+                else {
+                    response.append("\n").append(line);
+                }
+            }
+        }
+    }
+
+    private StringBuilder insertMnemonic(String res){
+        StringBuilder response = new StringBuilder();
+        for (String line : res.split("\n")){
+            String[] regs = line.split(" ");
+
+            if (regs.length > 1){
+                if (regs[0].matches("[0-9a-fA-F]{3}")){
+                    int emptyFieldsCount = 10 - regs.length;
+                    for (int i=0; i< emptyFieldsCount; i++){
+                        line += " -";
+                    }
+                    response.append("\n").append(line).append(" ").append(MnemonicInterpreter.interpret(regs[1]));
+                } else {
+                    response.append("\n").append(line);
+                }
+            }
+        }
+        return response;
+    }
+
+    private void exit(int userID){
+        SessionManager.deleteSession(userID);
+        onExit();
+    }
+
+    private void checkExit(Message msg){
+        if (msg.getBody().matches(".* exit .*")) exit(msg.getUserId());
+    }
+
+    private boolean checkMnemonic(String msg){
+        return msg.matches(".*@mnemonic.*");
+    }
 }
