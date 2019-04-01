@@ -10,6 +10,7 @@ import core.Commander;
 import core.commands.NaturalLanguage;
 import core.modules.session.SessionInputHandler;
 import core.modules.session.SessionManager;
+import core.modules.vkSDK.MessageConverter;
 
 public class Messenger implements Runnable{
     private GroupActor actor;
@@ -41,13 +42,29 @@ public class Messenger implements Runnable{
      */
     private String getResponse(){
 
+        // ******** PRE HANDLE ********
+
+        //      SESSION
+
         if (SessionManager.checkExist(message.getUserId())){
             return new SessionInputHandler(message.getUserId()).input(message).get();
         }
+
+        //      ALIAS
+
+        if (Alias.isAlias(message.getUserId(), message.getBody())){
+            String alias = Alias.getAlias(message.getUserId(), message.getBody());
+            message = Alias.setMessageBody(message, alias);
+        }
+
+        //      NATURAL RESPONSE
+
         String naturalRes;
         if ((naturalRes = NaturalLanguage.getNaturalResponse(message)) != null){
             return naturalRes;
         }
+
+        // ******** MAIN HANDLE ********
 
         String vkResponse =  Commander.getResponse(message);
         if (vkResponse != null ){
