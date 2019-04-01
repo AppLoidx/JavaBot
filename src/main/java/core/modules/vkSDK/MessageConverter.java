@@ -155,61 +155,78 @@ public class MessageConverter {
 
         return gson.fromJson(json, Message.class);
     }
+    public static MessageConverter getInstance(String json){
+        return new GsonBuilder().create().fromJson(json, MessageConverter.class);
+    }
 
-    public void setId(Integer id) {
+    public MessageConverter setId(Integer id) {
         this.id = id;
+        return this;
     }
 
-    public void setDate(Integer date) {
+    public MessageConverter setDate(Integer date) {
         this.date = date;
+        return this;
     }
 
-    public void setUpdateTime(Integer updateTime) {
+    public MessageConverter setUpdateTime(Integer updateTime) {
         this.updateTime = updateTime;
+        return this;
     }
 
-    public void setOut(BoolInt out) {
+    public MessageConverter setOut(BoolInt out) {
         this.out = out;
+        return this;
     }
 
-    public void setUserId(Integer userId) {
+    public MessageConverter setUserId(Integer userId) {
         this.userId = userId;
+        return this;
     }
 
-    public void setFromId(Integer fromId) {
+    public MessageConverter setFromId(Integer fromId) {
         this.fromId = fromId;
+        return this;
     }
 
-    public void setRandomId(Integer randomId) {
+    public MessageConverter setRandomId(Integer randomId) {
         this.randomId = randomId;
+        return this;
     }
 
-    public void setImportant(BoolInt important) {
+    public MessageConverter setImportant(BoolInt important) {
         this.important = important;
+        return this;
     }
 
-    public void setDeleted(BoolInt deleted) {
+    public MessageConverter setDeleted(BoolInt deleted) {
         this.deleted = deleted;
+        return this;
     }
 
-    public void setEmoji(BoolInt emoji) {
+    public MessageConverter setEmoji(BoolInt emoji) {
         this.emoji = emoji;
+        return this;
     }
 
-    public void setFwdMessages(List<Message> fwdMessages) {
+    public MessageConverter setFwdMessages(List<Message> fwdMessages) {
         this.fwdMessages = fwdMessages;
+        return this;
     }
 
-    public void setReadState(BoolInt readState) {
+    public MessageConverter setReadState(BoolInt readState) {
         this.readState = readState;
+        return this;
     }
 
-    public void setTitle(String title) {
+    public MessageConverter setTitle(String title) {
         this.title = title;
+        return this;
     }
 
-    public void setBody(String body) {
+    public MessageConverter setBody(String body) {
         this.body = body;
+        return this;
     }
 
     public void setAttachments(List<MessageAttachment> attachments) {
