@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * @author Arthur Kupriyanov
  */
-public class Keyboard extends Command implements VKCommand {
+public class Keyboard extends Command implements VKCommand, Helpable{
     @Override
     protected void setConfig() {
         commandName = "keyboard";
@@ -84,5 +84,20 @@ public class Keyboard extends Command implements VKCommand {
             return "Ошибка. " + e.getMessage();
         }
         return "";
+    }
+
+    @Override
+    public String getManual() {
+        return "Чтобы добавить клавиатуру, введите:\n" +
+                "keyboard name1 name2 name3\n\n" +
+                "\nЧтобы очистить:\n" +
+                "keyboard reset\n\n" +
+                "Подробнее:\n" +
+                "https://github.com/AppLoidx/JavaBot/wiki/команда-Keyboard";
+    }
+
+    @Override
+    public String getDescription() {
+        return "команда для создания клавиатур";
     }
 }

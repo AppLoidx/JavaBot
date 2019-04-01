@@ -96,7 +96,9 @@ public class Alias extends Command implements VKCommand, Helpable {
                 "Посмотреть список созданных alias:\n" +
                 "alias show\n\n" +
                 "Удаление alias:\n" +
-                "alias delete name_of_alias";
+                "alias delete name_of_alias\n\n" +
+                "Подробнее:\n" +
+                "https://github.com/AppLoidx/JavaBot/wiki/команда-Alias";
     }
 
     @Override
