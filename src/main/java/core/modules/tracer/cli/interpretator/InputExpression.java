@@ -34,8 +34,8 @@ public class InputExpression extends CLIExpression {
     DoubleTuple<String, String> interpret(String context, DoubleTuple<String, String> dt) {
         StringBuilder logBuilder = new StringBuilder();
 
-        if (context.matches(".*@[0-9a-fA-F]{3}->.*;.*")) {
-            String[] strings = context.split("@");
+        if (context.matches(".*&[0-9a-fA-F]{3}->.*;.*")) {
+            String[] strings = context.split("&");
             StringBuilder sb = new StringBuilder();
             boolean first = true;
             for (String sample: strings) {

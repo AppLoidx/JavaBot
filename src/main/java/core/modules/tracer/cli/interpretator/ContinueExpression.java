@@ -21,8 +21,8 @@ class ContinueExpression extends CLIExpression {
 
     @Override
     DoubleTuple<String, String> interpret(String context, DoubleTuple<String, String> dt) {
-        if (context.matches(".*@c[*][0-9]{1,2}.*")){
-            String[] strings = context.split("@");
+        if (context.matches(".*&c[*][0-9]{1,2}.*")){
+            String[] strings = context.split("&");
             StringBuilder sb = new StringBuilder();
             boolean first = true;
             for (String sample: strings) {
@@ -41,7 +41,7 @@ class ContinueExpression extends CLIExpression {
 
                 if (!added){
                     if (first) sb.append(sample);
-                    else sb.append("@").append(sample);
+                    else sb.append("&").append(sample);
                 }
                 first = false;
             }

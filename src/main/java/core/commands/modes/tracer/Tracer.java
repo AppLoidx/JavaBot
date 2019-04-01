@@ -150,11 +150,11 @@ public class Tracer extends Command implements Mode, Helpable {
     }
 
     private boolean checkCut(String msg){
-        return msg.matches(".*@cut.*");
+        return msg.matches(".*&cut.*");
     }
-    private boolean doubleCutCheck(String msg) { return msg.matches(".*@cut2.*");}
+    private boolean doubleCutCheck(String msg) { return msg.matches(".*&cut2.*");}
 
-    private boolean checkGenerate(String msg) { return msg.matches(".*@generate.*");}
+    private boolean checkGenerate(String msg) { return msg.matches(".*&generate.*");}
 
     private String cleanMsg(String msg){
         Pattern p = Pattern.compile("\\[.*]");
@@ -164,15 +164,15 @@ public class Tracer extends Command implements Mode, Helpable {
             msg = msg.replace(m.group(), "");
         }
 
-        m = Pattern.compile("@cut[|2]").matcher(msg);
+        m = Pattern.compile("&cut[2]*").matcher(msg);
         while (m.find()){
             msg = msg.replace(m.group(),"");
         }
-        m = Pattern.compile("@generate").matcher(msg);
+        m = Pattern.compile("&generate").matcher(msg);
         while (m.find()){
             msg = msg.replace(m.group(),"");
         }
-        m = Pattern.compile("@mnemonic").matcher(msg);
+        m = Pattern.compile("&mnemonic").matcher(msg);
         while (m.find()){
             msg = msg.replace(m.group(),"");
         }
@@ -255,6 +255,6 @@ public class Tracer extends Command implements Mode, Helpable {
     }
 
     private boolean checkMnemonic(String msg){
-        return msg.matches(".*@mnemonic.*");
+        return msg.matches(".*&mnemonic.*");
     }
 }

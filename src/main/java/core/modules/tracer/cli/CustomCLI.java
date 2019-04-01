@@ -158,7 +158,7 @@ public class CustomCLI {
                     while (true) {
                         if (inputStream.available()) {
                             line = inputStream.readString();
-                            if (line.matches(".*@.*")){
+                            if (line.matches(".*&.*")){
 
                                 line = CLIInterpreter.interpret(line).first;
 
