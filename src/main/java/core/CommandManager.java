@@ -36,6 +36,7 @@ public class CommandManager {
         commands.add(new Tess());
         commands.add(new Link());
         commands.add(new Alias());
+        commands.add(new Keyboard());
 
         SessionManager.addMode(new Tracer());
         SessionManager.addMode(new core.commands.modes.Quest());
