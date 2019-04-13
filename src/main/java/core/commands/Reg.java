@@ -48,7 +48,7 @@ public class Reg extends Command implements VKCommand , Helpable{
 
             if (!usersDB.checkUserExist(vkid)) {
                 if (keyMap.containsKey("-g")){
-                    group = keyMap.get("-g");
+                    group = keyMap.get("-g").toUpperCase();
                     if (!group.matches("[a-zA-Z][0-9].*")){
                         return "Введите верный формат группы. Например, P3112";
                     }
