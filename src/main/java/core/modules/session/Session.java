@@ -16,6 +16,7 @@ public class Session {
         this.mode = mode;
         this.mode.setInput(input);
         this.mode.setOutput(output);
+        this.mode.setUserID(vkid);
         this.sessionThread = new Thread(mode);
         this.sessionThread.setName("Thread-" + mode.getName() + "-vkid-" + vkid);
     }
