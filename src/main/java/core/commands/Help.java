@@ -74,11 +74,6 @@ public class Help extends Command implements VKCommand, Helpable {
 
     }
 
-    public static void main(String[] args) {
-        Help h = new Help();
-        System.out.println();
-    }
-
     @Override
     public String getManual() {
         return

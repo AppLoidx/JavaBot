@@ -53,11 +53,8 @@ public class Alias extends Command implements VKCommand, Helpable {
                 return "Вы ввели неверный формат. Воспользуйтесь help";
             }
             String command;
-//            StringBuilder command = new StringBuilder();
-//            for (int i=1; i< splitedText.length - 1;i++ ){
-//                command.append(splitedText[i]).append(" ");
-//            }
-            String alias;// = splitedText[splitedText.length - 1];
+
+            String alias;
 
             Pattern p = Pattern.compile(" [a-zA-Z0-9]*=\".+\".*");
             Matcher matcher = p.matcher(message.getBody());

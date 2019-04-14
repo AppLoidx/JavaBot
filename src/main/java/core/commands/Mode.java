@@ -7,7 +7,7 @@ import core.modules.session.UserIOStream;
  * @author Arthur Kupriyanov
  */
 public interface Mode extends Runnable {
-
+    void setUserID(int id);
     String getName();
     String getResponse(String input);
     String getResponse(Message message);
