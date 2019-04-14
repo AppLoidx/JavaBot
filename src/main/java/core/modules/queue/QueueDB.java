@@ -2,8 +2,6 @@ package core.modules.queue;
 
 import com.google.gson.GsonBuilder;
 import core.modules.Database;
-import server.QueueBuilder;
-import server.QueueObject;
 
 import java.sql.*;
 import java.util.ArrayList;

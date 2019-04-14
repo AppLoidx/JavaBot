@@ -1,7 +1,4 @@
-package server;
-
-import core.modules.queue.ShuffleQueue;
-import core.modules.queue.SimpleQueue;
+package core.modules.queue;
 
 /**
  * @author Arthur Kupriyanov
