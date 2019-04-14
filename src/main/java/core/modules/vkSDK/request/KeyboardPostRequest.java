@@ -9,12 +9,10 @@ import core.modules.vkSDK.request.keyboard.KeyboardColor;
 import core.modules.vkSDK.request.keyboard.VKButton;
 import vk.VKCore;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -40,7 +38,6 @@ public class KeyboardPostRequest {
 
     public void sendKeyboard(Keyboard keyboard, int userId) throws IOException, ClientException, ApiException {
         String jsonKeyboard = new GsonBuilder().create().toJson(keyboard);
-        String jsonKeyboard2 = "{\"buttons\":[],\"one_time\":true}&";
         String urle = BASE_URL + "?" + "keyboard=" +
                 jsonKeyboard + "&peer_id="
                 + userId + "&message=Установка%20клавиатуры..." +
@@ -53,10 +50,10 @@ public class KeyboardPostRequest {
         connection.setRequestProperty("User-Agent","");
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-length", "0");
+        connection.setRequestProperty("Content-Type", "application/json");
 
         connection.setDoInput(true);
         connection.connect();
-
         InputStream inputStream = connection.getInputStream();
         StringBuffer chaine = new StringBuffer();
 

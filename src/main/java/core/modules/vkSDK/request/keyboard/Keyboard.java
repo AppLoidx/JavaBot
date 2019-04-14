@@ -3,6 +3,7 @@ package core.modules.vkSDK.request.keyboard;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Arthur Kupriyanov
@@ -20,7 +21,7 @@ public class Keyboard {
         buttons.add(new ArrayList<>());
     }
 
-    public boolean addButtons(ArrayList<VKButton> vkButtonArrayList, int row){
+    public void addButtons(ArrayList<VKButton> vkButtonArrayList, int row){
         try {
             if (row >= 0 && row <= 3) {
                 ArrayList<ArrayList<VKButton>> newButtons = new ArrayList<>();
@@ -38,7 +39,6 @@ public class Keyboard {
         } catch (IndexOutOfBoundsException e){
             e.printStackTrace();
         }
-        return false;
     }
 
     public void setOneTime(boolean oneTime) {
