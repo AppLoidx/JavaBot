@@ -44,6 +44,7 @@ public class Session extends Command implements VKCommand, Helpable {
                     } else {
                         description.append(mode.getName()).append(" -- нет описания");
                     }
+                    description.append("\n");
                 }
                 return "Список доступных сессий:\n" + description.toString();
             } else {

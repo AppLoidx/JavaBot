@@ -1,15 +1,13 @@
 package core.commands.modes;
 
 import com.vk.api.sdk.objects.messages.Message;
-import core.commands.Command;
 import core.commands.Mode;
-import core.modules.quest.QuestMode;
-import core.modules.quest.Questions;
-import core.modules.quest.QuestionsDB;
-import core.modules.quest.SavedQuestions;
+import core.modules.modes.quest.QuestMode;
+import core.modules.modes.quest.Questions;
+import core.modules.modes.quest.QuestionsDB;
+import core.modules.modes.quest.SavedQuestions;
 import core.modules.session.SessionManager;
 import core.modules.session.UserIOStream;
-import sun.security.krb5.internal.PAData;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -24,6 +22,11 @@ public class Quest implements Mode{
     private UserIOStream input;
     private UserIOStream output;
     private Questions questions;
+
+    @Override
+    public void setUserID(int id) {
+
+    }
 
     @Override
     public String getName() {
