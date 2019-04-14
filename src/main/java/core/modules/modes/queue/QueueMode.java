@@ -145,10 +145,16 @@ public class QueueMode {
     }
 
     private boolean checkNone(){
-        if (queueName.equals("none")){
-            outputStream.writeln("Перейдите к какой нибудь очереди, чтобы получить список");
-            return true;
-        } return false;
+        try {
+            if (!new QueueDB().getNames().contains(queueName)) queueName = "none";
+            if (queueName.equals("none")){
+                outputStream.writeln("Перейдите к какой нибудь очереди, чтобы получить список");
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
     private void branchCommand(String request){
         String branchName;
