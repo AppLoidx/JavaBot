@@ -53,7 +53,7 @@ public class QueueMode {
                     swapCommand(request);
                     break;
                 case "shuffle":
-                    showCommand();
+                    shuffleCommand(request);
                     break;
                 case "exit":
                 case "e":
@@ -79,6 +79,7 @@ public class QueueMode {
         q.shuffle();
         try {
             new QueueDB().save(q);
+            outputStream.writeln("Очередь перемешана:\n" + QueueFormatter.getString(q));
         } catch (SQLException e) {
             e.printStackTrace();
         }
