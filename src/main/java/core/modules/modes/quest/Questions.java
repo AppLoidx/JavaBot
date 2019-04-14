@@ -1,4 +1,4 @@
-package core.modules.quest;
+package core.modules.modes.quest;
 
 import core.common.LocaleMath;
 import core.modules.session.UserIOStream;

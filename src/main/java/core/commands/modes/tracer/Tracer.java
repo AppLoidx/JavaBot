@@ -11,8 +11,8 @@ import core.commands.Mode;
 import core.modules.VKDocUploader;
 import core.modules.session.SessionManager;
 import core.modules.session.UserIOStream;
-import core.modules.tracer.cli.CustomCLI;
-import core.modules.tracer.cli.MnemonicInterpreter;
+import core.modules.modes.tracer.cli.CustomCLI;
+import core.modules.modes.tracer.cli.MnemonicInterpreter;
 import ru.ifmo.cs.bcomp.MicroPrograms;
 import vk.VKManager;
 
@@ -32,6 +32,11 @@ public class Tracer extends Command implements Mode, Helpable {
     @Override
     protected void setConfig() {
         commandName = "tracer";
+    }
+
+    @Override
+    public void setUserID(int id) {
+
     }
 
     @Override

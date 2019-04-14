@@ -1,4 +1,4 @@
-package core.modules.tracer.cli.interpretator;
+package core.modules.modes.tracer.cli.interpretator;
 
 import java.util.HashSet;
 

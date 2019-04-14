@@ -1,7 +1,7 @@
-package core.modules.tracer.cli;
+package core.modules.modes.tracer.cli;
 
 import core.modules.session.UserIOStream;
-import core.modules.tracer.cli.interpretator.CLIInterpreter;
+import core.modules.modes.tracer.cli.interpretator.CLIInterpreter;
 import ru.ifmo.cs.bcomp.*;
 
 import java.util.ArrayList;

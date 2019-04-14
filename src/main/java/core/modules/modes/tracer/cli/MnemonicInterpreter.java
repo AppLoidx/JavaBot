@@ -1,4 +1,4 @@
-package core.modules.tracer.cli;
+package core.modules.modes.tracer.cli;
 
 /**
  * @author Arthur Kupriyanov

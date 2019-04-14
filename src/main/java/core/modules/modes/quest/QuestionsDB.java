@@ -1,9 +1,8 @@
-package core.modules.quest;
+package core.modules.modes.quest;
 
 import core.modules.Database;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
