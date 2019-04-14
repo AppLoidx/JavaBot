@@ -2,9 +2,9 @@ package core;
 
 
 import core.commands.*;
+import core.commands.modes.Queue;
 import core.commands.modes.Session;
 import core.commands.modes.tracer.Tracer;
-import core.commands.queue.Queue;
 import core.modules.session.SessionManager;
 
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ public class CommandManager {
 
     static {
         commands.add(new Schedule());
-        commands.add(new Queue());
         commands.add(new Reg());
         commands.add(new Help());
         commands.add(new Note());
@@ -40,6 +39,7 @@ public class CommandManager {
 
         SessionManager.addMode(new Tracer());
         SessionManager.addMode(new core.commands.modes.Quest());
+        SessionManager.addMode(new Queue());
 
     }
 
