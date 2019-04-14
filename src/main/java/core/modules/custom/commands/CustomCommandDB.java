@@ -9,9 +9,9 @@ import java.util.HashMap;
  * @author Arthur Kupriyanov
  */
 public class CustomCommandDB extends Database {
-    Connection connection;
+    private Connection connection;
     public CustomCommandDB(){
-        this.connection = new Database().getConnection();
+        this.connection = getConnection();
     }
 
     public boolean checkExist(int vkid) throws SQLException {
