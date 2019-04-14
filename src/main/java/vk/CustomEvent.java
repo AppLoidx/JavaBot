@@ -17,28 +17,30 @@ public class CustomEvent implements Runnable {
     private CustomCommandDB customCommandDB = new CustomCommandDB();
     @Override
     public void run() {
-        while (true) {
-            try {
-                    HashMap<Integer, CommandList> list = customCommandDB.getAll();
-                    for (int vkid : list.keySet()) {
-                        CommandList cl = list.get(vkid);
-                        if (cl==null) continue;
-                        for (String time : cl.getList().keySet()) {
-                            if (Date.getTimeNow().equals(time) && !isTimeLocked(Date.getTimeNow())) {
-                                MessageConverter mc = new MessageConverter();
-                                mc.setUserId(vkid);
-                                for (String cmd : cl.getList().get(time).keySet()) {
-                                    mc.setBody(cmd);
-                                    new VKManager().sendMessage(Responser.getResponse(mc.buildMessage()), 255396611);
-                                    lockTime(time);
-                                }
+        try {
+            while (true) {
+
+                HashMap<Integer, CommandList> list = customCommandDB.getAll();
+                for (int vkid : list.keySet()) {
+                    CommandList cl = list.get(vkid);
+                    if (cl == null) continue;
+                    for (String time : cl.getList().keySet()) {
+                        if (Date.getTimeNow().equals(time) && !isTimeLocked(Date.getTimeNow())) {
+                            MessageConverter mc = new MessageConverter();
+                            mc.setUserId(vkid);
+                            for (String cmd : cl.getList().get(time).keySet()) {
+                                mc.setBody(cmd);
+                                new VKManager().sendMessage(Responser.getResponse(mc.buildMessage()), 255396611);
+                                lockTime(time);
                             }
                         }
+                    }
                     Thread.sleep(20000);
                 }
-            } catch (InterruptedException | SQLException e) {
-                e.printStackTrace();
+
             }
+        } catch (InterruptedException | SQLException e ){
+            e.printStackTrace();
         }
     }
 
