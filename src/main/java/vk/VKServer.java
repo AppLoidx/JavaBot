@@ -27,24 +27,23 @@ public class VKServer {
         new Event().addCommand("07:00", new MorningSpam());
         new Event().addCommand("20:05", new EveningSpam());
 
-        new Thread(new CustomEvent()).start();
+        //new Thread(new CustomEvent()).start();
 
         System.out.println("Running server...");
+        HandlerManager.addHandler(() -> {
+            while (true){
+                SessionManager.cleanSessions(20);
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    break;
+                }}});
+        HandlerManager.addHandler(new CustomEvent());
+        HandlerManager.runThreads();
+
         while (true) {
             Thread.sleep(400);
-
-            Thread sessionCleanHandler = new Thread(() -> {
-                while (true){
-                    SessionManager.cleanSessions(1);
-                    try {
-                        Thread.sleep(60000 * 20);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            sessionCleanHandler.setDaemon(true);
-            sessionCleanHandler.start();
 
             try {
                 new Event().handlePerDay();
