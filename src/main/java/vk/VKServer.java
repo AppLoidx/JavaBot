@@ -6,6 +6,7 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.messages.Message;
 import core.commands.spam.EveningSpam;
 import core.commands.spam.MorningSpam;
+import core.modules.session.SessionManager;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,6 +32,20 @@ public class VKServer {
         System.out.println("Running server...");
         while (true) {
             Thread.sleep(400);
+
+            Thread sessionCleanHandler = new Thread(() -> {
+                while (true){
+                    SessionManager.cleanSessions(1);
+                    try {
+                        Thread.sleep(60000 * 20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            sessionCleanHandler.setDaemon(true);
+            sessionCleanHandler.start();
+
             try {
                 new Event().handlePerDay();
             }catch (Exception e){
