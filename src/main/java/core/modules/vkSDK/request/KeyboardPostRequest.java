@@ -54,15 +54,5 @@ public class KeyboardPostRequest {
 
         connection.setDoInput(true);
         connection.connect();
-        InputStream inputStream = connection.getInputStream();
-        StringBuffer chaine = new StringBuffer();
-
-        BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
-        String line;
-        while ((line = rd.readLine()) != null) {
-            chaine.append(line);
-        }
-
-        System.out.println(chaine);
     }
 }
