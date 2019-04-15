@@ -10,6 +10,7 @@ import core.modules.modes.queue.QueueMode;
 import core.modules.queuev2.QueueDB;
 import core.modules.queuev2.QueueFormatter;
 import core.modules.res.MenheraSprite;
+import core.modules.session.SessionManager;
 import core.modules.session.UserIOStream;
 import core.modules.vkSDK.request.KeyboardPostRequest;
 import core.modules.vkSDK.request.keyboard.Keyboard;
@@ -56,6 +57,9 @@ public class Queue implements Mode {
         try {
             String body = message.getBody().toLowerCase();
 
+            if (body.matches("e|exit")){
+                SessionManager.deleteSession(message.getUserId());
+            }
             if (body.equals("list")) {
                 return QueueFormatter.getString(db.getNames());
             }
@@ -117,6 +121,7 @@ public class Queue implements Mode {
 
         System.out.println(command);
         System.out.println(context);
+
 
         try {
             QueueDB db = new QueueDB();
@@ -242,6 +247,16 @@ public class Queue implements Mode {
         try {
             new KeyboardPostRequest().sendKeyboard(kb, id);
         } catch (IOException | ApiException | ClientException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onExit() {
+        new VKManager().sendMessage("Вы вышли из сессии Queue", userId);
+        try {
+            new KeyboardPostRequest().sendKeyboard(new Keyboard().setEmpty(), userId);
+        } catch (IOException | ClientException | ApiException e) {
             e.printStackTrace();
         }
     }
