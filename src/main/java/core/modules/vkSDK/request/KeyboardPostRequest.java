@@ -54,5 +54,6 @@ public class KeyboardPostRequest {
 
         connection.setDoInput(true);
         connection.connect();
+        connection.getInputStream();
     }
 }
