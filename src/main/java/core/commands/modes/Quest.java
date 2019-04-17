@@ -160,6 +160,10 @@ public class Quest implements Mode{
             return sb.toString();
         }
         if (message.getBody().equals(":help")){
+            StringBuilder quest = new StringBuilder();
+            for (QuestMode q : QuestMode.values()){
+                quest.append(q.getValue()).append(" - ").append(q.getDescription()).append("\n");
+            }
             return "Режим вопросов.\n" +
                     "Чтобы перейти к теме введите:\n" +
                     ":cm имя_темы\n" +
@@ -170,7 +174,9 @@ public class Quest implements Mode{
                     "\nСохраняйте вопросы командой:\n" +
                     ":save - она сохранит последний заданный вопрос" +
                     "Подробнее в Wiki:\n" +
-                    "https://github.com/AppLoidx/JavaBot/wiki/Режим-quest";
+                    "https://github.com/AppLoidx/JavaBot/wiki/Режим-quest" +
+                    "\n\nСписок доступных тем:\n" +
+                    quest;
         }
         if (message.getBody().matches("e|exit|:exit")){
             SessionManager.deleteSession(message.getUserId());

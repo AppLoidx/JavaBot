@@ -258,9 +258,24 @@ public class Questions {
         }
 
         private void help(){
-            outputStream.writeln("Используйте команды-переходы:\nprevious\nnext\nrandom" +
-                    "\nbr\n\nСохраняйте и просматривайте через команды:\n" +
-                    ":save\n:my\nПодробнее:\nhttps://github.com/AppLoidx/JavaBot/wiki/Режим-quest");
+            StringBuilder quest = new StringBuilder();
+            for (QuestMode q : QuestMode.values()){
+                quest.append(q.getValue()).append(" - ").append(q.getDescription()).append("\n");
+            }
+            String msg =  "Режим вопросов.\n" +
+                    "Чтобы перейти к теме введите:\n" +
+                    ":cm имя_темы\n" +
+                    "\nПолучите вопросы с помощью команд:\n" +
+                    "next[или n]\n" +
+                    "previous[или p]\n" +
+                    "random[или r]\n" +
+                    "\nСохраняйте вопросы командой:\n" +
+                    ":save - она сохранит последний заданный вопрос" +
+                    "Подробнее в Wiki:\n" +
+                    "https://github.com/AppLoidx/JavaBot/wiki/Режим-quest" +
+                    "\n\nСписок доступных тем:\n" +
+                    quest;
+            outputStream.writeln(msg);
         }
         private void previousCollections(){
             defaultPrevious();
