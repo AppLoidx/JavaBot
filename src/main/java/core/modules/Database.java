@@ -38,7 +38,24 @@ public class Database {
     }
 
     public static Connection getConnection(){
-        return connection;
+        Properties dbConfig = new Properties();
+        String dbUrl;
+        try {
+            dbConfig.load(new FileReader(new File("src/main/java/core/modules/herokuDatabaseConfig.properties")));
+            dbUrl = dbConfig.getProperty("dbURL")
+                    + dbConfig.getProperty("log")
+                    + dbConfig.getProperty("config");
+
+        } catch (IOException e) {
+            Map<String, String> env = System.getenv();
+            dbUrl = env.get("JDBC_DATABASE_URL");
+        }
+        try {
+            return DriverManager.getConnection(dbUrl);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
