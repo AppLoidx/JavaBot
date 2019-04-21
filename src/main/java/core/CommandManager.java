@@ -5,7 +5,6 @@ import core.commands.*;
 import core.commands.modes.Queue;
 import core.commands.modes.Session;
 import core.commands.modes.tracer.Tracer;
-import core.commands.telegram.TelegramReg;
 import core.modules.session.SessionManager;
 
 import java.util.ArrayList;
@@ -19,8 +18,6 @@ import java.util.ArrayList;
  */
 public class CommandManager {
     private static ArrayList<Command> commands = new ArrayList<>();
-    private static ArrayList<TelegramCommand> telegramCommands = new ArrayList<>();
-
     static {
         commands.add(new Schedule());
         commands.add(new Reg());
