@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * @author Arthur Kupriyanov
  */
-public class Alias extends Command implements VKCommand, Helpable {
+public class Alias extends Command implements VKCommand, Helpable, TelegramCommand {
     @Override
     protected void setConfig() {
         commandName = "alias";
@@ -101,5 +101,10 @@ public class Alias extends Command implements VKCommand, Helpable {
     @Override
     public String getDescription() {
         return "Создание alias";
+    }
+
+    @Override
+    public String telegramExec(Message message) {
+        return exec(message);
     }
 }

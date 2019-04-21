@@ -4,6 +4,9 @@ import com.vk.api.sdk.objects.messages.Message;
 
 public class Commander {
 
+    public static String getTelegramResponse(Message message){
+        return CommandDeterminant.getTelegramCommand(CommandManager.getCommands(), message).telegramExec(message);
+    }
     /**
      * Обработка простых текстовых запросов.
      * @param userInput строковый запрос (может быть с метаданными)

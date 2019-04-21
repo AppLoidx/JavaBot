@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * @author Arthur Kupriyanov
  */
 public class Quest implements Mode{
-    private static QuestionsDB db =  new QuestionsDB();
+    private static final QuestionsDB db =  new QuestionsDB();
     private UserIOStream input;
     private UserIOStream output;
     private Questions questions;

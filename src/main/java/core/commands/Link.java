@@ -11,7 +11,7 @@ import java.sql.SQLException;
 /**
  * @author Arthur Kupriyanov
  */
-public class Link extends Command implements VKCommand, Helpable {
+public class Link extends Command implements VKCommand, Helpable, TelegramCommand {
     @Override
     protected void setConfig() {
         commandName = "link";
@@ -21,7 +21,7 @@ public class Link extends Command implements VKCommand, Helpable {
     public String exec(Message message) {
         String[] msg = message.getBody().split(" ");
         if (msg.length < 2) return "Введите параметры!";
-        Connection connection = new Database().getConnection();
+        Connection connection = Database.getConnection();
         StringBuilder sb = new StringBuilder();
         for (String link: msg){
             if (link.equals("link")) continue;
@@ -55,5 +55,10 @@ public class Link extends Command implements VKCommand, Helpable {
     @Override
     public String getDescription() {
         return "Получение ссылок";
+    }
+
+    @Override
+    public String telegramExec(Message message) {
+        return exec(message);
     }
 }

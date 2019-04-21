@@ -6,5 +6,5 @@ import com.vk.api.sdk.objects.messages.Message;
  * @author Arthur Kupriyanov
  */
 public interface VKCommand {
-    public String exec(Message message);
+    String exec(Message message);
 }

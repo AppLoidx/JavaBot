@@ -1,5 +1,6 @@
 package core.commands;
 
+import com.vk.api.sdk.objects.messages.Message;
 import core.common.KeysReader;
 import core.common.UserInfoReader;
 import core.modules.Date;
@@ -14,7 +15,7 @@ import java.util.Map;
  * @author Артур Куприянов
  * @version 1.4
  */
-public class Schedule extends Command implements Helpable{
+public class Schedule extends Command implements Helpable, TelegramCommand{
 
 
     @Override
@@ -22,7 +23,7 @@ public class Schedule extends Command implements Helpable{
         commandName = "schedule";
     }
 
-    private ScheduleParser p = new ScheduleParser();
+    private final ScheduleParser p = new ScheduleParser();
 
     /**
      * Ключи: <br>
@@ -155,9 +156,7 @@ public class Schedule extends Command implements Helpable{
         try {
             UsersDB usersDB = new UsersDB();
 
-            String group = usersDB.getGroupByVKID(Integer.valueOf(vkid));
-
-            return group;
+            return usersDB.getGroupByVKID(Integer.valueOf(vkid));
         } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
         }
@@ -198,5 +197,10 @@ public class Schedule extends Command implements Helpable{
         Helpable h = new Schedule();
         System.out.println(h.getDescription());
         System.out.println(h.getManual());
+    }
+
+    @Override
+    public String telegramExec(Message message) {
+        return init(message.getBody() + " --#user_id " + message.getUserId());
     }
 }

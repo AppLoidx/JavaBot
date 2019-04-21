@@ -9,7 +9,7 @@ import java.util.Map;
  * @author Arthur Kupriyanov
  */
 public class Version extends Command implements Helpable{
-    private static String date = Date.getDate();
+    private static final String date = Date.getDate();
     @Override
     protected void setConfig() {
         commandName = "version";

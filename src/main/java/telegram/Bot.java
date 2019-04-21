@@ -53,7 +53,7 @@ public class Bot extends TelegramLongPollingBot
 
             // ******** MAIN HANDLE ********
 
-            String vkResponse =  Commander.getResponse(message);
+            String vkResponse =  Commander.getTelegramResponse(message);
             if (vkResponse != null ) {
                 if (vkResponse.equals("")) {
                     return;

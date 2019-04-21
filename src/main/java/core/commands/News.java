@@ -71,4 +71,5 @@ public class News extends Command implements VKCommand, Helpable {
     public String getDescription() {
         return "Показывает 4 последние новости (бета)";
     }
+
 }

@@ -3,7 +3,7 @@ package core.commands;
 import com.vk.api.sdk.objects.messages.Message;
 import core.commands.VKCommands.VKCommand;
 
-public class Unknown extends Command implements ProgramSpecification, VKCommand {
+public class Unknown extends Command implements ProgramSpecification, VKCommand, TelegramCommand {
 
     @Override
     protected void setConfig() {
@@ -23,5 +23,10 @@ public class Unknown extends Command implements ProgramSpecification, VKCommand 
     @Override
     public String exec(Message message) {
         return null;
+    }
+
+    @Override
+    public String telegramExec(Message message) {
+        return exec(message);
     }
 }

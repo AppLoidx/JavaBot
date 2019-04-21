@@ -27,7 +27,7 @@ import java.util.Map;
  * @author Arthur Kupriyanov
  */
 public class Queue implements Mode {
-    private static QueueDB db =  new QueueDB();
+    private static final QueueDB db =  new QueueDB();
     private UserIOStream input;
     private UserIOStream output;
     private int userId;

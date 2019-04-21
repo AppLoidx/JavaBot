@@ -3,6 +3,7 @@ package core;
 import com.vk.api.sdk.objects.messages.Message;
 import core.commands.Command;
 import core.commands.ProgramSpecification;
+import core.commands.TelegramCommand;
 import core.commands.Unknown;
 import core.commands.VKCommands.VKCommand;
 
@@ -46,6 +47,21 @@ public class CommandDeterminant {
 
         return new Unknown();
     }
+    public static TelegramCommand getTelegramCommand(ArrayList<Command> commands, Message message){
+        String body = message.getBody().toLowerCase();
+
+        for (Command command : commands
+        ) {
+            if (command instanceof VKCommand) {
+                if (body.split(" ")[0].equals(command.getName())) {
+                    return (TelegramCommand) command;
+                }
+            }
+        }
+
+        return new Unknown();
+    }
+
 
     public static ProgramSpecification getProgramCommand(ArrayList<Command> commands, String message) {
 
