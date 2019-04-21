@@ -17,12 +17,13 @@ public class QueueFormatter {
         TreeMap<Integer, Person> map = queue.getQueue();
 
         StringBuilder sb = new StringBuilder();
-
+	UsersDB db = new UsersDB();
         for (int key : map.keySet()){
             String name;
             try {
-                name = new UsersDB().getFullNameByVKID(map.get(key).getId());
-            } catch (SQLException e) {
+                //name = new UsersDB().getFullNameByVKID(map.get(key).getId());
+            	name = db.getFullNameByVKID(map.get(key).getId());
+	    } catch (SQLException e) {
                 name = "" + map.get(key).getId();
             }
             sb.append(key).append(". ").append(name).append("\n");
