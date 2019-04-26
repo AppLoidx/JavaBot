@@ -213,18 +213,31 @@ public class Tracer extends Command implements Mode, Helpable {
     }
 
     private void cut(StringBuilder response, String res, boolean doubleCut){
+        String lastLine = res.split("\n")[0];
         for (String line : res.split("\n")){
             String[] regs = line.split(" ");
+
             if (regs.length > 1){
+                String[] lastLineS = lastLine.split(" ");
+
+
+                if (lastLineS[0].equals(regs[0]) && lastLineS[1].equals("F200") && regs[1].equals("F200")){
+                    response.append("\n").append("\n").append("\n");
+                }
+
                 if (regs[1].equals("F000") && !doubleCut){
                     response.append("\n").append(line);
+
                     break;
                 } else if (regs[1].equals("F000")){
                     doubleCut = false;
                     response.append("\n").append(line);
+                    lastLine = line;
                 }
                 else {
+
                     response.append("\n").append(line);
+                    lastLine = line;
                 }
             }
         }
