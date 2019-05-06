@@ -31,7 +31,6 @@ public class CommandManager {
         commands.add(new News());
         commands.add(new Session());
         commands.add(new Config());
-        commands.add(new Tess());
         commands.add(new Link());
         commands.add(new Alias());
         commands.add(new Keyboard());
