@@ -14,7 +14,7 @@ import java.util.Properties;
  * @author Arthur Kupriyanov
  */
 public class Database {
-    private static ThreadLocal<Connection> connection;
+    private static ThreadLocal<Connection> connection = new ThreadLocal<>();
 
     static {
         Properties dbConfig = new Properties();
