@@ -15,10 +15,9 @@ import java.util.Properties;
  */
 public class Database {
     private static ThreadLocal<Connection> connection = new ThreadLocal<>();
-
+    private static String dbUrl;
     static {
         Properties dbConfig = new Properties();
-        String dbUrl;
         try {
             dbConfig.load(new FileReader(new File("src/main/java/core/modules/herokuDatabaseConfig.properties")));
             dbUrl = dbConfig.getProperty("dbURL")
@@ -38,7 +37,12 @@ public class Database {
     }
 
     public static Connection getLocalConnection(){
-        return connection.get();
+        try {
+            return DriverManager.getConnection(dbUrl);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static Connection getConnection(){
