@@ -18,7 +18,7 @@ public class QueueDB {
     private Connection connection;
 
     {
-        connection = Database.getConnection();
+        connection = Database.getLocalConnection();
     }
 
     public void save(Queue q) throws SQLException {

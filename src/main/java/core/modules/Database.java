@@ -14,7 +14,7 @@ import java.util.Properties;
  * @author Arthur Kupriyanov
  */
 public class Database {
-    private static Connection connection;
+    private static ThreadLocal<Connection> connection;
 
     static {
         Properties dbConfig = new Properties();
@@ -31,10 +31,14 @@ public class Database {
         }
 
         try {
-            connection = DriverManager.getConnection(dbUrl);
+            connection.set( DriverManager.getConnection(dbUrl));
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Connection getLocalConnection(){
+        return connection.get();
     }
 
     public static Connection getConnection(){
