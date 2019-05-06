@@ -21,7 +21,7 @@ public class QueueDB {
         connection = Database.getConnection();
     }
 
-    public synchronized void save(Queue q) throws SQLException {
+    public void save(Queue q) throws SQLException {
         if (getNames().contains(q.getName())){
             update(q);
         } else {

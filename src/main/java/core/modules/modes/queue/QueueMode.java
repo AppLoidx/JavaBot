@@ -78,7 +78,7 @@ public class QueueMode {
         if (q == null) return;
         q.shuffle();
         try {
-            new QueueDB().save(q);
+            db.save(q);
             outputStream.writeln("Очередь перемешана:\n" + QueueFormatter.getString(q));
         } catch (SQLException e) {
             e.printStackTrace();
