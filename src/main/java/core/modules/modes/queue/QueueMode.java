@@ -53,7 +53,7 @@ public class QueueMode {
                     swapCommand(request);
                     break;
                 case "shuffle":
-                    shuffleCommand(request);
+                    shuffleCommand();
                     break;
                 case "exit":
                 case "e":
@@ -71,7 +71,7 @@ public class QueueMode {
         return req.split(" ")[0];
     }
 
-    private void shuffleCommand(String request){
+    private void shuffleCommand(){
         if (checkNone()) return;
 
         Queue q = getQueue();
