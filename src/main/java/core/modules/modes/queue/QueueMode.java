@@ -1,11 +1,17 @@
 package core.modules.modes.queue;
 
+import com.vk.api.sdk.exceptions.ApiException;
+import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
+import core.common.YesNoAction;
+import core.modules.AskYesNo;
 import core.modules.queuev2.Person;
 import core.modules.queuev2.Queue;
 import core.modules.queuev2.QueueDB;
 import core.modules.queuev2.QueueFormatter;
+import core.modules.res.MenheraSprite;
 import core.modules.session.UserIOStream;
+import core.modules.vkSDK.AskYesNoVK;
 import vk.VKManager;
 
 import java.sql.SQLException;
@@ -94,20 +100,51 @@ public class QueueMode {
 
             Person thisP = q.getPerson(new Person(userId));
             Person anotherP = q.getPerson(place);
-
+            if (anotherP.equals(thisP)) return;
             anotherP.addSwapRequest(thisP);
             UserXtrCounters info = VKManager.getUserInfo(thisP.getId());
             String name = info==null?"неизвестная печенька":info.getFirstName();
-            vk.sendMessage("Пользователь " +
-                    name +
-                    " хочет поменяться с вами в очереди. В режиме session queue отправьте ему" +
-                    " заявку на обмен мест, если хотите поменяться", anotherP.getId());
+            AskYesNoVK.answer(anotherP.getId(), new YesNoAction() {
+                @Override
+                public void yesAction() {
+                    thisP.addSwapRequest(anotherP);
+                    q.safeSwap(thisP, anotherP);
+
+                    try {
+                        new VKManager().getSendQuery().attachment(MenheraSprite.OK_FLAG).peerId(anotherP.getId()).execute();
+                    } catch (ApiException | ClientException e) {
+                        e.printStackTrace();
+                    }
+
+                    outputStream.writeln("Вы поменялись местами. Теперь ваше место " + place);
+                    new VKManager().sendMessage("Вы поменялись местами. Теперь ваше место " + q.getPlace(anotherP), anotherP.getId());
+                    try {
+                        db.save(q);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void noAction() {
+                    try {
+                        new VKManager().getSendQuery().attachment(MenheraSprite.NO_FLAG).peerId(anotherP.getId()).execute();
+                    } catch (ApiException | ClientException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
             if (thisP.canSwapWith(anotherP)){
                 q.safeSwap(thisP, anotherP);
                 outputStream.writeln("Вы поменялись местами. Теперь ваше место " + place);
                 new VKManager().sendMessage("Вы поменялись местами. Теперь ваше место " + q.getPlace(anotherP), anotherP.getId());
             }
-            else outputStream.writeln("Ваша заявка отправлена");
+            else{
+                vk.sendMessage("Пользователь " +
+                        name +
+                        " хочет поменяться с вами в очереди.", anotherP.getId());
+                outputStream.writeln("Ваша заявка отправлена");
+            }
             try {
                 db.save(q);
             } catch (SQLException e) {
