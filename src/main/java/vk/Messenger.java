@@ -79,7 +79,7 @@ public class Messenger implements Runnable{
             extra += " --#first_name " + info.getFirstName();
             extra += " --#last_name " + info.getLastName();
 
-            return Commander.getResponse(message.getBody() + extra);
+            return Commander.getResponse(message.getBody().toLowerCase() + extra);
         }
 
     }
