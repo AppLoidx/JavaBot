@@ -8,8 +8,10 @@ import com.vk.api.sdk.objects.messages.Message;
 import com.vk.api.sdk.objects.users.UserXtrCounters;
 import core.Commander;
 import core.commands.NaturalLanguage;
+import core.modules.AskYesNo;
 import core.modules.session.SessionInputHandler;
 import core.modules.session.SessionManager;
+import core.modules.vkSDK.AskYesNoVK;
 import core.modules.vkSDK.MessageConverter;
 
 public class Messenger implements Runnable{
@@ -48,6 +50,20 @@ public class Messenger implements Runnable{
 
         if (SessionManager.checkExist(message.getUserId())){
             return new SessionInputHandler(message.getUserId()).input(message).get();
+        }
+
+        //      ASK YES NO
+        if (AskYesNo.isAnswered(String.valueOf(message.getUserId()))){
+            if (message.getBody().toLowerCase().matches("да|нет")){
+                if (message.getBody().toLowerCase().equals("да")){
+                    AskYesNoVK.addAnswer(message.getUserId(), true);
+                } else {
+                    AskYesNoVK.addAnswer(message.getUserId(), false);
+                }
+                return "Ок!";
+            } else {
+                return "Введите корректный ответ. Да или Нет";
+            }
         }
 
         //      ALIAS
