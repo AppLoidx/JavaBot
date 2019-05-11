@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @author Arthur Kupriyanov
  */
 public class KeyboardPostRequest {
-    private final String BASE_URL = "https://api.vk.com/method/messages.send";
+    private final static String BASE_URL = "https://api.vk.com/method/messages.send";
 
     public static void main(String[] args) throws IOException, ClientException, ApiException {
         Keyboard keyboard = new Keyboard();
@@ -33,10 +33,11 @@ public class KeyboardPostRequest {
         keyboard.addButtons(firstRow, 0);
         keyboard.addButtons(secondRow, 1);
 
-        new KeyboardPostRequest().sendKeyboard(keyboard, 255396611);
+        sendKeyboard(keyboard, 255396611);
     }
 
-    public void sendKeyboard(Keyboard keyboard, int userId) throws IOException, ClientException, ApiException {
+    public static void sendKeyboard(Keyboard keyboard, int userId) throws IOException, ClientException, ApiException {
+        if (keyboard==null) keyboard = Keyboard.getEmpty();
         String jsonKeyboard = new GsonBuilder().create().toJson(keyboard);
         String urle = BASE_URL + "?" + "keyboard=" +
                 jsonKeyboard + "&peer_id="

@@ -49,4 +49,9 @@ public class Keyboard {
         buttons = new ArrayList<>();
         return this;
     }
+    public static Keyboard getEmpty(){
+        Keyboard keyboard = new Keyboard();
+        keyboard.setEmpty();
+        return keyboard;
+    }
 }
