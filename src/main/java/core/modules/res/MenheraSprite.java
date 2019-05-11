@@ -21,6 +21,8 @@ public class MenheraSprite {
     public static final String EATING = "photo-172998024_456239081";
     public static final String CANDY = "photo-172998024_456239082";
     public static final String LEARNING = "photo-172998024_456239083";
+    public static final String NO_FLAG = "172998024_456239127";
+    public static final String OK_FLAG = "photo-172998024_456239126";
 
 
 }
