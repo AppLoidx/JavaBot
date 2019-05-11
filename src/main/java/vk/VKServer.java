@@ -8,6 +8,7 @@ import core.commands.spam.EveningSpam;
 import core.commands.spam.MorningSpam;
 import core.modules.session.SessionManager;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -51,27 +52,30 @@ public class VKServer {
                 e.printStackTrace();
             }
             try {
-                Message message = vkCore.getMessage();
-            if (message != null) {
-                    ExecutorService exec = Executors.newCachedThreadPool();
-                    exec.execute(new Messenger(vkCore.getActor(), vkCore.getVk(), message));
+                List<Message> messageList = vkCore.getMessage();
+                if (messageList==null) continue;
+                for (Message message : messageList){
+                    if (message != null) {
+                        ExecutorService exec = Executors.newCachedThreadPool();
+                        exec.execute(new Messenger(vkCore.getActor(), vkCore.getVk(), message));
+                    }
                 }
-            } catch (ClientException e) {
-                System.out.println("Нет интернет соединения");
-                final int RECONNECT_TIME = 10000;
-                System.out.println("Повторное соединение через " + RECONNECT_TIME / 1000 + " секунд");
-                Thread.sleep(RECONNECT_TIME);
+                } catch(ClientException e){
+                    System.out.println("Нет интернет соединения");
+                    final int RECONNECT_TIME = 10000;
+                    System.out.println("Повторное соединение через " + RECONNECT_TIME / 1000 + " секунд");
+                    Thread.sleep(RECONNECT_TIME);
 
-            } catch (ApiServerException e){
-                System.out.println("Ошибка API. Скорее всего из-за ts и max_msg_id");
-                e.printStackTrace();
-                System.out.println("Переопределяем VKCore...");
-                try {
-                    vkCore = new VKCore();
-                } catch (ClientException e1) {
-                    e1.printStackTrace();
+                } catch(ApiServerException e){
+                    System.out.println("Ошибка API. Скорее всего из-за ts и max_msg_id");
+                    e.printStackTrace();
+                    System.out.println("Переопределяем VKCore...");
+                    try {
+                        vkCore = new VKCore();
+                    } catch (ClientException e1) {
+                        e1.printStackTrace();
+                    }
                 }
-            }
         }
     }
 }

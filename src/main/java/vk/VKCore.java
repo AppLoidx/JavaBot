@@ -52,7 +52,7 @@ public class VKCore {
     public VkApiClient getVk() {
         return vk;
     }
-    public Message getMessage() throws ClientException, ApiException {
+    public List<Message> getMessage() throws ClientException, ApiException {
 
         MessagesGetLongPollHistoryQuery eventsQuery = vk.messages()
                 .getLongPollHistory(actor)
@@ -94,7 +94,7 @@ public class VKCore {
             }
             if (messages.get(0).getId() != VKCore.lastMsgId) {
                 lastMsgId = messages.get(0).getId();
-                return messages.get(0);
+                return messages;
             }
         }
         return null;
