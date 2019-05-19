@@ -23,7 +23,7 @@ public class QueueMode {
     private String queueName = "none";
     private QueueDB db =  new QueueDB();
     private UserIOStream outputStream;
-    private int userId;
+    private final int userId;
     private boolean exitStatus = false;
 
     public QueueMode(UserIOStream outputStream, int userId){

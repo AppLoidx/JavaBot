@@ -33,6 +33,7 @@ public class Queue implements Mode {
     private int userId;
     private boolean keyboardInstalled = false;
 
+
     @Override
     public void setUserID(int id) {
         userId = id;
